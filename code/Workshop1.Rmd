@@ -10,24 +10,30 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# Install and load tidyverse packages
+Install and load tidyverse packages
 ```{r}
 ## install.packages("tidyverse") # Delete this line once installed
 library("tidyverse")
 ```
 
 
-# Load the data (mpg is built into ggplot2)
+Load and install the data (palmerpenguins).
 ```{r}
-data(mpg)
+# install.packages("palmerpenguins")
+# install.packages("ggthemes")
+library(palmerpenguins)
+library(ggthemes)
+palmerpenguins::penguins
+penguins<- penguins
 ```
 
 
 # Quick data checks
 ```{r}
-head(mpg)
-glimpse(mpg)
-summary(mpg)
+head(penguins)
+glimpse(penguins)
+summary(penguins)
+
 ```
 
 
