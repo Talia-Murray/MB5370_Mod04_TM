@@ -10,14 +10,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-Install and load tidyverse packages
+# Install and load tidyverse packages.
 ```{r}
 ## install.packages("tidyverse") # Delete this line once installed
 library("tidyverse")
 ```
 
 
-Load and install the data (palmerpenguins).
+# Load and install the data (palmerpenguins).
 ```{r}
 # install.packages("palmerpenguins")
 # install.packages("ggthemes")
@@ -28,22 +28,35 @@ penguins<- penguins
 ```
 
 
-# Quick data checks
+# Quick data checks.
 ```{r}
-head(penguins)
-glimpse(penguins)
-summary(penguins)
+head(penguins) # Shows the top six rows of data set.
+glimpse(penguins) # Shows all variables and the first few observations of each variable in the data set.
+summary(penguins) # Provides information on each of the variables in the data set.
 
 ```
 
 
-# Create first plot
+# Create first plot.
 ```{r}
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = disp, y = hwy))
+ggplot(data = penguins, 
+       mapping = aes(x = flipper_length_mm, y = body_mass_g)) # Mapping argument is defined using the aes() function and the x and y arguments of aes specify the variables we want to map on the x and y axes.
 ```
 
-The plot shows a negative relationship between engine size (displ) and fuel efficiency (hwy). In other words, cars with big engines use more fuel. What does this say about fuel efficiency and engine size?
+This code will give us a blank graph with labelled axes showing where flipper length and body mass will be displayed. There is no actual data about the penguins displayed on the chart currently because there is no instructions to R about how to represent the observations from our data onto the plot.
+
+# Add data to first plot.
+```{r}
+ggplot(
+  data = penguins, 
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point()
+
+```
+Now that we have specified the data told R how to represent the data it is now displayed on our chart. From this plot we could begin to answer questions that motivated our analysis for example "What does the relationship between flipper length nd body mass look like?". From the chart we have created we can see that there appears to be a positive relationship that indicates that body mass will increase as flipper length increases.
+
+The warning message provided with the chart is telling us that there are two penguins that are missing body mass and/or flipper length in our data set so R has no way of representing them on the plot.
 
 
 
