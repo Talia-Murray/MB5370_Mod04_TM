@@ -138,6 +138,14 @@ ggplot(
   scale_color_colorblind() # Change color of data points by using a different color palette theme.
 ```
 
+```{r}
+ggplot(
+  data = penguins, 
+  mapping = aes(x = flipper_length_mm, y = body_mass_g) #Label x and y axes.
+) +
+  geom_point(mapping = aes(colour = bill_length_mm)) + # USe bill length for point color.
+  geom_smooth() # Add line of best fit.
+```
 
 
 # Troubleshooting 
@@ -190,6 +198,13 @@ ggplot(penguins, aes(body_mass_g, flipper_length_mm)) +
 # nrow dictates the number of rows used.
 # scales adjust the x and y scales. These can be fixed which is the default, or free. When using the free option we can also specify if this is specifically for the x or y axis. In the above example we made the x axis free.
 # There are many other options available for the facet_wrap function depending on what your needs are. These are all accessible in the help section.
+```
+
+# Using more aesthetics in facet_wraps
+```{r}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(colour = species, shape = species)) +
+  facet_wrap(~island)
 ```
 
 
@@ -287,22 +302,54 @@ se = FALSE does not include the standard error around the line.
 1.  What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
 2.  Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions.
 
+
+Run a density plot for the line chart (other times we can just use geom_line but this is not useful for this chart), run a boxplot, histogram and a barchart.
+
 ```{r}
+# Density plot:
+ggplot(penguins, aes(x = body_mass_g, colour = species)) +
+  geom_density(linewidth = 0.75)
+#we can map species both to color and fill aesthetics and to make the fill transparent use the alpha aesthetic.
+ggplot(penguins, aes(x = body_mass_g, colour = species, fill = species)) +
+  geom_density(alpha = 0.5)
 
+# Boxplot:
+ggplot(penguins, aes(x = species, y = body_mass_g)) +
+  geom_boxplot()
+
+# Histogram:
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 20) # Use the binwidth argument to set the width of the intervals in the histogram, this is measured in the units of the x variable. This size is too narrow for our data.
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 2000) # This binwidth is too large for our data.
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 200) # This is a better size for our binwidth.
+
+
+#Bar chart:
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar()
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar(position = "fill") # A relative frequency plot is created by setting position = fill in the geom. This is more useful for comparing species distributions across islands since it is not affected by the unequal numbers of penguins across the islands.
 ```
-
+# Mapping three or more variables
+```{r}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species, shape = island))
+```
+In this chart we represent the island by shape and the color represents the species.
 
 3.  Will these two graphs look different? Why/why not?
 ```{r}
-ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
   geom_point() + 
   geom_smooth()
 
 ggplot() + 
-  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
-  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+  geom_point(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
+  geom_smooth(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm))
 ```
-
+No. It says the same thing, the second way is just a longer or more specific way of writing it.
 
 # Transformations and stats
 
@@ -422,9 +469,9 @@ ggplot(data = diamonds) +
 # Jittering
 position = "jitter" adds a small amount of random noise to each point to avoid overplotting when points overlap. This is useful for scatterplots but not barplots.
 ```{r}
-ggplot(data = mpg) + 
+ggplot(data = penguins) + 
   #geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
-  geom_point(mapping = aes(x = displ, y = hwy))
+  geom_point(mapping = aes(x = species, y = flipper_length_mm))
 ```
 
 
