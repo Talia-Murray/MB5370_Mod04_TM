@@ -9,6 +9,12 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Install and load packages
+```{r}
+library(tidyverse)
+```
+
+
 Load data set
 ```{r}
 seagrass<-read.csv("SeagrassPubs.csv")
@@ -16,6 +22,8 @@ seagrass<-read.csv("SeagrassPubs.csv")
 
 Look at data
 ```{r}
+head(seagrass)
 summary(seagrass)
+glimpse(seagrass)
 ```
 
