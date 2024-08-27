@@ -1,0 +1,21 @@
+---
+title: "Assignment-1 Graphical Storytelling in R"
+author: "Talia Murray and Ivanya Johnson"
+date: "2024-08-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load data set
+```{r}
+seagrass<-read.csv("SeagrassPubs.csv")
+```
+
+Look at data
+```{r}
+summary(seagrass)
+```
+
