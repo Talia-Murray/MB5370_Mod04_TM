@@ -27,3 +27,17 @@ summary(seagrass)
 glimpse(seagrass)
 ```
 
+```{r}
+#seagrass %>% 
+  #mutate(
+   # PubYear = str_extract_all(Reference, "[0-9]+") %>%
+  #purrr::map(
+   # ~ifelse(
+    #  length(.x) ==1,
+     # as.numeric(.x),
+      #mean(unlist(as.numeric(.x)))
+    #)
+  #)
+  #)
+```
+
