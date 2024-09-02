@@ -1,4 +1,4 @@
-Latitude,Longitude,Seagr bioregion,Habitat,Genus,Year obs [a AD],Seagr biom above dm [g/m**2],Seagr biom below dm [g/m**2],Seagr biom tot dm [g/m**2],Seagr shoot dens [#/m**2],Seagr cov [%],Seagr leaf dens [#/m**2],Seagr prod above dm [g/m**2/day],Seagr prod below dm [g/m**2/day],Seagr prod total dm [g/m**2/day],Seagr shoot prod dm [g/m**2/day],Seagr leaf prod dm [g/m**2/day],Reference
+ï»¿Latitude,Longitude,Seagr bioregion,Habitat,Genus,Year obs [a AD],Seagr biom above dm [g/m**2],Seagr biom below dm [g/m**2],Seagr biom tot dm [g/m**2],Seagr shoot dens [#/m**2],Seagr cov [%],Seagr leaf dens [#/m**2],Seagr prod above dm [g/m**2/day],Seagr prod below dm [g/m**2/day],Seagr prod total dm [g/m**2/day],Seagr shoot prod dm [g/m**2/day],Seagr leaf prod dm [g/m**2/day],Reference
 42.561,8.781,Mediterranean,Coastal,Posidonia,2014,,,,559,,,,,,,,Abadie et al. 2019
 42.561,8.781,Mediterranean,Coastal,Posidonia,2014,,,,453,,,,,,,,Abadie et al. 2019
 42.561,8.781,Mediterranean,Coastal,Posidonia,2014,,,,246,,,,,,,,Abadie et al. 2019
@@ -2043,7 +2043,7 @@ Latitude,Longitude,Seagr bioregion,Habitat,Genus,Year obs [a AD],Seagr biom abov
 27.817,-97.133,Tropical Atlantic,Estuarine,Halodule,1994,25.71,23.08,48.79,7971.43,,,,,,,,Dunton 1996
 27.817,-97.133,Tropical Atlantic,Estuarine,Halodule,1994,72.86,107.69,180.55,7585.71,,,,,,,,Dunton 1996
 27.817,-97.133,Tropical Atlantic,Estuarine,Halodule,1994,12.86,23.08,35.94,7071.43,,,,,,,,Dunton 1996
--32.003,115.82,Temperate Southern,Estuarine,Halophila,2006,12.7,48.7,61.4,,92.3,,1.5,1.6,3.1,,,Eklöf et al. 2009
+-32.003,115.82,Temperate Southern,Estuarine,Halophila,2006,12.7,48.7,61.4,,92.3,,1.5,1.6,3.1,,,EklÃ¶f et al. 2009
 19.765,-16.393,Tropical Atlantic,Coastal,Zostera,2013,,,,,94,,,,,,,El-Hacen et al. 2019
 19.765,-16.393,Tropical Atlantic,Coastal,Zostera,2013,,,,,75.8,,,,,,,El-Hacen et al. 2019
 19.765,-16.393,Tropical Atlantic,Coastal,Zostera,2013,,,,,49.6,,,,,,,El-Hacen et al. 2019
@@ -4283,11 +4283,11 @@ Latitude,Longitude,Seagr bioregion,Habitat,Genus,Year obs [a AD],Seagr biom abov
 40.55,22.967,Mediterranean,Coastal,Cymodocea,2007,61.67,344.95,414.29,,,,,,,,,Malea and Zikidou 2011
 40.55,22.967,Mediterranean,Coastal,Cymodocea,2007,52.26,288.5,346.43,,,,,,,,,Malea and Zikidou 2011
 40.55,22.967,Mediterranean,Coastal,Cymodocea,2007,27.18,251.92,287.5,,,,,,,,,Malea and Zikidou 2011
-41.673,2.794,Mediterranean,Coastal,Cymodocea,1998,85.7,144.2,229.9,964,,,,,,,,Marbà and Duarte 2001
-41.673,2.794,Mediterranean,Coastal,Cymodocea,1998,123.6,192.3,315.9,1219,,,3.98,0.9,4.88,,,Marbà and Duarte 2001
-41.673,2.794,Mediterranean,Coastal,Cymodocea,1998,108.5,181.4,289.9,736,,,2.55,1.13,3.68,,,Marbà and Duarte 2001
-41.673,2.794,Mediterranean,Coastal,Cymodocea,1998,73,168.7,241.7,931,,,1.17,0.41,1.58,,,Marbà and Duarte 2001
-41.673,2.794,Mediterranean,Coastal,Cymodocea,1998,38.4,122.9,161.3,837,,,1.23,0.05,1.235,,,Marbà and Duarte 2001
+41.673,2.794,Mediterranean,Coastal,Cymodocea,1998,85.7,144.2,229.9,964,,,,,,,,MarbÃ  and Duarte 2001
+41.673,2.794,Mediterranean,Coastal,Cymodocea,1998,123.6,192.3,315.9,1219,,,3.98,0.9,4.88,,,MarbÃ  and Duarte 2001
+41.673,2.794,Mediterranean,Coastal,Cymodocea,1998,108.5,181.4,289.9,736,,,2.55,1.13,3.68,,,MarbÃ  and Duarte 2001
+41.673,2.794,Mediterranean,Coastal,Cymodocea,1998,73,168.7,241.7,931,,,1.17,0.41,1.58,,,MarbÃ  and Duarte 2001
+41.673,2.794,Mediterranean,Coastal,Cymodocea,1998,38.4,122.9,161.3,837,,,1.23,0.05,1.235,,,MarbÃ  and Duarte 2001
 16.428417,119.921104,Tropical Indo Pacific,Coastal,Enhalus,2009,56.7,,,29,,,,,,,,Marba et al. 2010
 16.428417,119.921104,Tropical Indo Pacific,Coastal,Cymodocea,2009,2.8,,,62,,,,,,,,Marba et al. 2010
 16.428417,119.921104,Tropical Indo Pacific,Coastal,Cymodocea,2009,6,,,22,,,,,,,,Marba et al. 2010
@@ -6163,63 +6163,63 @@ Latitude,Longitude,Seagr bioregion,Habitat,Genus,Year obs [a AD],Seagr biom abov
 39.927,3.14,Mediterranean,Coastal,Cymodocea,2017,,,,810,,,,,,,,Tuya et al. 2018
 -16.7605,145.972,Tropical Indo Pacific,Coastal,Halodule,1994,35,177,212,4450,,,,1.29,,,2,Udy et al. 1999
 -16.7605,145.972,Tropical Indo Pacific,Coastal,Syringodium,1994,34,41,75,2905,,,,,,,0.3,Udy et al. 1999
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,801.19,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,682.49,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,670.62,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,694.36,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,694.36,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,362.02,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,302.67,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,385.76,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,1246.29,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,658.75,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,599.41,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,599.41,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1115.73,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,878.34,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1406.53,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1649.85,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,997.03,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1186.94,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,438.08,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,426.4,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,537.38,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,864.49,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,537.38,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,338.79,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,776.87,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,1057.24,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,724.3,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,636.68,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,987.15,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1880.84,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1261.68,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1255.84,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,531.54,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,176.7,,,,,,,,3.7,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,154.8,,,,,,,,3.1,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,119.4,,,,,,,,2.9,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,84.2,,,,,,,,1.8,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,109.3,,,,,,,,5.5,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,139.2,,,,,,,,5.3,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,64.5,,,,,,,,2.4,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,59.9,,,,,,,,3.3,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,50.8,,,,,,,,2.1,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,50.7,,,,,,,,2.3,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,40.5,,,,,,,,2,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,36.2,,,,,,,,1.9,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2002,,,,504.45,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2002,,,,670.62,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2002,,,,759.64,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2002,,,,724.04,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2002,,,,1376.85,,,,,,,,Uku and Björk 2005
--4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2002,,,,1489.61,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2002,,,,385.51,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2002,,,,414.72,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2002,,,,829.44,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2002,,,,806.07,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2002,,,,1577.1,,,,,,,,Uku and Björk 2005
--3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2002,,,,1495.33,,,,,,,,Uku and Björk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,801.19,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,682.49,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,670.62,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,694.36,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,694.36,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,362.02,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,302.67,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,385.76,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,1246.29,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,658.75,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,599.41,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,599.41,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1115.73,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,878.34,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1406.53,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1649.85,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,997.03,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1186.94,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,438.08,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,426.4,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,537.38,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,864.49,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,,,,537.38,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,338.79,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,776.87,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,1057.24,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,724.3,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,,,,636.68,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,987.15,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1880.84,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1261.68,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,1255.84,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,,,,531.54,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,176.7,,,,,,,,3.7,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2001,154.8,,,,,,,,3.1,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,119.4,,,,,,,,2.9,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2001,84.2,,,,,,,,1.8,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,109.3,,,,,,,,5.5,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2001,139.2,,,,,,,,5.3,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,64.5,,,,,,,,2.4,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2001,59.9,,,,,,,,3.3,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,50.8,,,,,,,,2.1,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2001,50.7,,,,,,,,2.3,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,40.5,,,,,,,,2,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2001,36.2,,,,,,,,1.9,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2002,,,,504.45,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassodendron,2002,,,,670.62,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2002,,,,759.64,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Thalassia,2002,,,,724.04,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2002,,,,1376.85,,,,,,,,Uku and BjÃ¶rk 2005
+-4.049416,39.709933,Tropical Indo Pacific,Coastal,Cymodocea,2002,,,,1489.61,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2002,,,,385.51,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassodendron,2002,,,,414.72,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2002,,,,829.44,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Thalassia,2002,,,,806.07,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2002,,,,1577.1,,,,,,,,Uku and BjÃ¶rk 2005
+-3.836348,39.825139,Tropical Indo Pacific,Coastal,Cymodocea,2002,,,,1495.33,,,,,,,,Uku and BjÃ¶rk 2005
 -5.460409,123.759867,Tropical Indo Pacific,Coastal,Enhalus,2005,,,260.2,,,,,,,,2.83,Unsworth et al. 2007
 -5.460409,123.759867,Tropical Indo Pacific,Coastal,Enhalus,2005,,,52.4,,,,,,,,0.91,Unsworth et al. 2007
 -5.460409,123.759867,Tropical Indo Pacific,Coastal,Enhalus,2005,,,1.5,,,,,,,,0.05,Unsworth et al. 2007
