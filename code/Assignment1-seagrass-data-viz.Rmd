@@ -17,7 +17,9 @@ library(tidyverse)
 
 Load data set
 ```{r}
-seagrass<-read.csv("SeagrassPubs.csv")
+library(readr)
+seagrass<-read.csv("../data/SeagrassPubs.csv")
+View(seagrass)
 ```
 
 Look at data
@@ -40,4 +42,21 @@ glimpse(seagrass)
   #)
   #)
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
