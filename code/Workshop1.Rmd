@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
-Workshop 1 Session 1 -  Data Viz in R
+Workshop 1 -  Data Viz in R
 Date: 26/08/2024
 
 -------------------------------------------------------------------------------
@@ -509,7 +509,7 @@ ggplot(data = penguins) +
 
 -------------------------------------------------------------------------------
 
-Workshop 1 session 2: Using ggplot for communication.
+Workshop 2: Using ggplot for communication.
 Date: 27/08/2024
 
 -------------------------------------------------------------------------------
@@ -585,9 +585,76 @@ To provide limits you’ll need to offer a character vector showing the start an
 ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = class)) +
   scale_x_continuous(limits = c(1, 8)) + # Change x axis limts 
-  scale_y_continuous(limits = c(0, 45)) + # Change y axis limts 
+  scale_y_continuous(limits = c(10, 45)) + # Change y axis limts 
   scale_colour_discrete()
 
 ```
+# Axis Ticks
+We can also change the ticks on the axes of our plots.
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  scale_y_continuous(breaks = seq(15, 40, by = 5))
+  
+```
+Using the code seq(15, 40, by = 5) we tell R to format our y axis limits starting at 15, ending at 40 and to create axis ticks at intervals of 5.
+
+We can use the scale functions to also suppress the labels completely. This would be used for certain formatting purposes.
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  scale_x_continuous(labels = NULL) +
+  scale_y_continuous(labels = NULL)
+```
+
+
+# Legends and Colour schemes
+
+
+
+
+
+
+
+
+
+
+# Replacing a scale
+
+
+
+
+
+
+# Themes
+
+
+
+
+
+# Saving and exporting your plots
+
+
+
+
+
+
+
+#Assignment End-to-end data analysis in R
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------
+
+Workshop 3 - Data Wrangling in R
+
+--------------------------------------------------
+
 
 
