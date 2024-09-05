@@ -28,18 +28,34 @@ summary(seagrass)
 glimpse(seagrass)
 ```
 
+
 ```{r}
 # Extract author and year from reference column and create new data frame with these two variables separated.
 seagrass1 <- seagrass %>% 
   mutate(Author = str_extract(string = Reference, pattern = "(?<=,\\s).+"),
          PubYear = str_extract(string = Reference, pattern = "[0-9]+")) %>% 
   select(Author:PubYear)
-# Combine the Coloumn for publication year to the original data frame using cbind function.
+# Combine the Column for publication year to the original data frame using cbind function.
 Pubyear = seagrass1$PubYear
 seagrass2 <- cbind(seagrass, Pubyear)
 
 
+biomass<-seagrass2 %>%
+  group_by(Pubyear) %>% 
+  select(Pubyear, Seagr.biom.above.dm..g.m..2.) %>%
+    tally()
 
+biomass1<-seagrass2 %>%
+  group_by(Pubyear) %>% 
+  select(Pubyear, Seagr.biom.below.dm..g.m..2.) %>%
+    tally()
+
+biomass2<-seagrass2 %>%
+  group_by(Pubyear) %>% 
+  select(Pubyear, Seagr.biom.tot.dm..g.m..2.) %>%
+    tally()
 
 ```
 
+
+ 
