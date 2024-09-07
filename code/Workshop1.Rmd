@@ -611,35 +611,152 @@ ggplot(mpg, aes(displ, hwy)) +
 
 # Legends and Colour schemes
 
-
-
-
-
-
-
+We can also adjust the location of the legend on our plot using the theme() setting:
+```{r}
+base <- ggplot(mpg, aes(displ, hwy)) +
+        geom_point(aes(colour = class))
+base + theme(legend.position = "left") # legend.position tells R where we want to position the legend on the plot. This line of code has told R to put the legend on the left.
+base + theme(legend.position = "right") # Put legend on the right
+base + theme(legend.position = "top") # Put legend on the top of the plot.
+base + theme(legend.position = "bottom") # Put legend on the bottom of the plot
+base + theme(legend.position = "none") # Tell R to not include a legend.
+```
 
 
 
 # Replacing a scale
 
+Two types of scales that we might want to swap out are continuous position scales and colour scales. 
+
+It is useful to plot transformations of variables.
+Changing the continuous position scale:
+```{r}
+ggplot(diamonds, aes(carat, price)) +
+  geom_bin2d() + # Set mapping aesthetic.
+  scale_x_log10() + # Log transform x scale.
+  scale_y_log10() # Log transform y scale.
+```
+
+Function: geom_bin2d divides the plane into rectangles, counts the number of cases and then maps the number of cases to the rectangles fill. This is a useful alternative to geom_point() in the presence of overplotting. You can also adjust the bin sizes.
+
+Changing the colour scale:
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = drv)) # Set mapping aesthetic.
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = drv)) +  # Set mapping aesthetic.
+  scale_colour_brewer(palette = "Set1") # cChange colour scale. 
+
+```
+
+Scale_colour_brewer provides sequential, diverging and qualitative colour schemes from ColourBrewer. The colour themes are particularly useful for discrete data. Colour Brewer has many different colour schemes available which you can find at: http://colorbrewer2.org/. For more information on colour schemes visit:  http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/ 
+
+if there are only a few colours, adding redundant shape mapping can help ensure your plot is interpretable in black and white.
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = drv, shape = drv)) + # Set mapping aesthetic and adjust shape of data points.
+  scale_colour_brewer(palette = "Set1") # Select colour scale.
+
+```
+If you are using predefined colours you are wanting to set yourself use scale_colour_manual().
+```{r}
+presidential %>%
+  mutate(id = 33 + row_number()) %>%
+  ggplot(aes(start, id, colour = party)) +
+  geom_point() +
+  geom_segment(aes(xend = end, yend = id)) +
+  scale_colour_manual(values = c(Republican = "red", Democratic = "blue"))
+```
+you can also use the viridis colour scheme colour package.
+```{r}
+# Load and install the required colour packages:
+
+# install.packages('viridis')
+# install.packages('hexbin')
+library(viridis)
+library(viridis)
 
 
+df <- tibble( # Note: we are just making a fake dataset so we can plot it
+  x = rnorm(10000), 
+  y = rnorm(10000)
+  )
+ggplot(df, aes(x, y)) +
+  geom_hex() + # Set mapping aesthetic.
+  coord_fixed() 
 
+ggplot(df, aes(x, y)) +
+  geom_hex() + # Set mapping aesthetic.
+  viridis::scale_fill_viridis() + # Select viridis colour package.
+  coord_fixed()
+```
 
 
 # Themes
 
+You can also change the entire theme of the plot you build in R.
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_bw()
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_light()
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_classic()
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_dark()
+
+```
 
 
+You can also develop your own themes by setting some or all of the arguments to theme() yourself.
+
+For example:
+```{r}
+ theme (panel.border = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        legend.position="bottom",
+        legend.title=element_blank(),
+        legend.text=element_text(size=8),
+        panel.grid.major = element_blank(),
+        legend.key = element_blank(),
+        legend.background = element_blank(),
+        axis.text.y=element_text(colour="black"),
+        axis.text.x=element_text(colour="black"),
+        text=element_text(family="Arial"))
+```
 
 
 # Saving and exporting your plots
 
+Once you have created a plot, you want to save it in a format that allows you to import it into your report and share it.
 
+You can do this using the ggsave() function. These plots will save to your working directory.
 
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point()
 
+ggsave("my-plot.pdf") # Save plot as a pdf.
+```
 
+You can save plots as .jpeg or .pdf though a pdf usually saves nicer.
 
+Sometimes, you might want or need to play with the dimensions of your plot, in which case you can use the width and height arguments to this function.
 
 #Assignment End-to-end data analysis in R
 
