@@ -184,7 +184,38 @@ TProduction2$TotalProduction<-rowSums(TProduction2[ , c("tally1", "tally2", "tal
 
 ```
 
+Create new dataset with all the total values
 
+```{r}
+
+df_new <- 
+  left_join(TBmass2, TStructure2, by = 'Pubyear') %>% 
+  mutate(Pubyear = replace_na(Pubyear, 0))
+
+df_new2 <- 
+  left_join(df_new, TProduction2, by = 'Pubyear') %>% 
+  mutate(Pubyear = replace_na(Pubyear, 0))
+
+summary(df_new2)
+
+
+# Remove unwanted variables.
+df_new2 <- subset(df_new2, select = -(tally1))
+df_new2 <- subset(df_new2, select = -(tally2))
+df_new2 <- subset(df_new2, select = -(tally3))
+df_new2 <- subset(df_new2, select = -(tally1.x))
+df_new2 <- subset(df_new2, select = -(tally1.y))
+df_new2 <- subset(df_new2, select = -(tally2.x))
+df_new2 <- subset(df_new2, select = -(tally2.y))
+df_new2 <- subset(df_new2, select = -(tally3.x))
+df_new2 <- subset(df_new2, select = -(tally3.y))
+
+TotalData <- df_new2
+TotalData[is.na(TotalData)] <- 0 # Make all NA values equal 0
+
+summary(TotalData)
+
+```
 
 
 Now we want to create a line graph for the number of publications for 3 seagrass topics.
