@@ -48,23 +48,41 @@ biomass<-seagrass2 %>% #Create new data frame and select which data frame to pul
   select(Pubyear, Seagr.biom.above.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
    drop_na(Seagr.biom.above.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
     tally()
-colnames(biomass) <- c("Pubyear", "tally")
+colnames(biomass) <- c("Pubyear", "tally1")
 
 biomass1<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.biom.below.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.biom.below.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
     tally()
-colnames(biomass1) <- c("Pubyear", "tally")
+colnames(biomass1) <- c("Pubyear", "tally2")
 
 biomass2<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.biom.tot.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.biom.tot.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
     tally()
-colnames(biomass2) <- c("Pubyear", "tally")
+colnames(biomass2) <- c("Pubyear", "tally3")
 
 
+# Organise data into one dataframe.
+
+TBmass1 <- biomass %>%
+  full_join(biomass1) # Combine tally columns for biomass and biomass1 into one dataframe.
+
+
+TBmass2 <- TBmass1 %>%
+  full_join(biomass2)  # Combine tally columns for TBmass1 and biomass2 into one dataframe. That puts all three tally columns into one dataframe.
+
+
+
+TBmass2$tally1<-as.numeric(TBmass2$tally1) # Make tally1 numeric.
+TBmass2$tally2<-as.numeric(TBmass2$tally2) # Make tally2 numeric.
+TBmass2$tally3<-as.numeric(TBmass2$tally3) # Make tally3 numeric.
+
+TBmass2[is.na(TBmass2)] <- 0 # Make all NA values equal 0
+
+TBmass2$TotalBiomass<-rowSums(TBmass2[ , c("tally1", "tally2", "tally3")]) # Create new variable TotalBiomass that calculates the sum for each row for each publication year.
 
 ```
 
@@ -76,21 +94,44 @@ Structure1<-seagrass2 %>% #Create new data frame and select which data frame to 
   select(Pubyear, Seagr.cov....) %>% # Select which 2 variables we are interested in using to tally.
    drop_na(Seagr.cov....) %>% # Remove na values to only count the years with publications.
     tally()
-colnames(Structure1) <- c("Pubyear", "tally")
+colnames(Structure1) <- c("Pubyear", "tally1")
 
 Structure2<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.shoot.dens....m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.shoot.dens....m..2.) %>% # Remove na values to only count the years with publications.
     tally()
-colnames(Structure2) <- c("Pubyear", "tally")
+colnames(Structure2) <- c("Pubyear", "tally2")
 
 Structure3<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.leaf.dens....m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.leaf.dens....m..2.) %>% # Remove na values to only count the years with publications.
     tally()
-colnames(Structure3) <- c("Pubyear", "tally")
+colnames(Structure3) <- c("Pubyear", "tally3")
+
+
+
+
+# Organise data into one dataframe.
+
+TStructure1 <- Structure1 %>%
+  full_join(Structure2) # Combine tally columns for Structure1 and Structure2 into one dataframe.
+
+
+TStructure2 <- TStructure1 %>%
+  full_join(Structure3)  # Combine tally columns for TStructure1 and Structure3 into one dataframe. That puts all three tally columns into one dataframe.
+
+
+
+TStructure2$tally1<-as.numeric(TStructure2$tally1) # Make tally1 numeric.
+TStructure2$tally2<-as.numeric(TStructure2$tally2) # Make tally2 numeric.
+TStructure2$tally3<-as.numeric(TStructure2$tally3) # Make tally3 numeric.
+
+TStructure2[is.na(TStructure2)] <- 0 # Make all NA values equal 0
+
+TStructure2$TotalStructure<-rowSums(TStructure2[ , c("tally1", "tally2", "tally3")]) # Create new variable TotalBiomass that calculates the sum for each row for each publication year.
+
 ```
 
 
@@ -102,20 +143,52 @@ Production1<-seagrass2 %>% #Create new data frame and select which data frame to
   select(Pubyear, Seagr.prod.above.dm..g.m..2.day.) %>% # Select which 2 variables we are interested in using to tally.
    drop_na(Seagr.prod.above.dm..g.m..2.day.) %>% # Remove na values to only count the years with publications.
     tally()
-colnames(Production1) <- c("Pubyear", "tally")
+colnames(Production1) <- c("Pubyear", "tally1")
 
 Production2<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.prod.below.dm..g.m..2.day.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.prod.below.dm..g.m..2.day.) %>% # Remove na values to only count the years with publications.
     tally()
-colnames(Production2) <- c("Pubyear", "tally")
+colnames(Production2) <- c("Pubyear", "tally2")
 
 Production3<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.prod.total.dm..g.m..2.day.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.prod.total.dm..g.m..2.day.) %>% # Remove na values to only count the years with publications.
     tally()
-colnames(Production3) <- c("Pubyear", "tally")
+colnames(Production3) <- c("Pubyear", "tally3")
+
+
+
+
+# Organise data into one dataframe.
+
+TProduction1 <- Production1 %>%
+  full_join(Production2) # Combine tally columns for Structure1 and Structure2 into one dataframe.
+
+
+TProduction2 <- TProduction1 %>%
+  full_join(Production3)  # Combine tally columns for TStructure1 and Structure3 into one dataframe. That puts all three tally columns into one dataframe.
+
+
+
+TProduction2$tally1<-as.numeric(TProduction2$tally1) # Make tally1 numeric.
+TProduction2$tally2<-as.numeric(TProduction2$tally2) # Make tally2 numeric.
+TProduction2$tally3<-as.numeric(TProduction2$tally3) # Make tally3 numeric.
+
+TProduction2[is.na(TProduction2)] <- 0 # Make all NA values equal 0
+
+TProduction2$TotalProduction<-rowSums(TProduction2[ , c("tally1", "tally2", "tally3")]) # Create new variable TotalBiomass that calculates the sum for each row for each publication year.
+
+
+```
+
+
+
+
+Now we want to create a line graph for the number of publications for 3 seagrass topics.
+```{r}
+
 ```
 
