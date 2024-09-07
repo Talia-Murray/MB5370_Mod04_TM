@@ -38,24 +38,84 @@ seagrass1 <- seagrass %>%
 # Combine the Column for publication year to the original data frame using cbind function.
 Pubyear = seagrass1$PubYear
 seagrass2 <- cbind(seagrass, Pubyear)
+```
 
+Create Biomass category
 
-biomass<-seagrass2 %>%
-  group_by(Pubyear) %>% 
-  select(Pubyear, Seagr.biom.above.dm..g.m..2.) %>%
+```{r}
+biomass<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+  group_by(Pubyear) %>% # Group publications by year.
+  select(Pubyear, Seagr.biom.above.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
+   drop_na(Seagr.biom.above.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
     tally()
+colnames(biomass) <- c("Pubyear", "tally")
 
-biomass1<-seagrass2 %>%
-  group_by(Pubyear) %>% 
-  select(Pubyear, Seagr.biom.below.dm..g.m..2.) %>%
+biomass1<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+  group_by(Pubyear) %>%  # Group publications by year.
+  select(Pubyear, Seagr.biom.below.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
+  drop_na(Seagr.biom.below.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
     tally()
+colnames(biomass1) <- c("Pubyear", "tally")
 
-biomass2<-seagrass2 %>%
-  group_by(Pubyear) %>% 
-  select(Pubyear, Seagr.biom.tot.dm..g.m..2.) %>%
+biomass2<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+  group_by(Pubyear) %>%  # Group publications by year.
+  select(Pubyear, Seagr.biom.tot.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
+  drop_na(Seagr.biom.tot.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
     tally()
+colnames(biomass2) <- c("Pubyear", "tally")
+
+
 
 ```
 
 
- 
+Create Structure category
+```{r}
+Structure1<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+  group_by(Pubyear) %>% # Group publications by year.
+  select(Pubyear, Seagr.cov....) %>% # Select which 2 variables we are interested in using to tally.
+   drop_na(Seagr.cov....) %>% # Remove na values to only count the years with publications.
+    tally()
+colnames(Structure1) <- c("Pubyear", "tally")
+
+Structure2<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+  group_by(Pubyear) %>%  # Group publications by year.
+  select(Pubyear, Seagr.shoot.dens....m..2.) %>% # Select which 2 variables we are interested in using to tally.
+  drop_na(Seagr.shoot.dens....m..2.) %>% # Remove na values to only count the years with publications.
+    tally()
+colnames(Structure2) <- c("Pubyear", "tally")
+
+Structure3<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+  group_by(Pubyear) %>%  # Group publications by year.
+  select(Pubyear, Seagr.leaf.dens....m..2.) %>% # Select which 2 variables we are interested in using to tally.
+  drop_na(Seagr.leaf.dens....m..2.) %>% # Remove na values to only count the years with publications.
+    tally()
+colnames(Structure3) <- c("Pubyear", "tally")
+```
+
+
+
+Create Production category
+```{r}
+Production1<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+  group_by(Pubyear) %>% # Group publications by year.
+  select(Pubyear, Seagr.prod.above.dm..g.m..2.day.) %>% # Select which 2 variables we are interested in using to tally.
+   drop_na(Seagr.prod.above.dm..g.m..2.day.) %>% # Remove na values to only count the years with publications.
+    tally()
+colnames(Production1) <- c("Pubyear", "tally")
+
+Production2<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+  group_by(Pubyear) %>%  # Group publications by year.
+  select(Pubyear, Seagr.prod.below.dm..g.m..2.day.) %>% # Select which 2 variables we are interested in using to tally.
+  drop_na(Seagr.prod.below.dm..g.m..2.day.) %>% # Remove na values to only count the years with publications.
+    tally()
+colnames(Production2) <- c("Pubyear", "tally")
+
+Production3<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+  group_by(Pubyear) %>%  # Group publications by year.
+  select(Pubyear, Seagr.prod.total.dm..g.m..2.day.) %>% # Select which 2 variables we are interested in using to tally.
+  drop_na(Seagr.prod.total.dm..g.m..2.day.) %>% # Remove na values to only count the years with publications.
+    tally()
+colnames(Production3) <- c("Pubyear", "tally")
+```
+
