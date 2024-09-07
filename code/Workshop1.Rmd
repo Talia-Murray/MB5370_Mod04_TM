@@ -31,8 +31,8 @@ library("tidyverse")
 # install.packages("ggthemes")
 library(palmerpenguins)
 library(ggthemes)
-palmerpenguins::penguins
-penguins<- penguins
+palmerpenguins::penguins # Source Data set.
+penguins<- penguins #Create dataframe. 
 ```
 
 
@@ -52,6 +52,7 @@ ggplot(data = penguins)
 ```
 
 If we run ggplot on its own we will just get a blank chart with no axes or information.
+using ggplot (data = penguins) R will give us a blank chart again. This is because we have not been specific wth R and told it what we want to plot and how.
 
 # Create first plot.
 ```{r}
@@ -65,9 +66,9 @@ Adding the aes code will give us a blank graph with labelled axes showing where 
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g)  #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)  # Specify the x and y arguments for the axes.
 ) +
-  geom_point() # Add data points to plot.
+  geom_point() # Set mapping aesthetics.
 
 ```
 
@@ -81,9 +82,9 @@ We Want to know if this positive relationship by other variables, for example is
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)  #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)  # Set arguments for x and y axes.
 ) +
-  geom_point() # Add data points to plot.
+  geom_point() # Set mapping aesthetics.
 ```
 
 Using the color feature in aesthetics we can select the species variable from our data set to indicate which point is representing which species. This also creates a figure legend to indicate which color corresponds to which species.
@@ -94,9 +95,9 @@ Now we want to add a relationship curve to visualise the relationship between fl
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g, colour = species)  #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, colour = species)  # Set arguments for x and y axes.
 ) +
-  geom_point() + # Add data points to plot.
+  geom_point() + # Set mapping aesthetics
   geom_smooth(method = "lm") # Add a line of best fit.
 ```
 
@@ -110,9 +111,9 @@ This plot doesn't provide a line of best fit for the entire data set. If we want
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g)  #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)  # Set arguments for x and y axes.
 ) +
-  geom_point(mapping = aes(colour = species)) + # Change colour of points by species.
+  geom_point(mapping = aes(colour = species)) + # Use mapping and aesthetics functions to change colour of points for each species.
   geom_smooth(method = "lm") # Add line of best fit.
 ```
 
@@ -120,11 +121,11 @@ By adding aesthetics to the geom point code we are specifying that we only want 
 
 To further distinguish the different species we can not only adjust the species point by color but also shape.
 
-# Change point shape by class:
+# Change point shape by species:
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g) #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(mapping = aes(colour = species, shape = species)) + # Change point color and shape by species type.
   geom_smooth(method = "lm") # Add line of best fit.
@@ -138,7 +139,7 @@ We can further improve our plot aesthetics by improving our axes labels using th
 ```{r}
 ggplot(
   data = penguins, # Specify data set.
-  mapping = aes(x = flipper_length_mm, y = body_mass_g) # Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(aes(colour = species, shape = species)) + # Adjust data point colour and shape.
   geom_smooth(method = "lm") + # Add a line of best fit to entire data set.
@@ -156,14 +157,11 @@ ggplot(
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g) #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
-  geom_point(mapping = aes(colour = bill_length_mm)) + # USe bill length for point color.
+  geom_point(mapping = aes(colour = bill_length_mm)) + # Set bill length as point color.
   geom_smooth() # Add line of best fit.
 ```
-
-
-# Troubleshooting 
 
 
 # Faceting
@@ -174,6 +172,7 @@ ggplot(data = penguins) + # Specify data set.
   geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify axes data.
   facet_wrap(~ species, nrow = 2) # This function makes a plot that represents multiple plots which we separated out by species. This now shows three plots for each species. The nrow function tells R how many rows we want on the plot.
 ```
+
 This shows the relationship flipper length and body mass for each species.
 
 ## facet_grid
@@ -749,7 +748,7 @@ You can do this using the ggsave() function. These plots will save to your worki
 
 ```{r}
 ggplot(mpg, aes(displ, hwy)) + 
-  geom_point()
+  geom_point() # Set mapping aesthetics.
 
 ggsave("my-plot.pdf") # Save plot as a pdf.
 ```
