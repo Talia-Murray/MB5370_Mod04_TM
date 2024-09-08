@@ -228,7 +228,6 @@ FinalData <- TotalData |>
 
 # Create Chart Talia
 ```{r}
-
 ggplot(FinalData, aes(x = Pubyear, y = value, group = PublicationType, linetype = PublicationType, colour = PublicationType)) + 
   geom_line() +
   theme_classic() +
