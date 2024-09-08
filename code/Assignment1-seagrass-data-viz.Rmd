@@ -37,39 +37,8 @@ seagrass1 <- seagrass %>%
 # Combine the Column for publication year to the original data frame using cbind function.
 Pubyear = seagrass1$PubYear
 seagrass2 <- cbind(seagrass, Pubyear)
-<<<<<<< HEAD
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r}
-Biomass <- seagrass2 %>% group_by(Seagr.biom.above.dm..g.m..2.,
-                                  Seagr.biom.below.dm..g.m..2.,
-                                  Seagr.biom.tot.dm..g.m..2.) %>%
-  summarise(Pubyear)
-
-Biomass1 <- seagrass2 %>% group_by(Pubyear) %>%
-  tally(across(c(Seagr.biom.above.dm..g.m..2.,Seagr.biom.below.dm..g.m..2.,Seagr.biom.tot.dm..g.m..2.)))
-
-```
-=======
-```
 
 Create Biomass category
 
@@ -245,13 +214,14 @@ TotalData <- df_new2
 TotalData[is.na(TotalData)] <- 0 # Make all NA values equal 0
 
 summary(TotalData)
-
+view(TotalData)
 ```
 
 
 Now we want to create a line graph for the number of publications for 3 seagrass topics.
 ```{r}
+TotalData %>%
+  pivot_longer(cols = -Pubyear) %>%
+  ggplot(aes(x = Pubyear, y = value, group = name, color = name)) + geom_line()
 
 ```
-
->>>>>>> 71a7bf84b92e2800d90d02fccb581f6f7ed666e8
