@@ -229,6 +229,9 @@ FinalData <- TotalData |>
 
 ```{r}
 
+ggplot(FinalData, aes(x = Pubyear, y = value, group = PublicationType, color = PublicationType)) + 
+  geom_line() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 
 ```
