@@ -225,6 +225,7 @@ FinalData <- TotalData |>
   )
 ```
 
+
 # Create Chart Talia
 ```{r}
 
