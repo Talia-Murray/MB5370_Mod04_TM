@@ -9,6 +9,14 @@ date: "2024-08-27"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+Workshop 1 -  Data Viz in R
+Date: 26/08/2024
+
+-------------------------------------------------------------------------------
+
 
 # Install and load tidyverse packages.
 ```{r}
@@ -23,8 +31,8 @@ library("tidyverse")
 # install.packages("ggthemes")
 library(palmerpenguins)
 library(ggthemes)
-palmerpenguins::penguins
-penguins<- penguins
+palmerpenguins::penguins # Source Data set.
+penguins<- penguins #Create dataframe. 
 ```
 
 
@@ -44,6 +52,7 @@ ggplot(data = penguins)
 ```
 
 If we run ggplot on its own we will just get a blank chart with no axes or information.
+using ggplot (data = penguins) R will give us a blank chart again. This is because we have not been specific wth R and told it what we want to plot and how.
 
 # Create first plot.
 ```{r}
@@ -57,12 +66,13 @@ Adding the aes code will give us a blank graph with labelled axes showing where 
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g)  #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)  # Specify the x and y arguments for the axes.
 ) +
-  geom_point() # Add data points to plot.
+  geom_point() # Set mapping aesthetics.
 
 ```
-Now that we have specified the data told R how to represent the data it is now displayed on our chart. From this plot we could begin to answer questions that motivated our analysis for example "What does the relationship between flipper length nd body mass look like?". From the chart we have created we can see that there appears to be a positive relationship that indicates that body mass will increase as flipper length increases.
+
+Now that we have specified the data told R how to represent the data it is now displayed on our chart. From this plot we could begin to answer questions that motivated our analysis for example "What does the relationship between flipper length and body mass look like?". From the chart we have created we can see that there appears to be a positive relationship that indicates that body mass will increase as flipper length increases.
 
 The warning message provided with the chart is telling us that there are two penguins that are missing body mass and/or flipper length in our data set so R has no way of representing them on the plot.
 
@@ -72,10 +82,11 @@ We Want to know if this positive relationship by other variables, for example is
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)  #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)  # Set arguments for x and y axes.
 ) +
-  geom_point() # Add data points to plot.
+  geom_point() # Set mapping aesthetics.
 ```
+
 Using the color feature in aesthetics we can select the species variable from our data set to indicate which point is representing which species. This also creates a figure legend to indicate which color corresponds to which species.
 
 Now we want to add a relationship curve to visualise the relationship between flipper length and body mass for each species.
@@ -84,11 +95,12 @@ Now we want to add a relationship curve to visualise the relationship between fl
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g, colour = species)  #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, colour = species)  # Set arguments for x and y axes.
 ) +
-  geom_point() + # Add data points to plot.
+  geom_point() + # Set mapping aesthetics
   geom_smooth(method = "lm") # Add a line of best fit.
 ```
+
 Using the geom_smooth(method = 'lm') tells R we want to draw the line of best fit using a linear model. The warning is relating to the two missing points in our data.
 
 This plot doesn't provide a line of best fit for the entire data set. If we want to correct this to have a line of best fit for the entire data set we need to specify that we only want to separate the points by species.
@@ -99,24 +111,26 @@ This plot doesn't provide a line of best fit for the entire data set. If we want
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g)  #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)  # Set arguments for x and y axes.
 ) +
-  geom_point(mapping = aes(colour = species)) + # Change colour of points by species.
+  geom_point(mapping = aes(colour = species)) + # Use mapping and aesthetics functions to change colour of points for each species.
   geom_smooth(method = "lm") # Add line of best fit.
 ```
+
 By adding aesthetics to the geom point code we are specifying that we only want to adjust the settings for points on our plot not for every layer on the plot.
 
 To further distinguish the different species we can not only adjust the species point by color but also shape.
 
-# Change point shape by class:
+# Change point shape by species:
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g) #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(mapping = aes(colour = species, shape = species)) + # Change point color and shape by species type.
   geom_smooth(method = "lm") # Add line of best fit.
 ```
+
 The points are now changed for each species and this is also represented in the figure legend.
 
 We can further improve our plot aesthetics by improving our axes labels using the labs() function and changing our colour palette.
@@ -125,7 +139,7 @@ We can further improve our plot aesthetics by improving our axes labels using th
 ```{r}
 ggplot(
   data = penguins, # Specify data set.
-  mapping = aes(x = flipper_length_mm, y = body_mass_g) # Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(aes(colour = species, shape = species)) + # Adjust data point colour and shape.
   geom_smooth(method = "lm") + # Add a line of best fit to entire data set.
@@ -138,17 +152,16 @@ ggplot(
   scale_color_colorblind() # Change color of data points by using a different color palette theme.
 ```
 
+
+
 ```{r}
 ggplot(
   data = penguins, 
-  mapping = aes(x = flipper_length_mm, y = body_mass_g) #Label x and y axes.
+  mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
-  geom_point(mapping = aes(colour = bill_length_mm)) + # USe bill length for point color.
+  geom_point(mapping = aes(colour = bill_length_mm)) + # Set bill length as point color.
   geom_smooth() # Add line of best fit.
 ```
-
-
-# Troubleshooting 
 
 
 # Faceting
@@ -159,6 +172,7 @@ ggplot(data = penguins) + # Specify data set.
   geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify axes data.
   facet_wrap(~ species, nrow = 2) # This function makes a plot that represents multiple plots which we separated out by species. This now shows three plots for each species. The nrow function tells R how many rows we want on the plot.
 ```
+
 This shows the relationship flipper length and body mass for each species.
 
 ## facet_grid
@@ -168,7 +182,8 @@ ggplot(data = penguins) +
   geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
   facet_grid( sex ~ species)
 ```
-This shows the relationship flipper length and body mass for each species and then further seperates this by sex of the species.
+
+This shows the relationship flipper length and body mass for each species and then further separates this by sex of the species.
 
 
 ## facet_grid by just row (or column)
@@ -181,6 +196,7 @@ ggplot(data = penguins) +
 ```
 
 # Exercise:
+
 Read ?facet_wrap. What does nrow do? What does ncol do? What other options control the layout of the individual panels? 
 
 ```{r}
@@ -213,22 +229,24 @@ ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
 We already used points:
 ```{r}
 ggplot(data = penguins) + 
-  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm))
+  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) # Set arguments for x and y axes.
 ```
 
 
 However, ggplot2 can use a variety of geom objects to represent the data. Here, we might want to use bar plots, line charts, boxplots and so on. Well we can handle this issue in ggplot directly using a different geom to plot the same data. Here, instead of plotting points, we will use a smooth line. 
 
 # To display the same data as a smooth line fit through the points use geom_smooth().
+
 ```{r}
 ggplot(data = penguins) + 
   geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm))
 ```
+
 ### Question: whey don't we use geom_line() here? What would that look like? ###
-The geom line function is not really useful for the purpose of this chart. Using the smooth function we can see the trend or relationship of the data. Using the line aesthetic does not give any useful information regarding the relationship of the data.
+The geom line function is not really useful for the purpose of this chart. Using the smooth function we can see the trend or relationship of the data. Using the line aesthetic does not give any useful information regarding the relationship of the data. Instead it is a continuous line of the data moving up and down.
 
 
-So let’s recap. A geom is an object that your plot uses to represent the data. To change the geom type in your plot, simply change the geom function that you add to your plot template. Sometimes you may want to try a few things out, in which case you could use comments to help you remember what worked and what didn’t. 
+A geom is an object that your plot uses to represent the data. To change the geom type in your plot, simply change the geom function that you add to your plot template. Sometimes you may want to try a few things out, in which case you could use comments to help you remember what worked and what didn’t. 
 
 ## Using comments (#)
 ```{r}
@@ -252,19 +270,19 @@ ggplot(data = penguins) +
   geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm, group = species))
 ```
  
-# Change line colour based on drv value
+# Change line colour based on species value
 ```{r}
 ggplot(data = penguins) +
   geom_smooth(
     mapping = aes(x = body_mass_g, y = flipper_length_mm, color = species),
-    show.legend = FALSE,
+    show.legend = FALSE,# show.legend = FALSE  tells R not to include the legend on the plot.
   )
 ```
-show.legend = FALSE  tells R not to include the legend on the plot.
 
 
 
 # Multiple geoms
+
 We already did this one way
 ```{r}
 ggplot(data = penguins) + 
@@ -295,7 +313,8 @@ ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) +
   geom_point(mapping = aes(color = species)) + 
   geom_smooth(data = filter(penguins, species == "Gentoo"), se = FALSE)
 ```
-Question: what does the "se = FALSE" do?
+
+#Question: what does the "se = FALSE" do?
 se = FALSE does not include the standard error around the line. 
 
 # Exercise:
@@ -303,7 +322,7 @@ se = FALSE does not include the standard error around the line.
 2.  Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions.
 
 
-Run a density plot for the line chart (other times we can just use geom_line but this is not useful for this chart), run a boxplot, histogram and a barchart.
+Run a density plot for the line chart (other times we can just use geom_line but this is not useful for this chart), run a boxplot, histogram and a bar chart.
 
 ```{r}
 # Density plot:
@@ -332,14 +351,17 @@ ggplot(penguins, aes(x = island, fill = species)) +
 ggplot(penguins, aes(x = island, fill = species)) +
   geom_bar(position = "fill") # A relative frequency plot is created by setting position = fill in the geom. This is more useful for comparing species distributions across islands since it is not affected by the unequal numbers of penguins across the islands.
 ```
+
+
 # Mapping three or more variables
 ```{r}
 ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species, shape = island))
 ```
+
 In this chart we represent the island by shape and the color represents the species.
 
-3.  Will these two graphs look different? Why/why not?
+#3.  Will these two graphs look different? Why/why not?
 ```{r}
 ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
   geom_point() + 
@@ -352,6 +374,7 @@ ggplot() +
 No. It says the same thing, the second way is just a longer or more specific way of writing it.
 
 # Transformations and stats
+This section will cover transformations and data summaries using the diamond data set that comes with ggplot2. 
 
 ## Load data
 ```{r}
@@ -359,11 +382,19 @@ data("diamonds")
 glimpse(diamonds)
 ```
 
+You can use geoms and stats interchangeably which is demonstrated below. The man reason for this is because every geom has a default stat and every stat has a default geom.
+
 # Bar plot
 ```{r}
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut))
 ```
+
+```{r}
+ggplot(data = diamonds) + 
+  stat_count(mapping = aes(x = cut))
+```
+
 
 # Overriding defaults
 Make some new data
@@ -384,7 +415,9 @@ demo
 ggplot(data = demo) +
   geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
 ```
-Question: Why did we specify now specify a y axis?
+
+# Question: Why did we specify now specify a y axis?
+We need to specify the y axis because stat = "identity" tells R to give a sum of all the values of y. So when we don't specify y R will report an error.
 
 # What if we want to know the proportion rather than the absolute frequency?
 ```{r}
@@ -392,9 +425,19 @@ ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, y = stat(prop), group = 1))
 ```
 
-Question: does anyone get the warning that's in the workbook?
+#Question: does R give the warning that's in the workbook?
 Warning: `stat(prop)` was deprecated in ggplot2 3.4.0.
-If so, can use # geom_bar(mapping = aes(x = cut, y = stage(after_stat = prop), group = 1))
+
+Yes.
+
+So, can use # geom_bar(mapping = aes(x = cut, y = stage(after_stat = prop), group = 1))
+```{r}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = stage(after_stat = prop), group = 1))
+
+```
+
+
 
 # Plotting statistical details
 ```{r}
@@ -417,7 +460,8 @@ ggplot(data = diamonds) +
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, fill = cut))
 ```
-Question: Does anyone notice anything different in the colour scheme of this plot?
+
+#Question: Does anyone notice anything different in the colour scheme of this plot?
 (Hint: It's in the viridis colour palette (colour blind friendly), but why is it different from the colour palette we used earlier?)
 Check out the difference:
 ```{r}
@@ -477,10 +521,273 @@ ggplot(data = penguins) +
 
 
 
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+
+Workshop 2: Using ggplot for communication.
+Date: 27/08/2024
+
+-------------------------------------------------------------------------------
+
+# Labels
+When using plots for communicating your results it is important to have good labels. These labels are a key component in communicating what you want your data to say.
+
+Adding a title to a plot:
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_smooth(se =  FALSE) +
+  labs(title = "Fuel efficiency generally decreases with engine size")
+```
+
+You can also add more text to this if needed by using other functions:
+- subtitle - adds additional detail in smaller font beneath the title
+- caption - adds text to the bottom right of the plot and is often used to describe the source of the data.
+
+Add these two functions to the code above:
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_smooth(se =  FALSE) +
+  labs(title = "Fuel efficiency generally decreases with engine size", 
+       subtitle = "Two seaters (sports cars) are an exception because of their light weight", 
+       caption = "Data from fueleconomy.gov")
+```
+
+
+Using the labs function we can also replace axis labels and legend titles:
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Engine displacement (L)", 
+    y = "Highway fuel economy (mpg)", 
+    colour = "Car type"
+  )
+  
+
+```
+
+
+# Annotations
+Sometimes we want to add text to the plot itself to highlight single observations.
+
+```{r}
+best_in_class <- mpg %>%
+  group_by(class) %>%
+  filter(row_number(desc(hwy))==1) # desc function means descending order
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_text(aes(label = model), data = best_in_class)
+```
+Some of the labels overlap, there are ways you can handle this issue. This could include using the nudge() function to move your text a certain amount and using other R packages to handle text wrapping etc. 
+
+# Scales
+Adjusting your default scales in ggplot2 can also help improve the communication of your results.
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class))
+```
+
+Creating a plot this way, ggplot2 will automatically add the default scales.
+We can change these by giving parameters to the scale arguments.
+To provide limits you’ll need to offer a character vector showing the start and end of your limit (e.g. c(0,12).
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  scale_x_continuous(limits = c(1, 8)) + # Change x axis limts 
+  scale_y_continuous(limits = c(10, 45)) + # Change y axis limts 
+  scale_colour_discrete()
+
+```
+# Axis Ticks
+We can also change the ticks on the axes of our plots.
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  scale_y_continuous(breaks = seq(15, 40, by = 5))
+  
+```
+Using the code seq(15, 40, by = 5) we tell R to format our y axis limits starting at 15, ending at 40 and to create axis ticks at intervals of 5.
+
+We can use the scale functions to also suppress the labels completely. This would be used for certain formatting purposes.
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  scale_x_continuous(labels = NULL) +
+  scale_y_continuous(labels = NULL)
+```
+
+
+# Legends and Colour schemes
+
+We can also adjust the location of the legend on our plot using the theme() setting:
+```{r}
+base <- ggplot(mpg, aes(displ, hwy)) +
+        geom_point(aes(colour = class))
+base + theme(legend.position = "left") # legend.position tells R where we want to position the legend on the plot. This line of code has told R to put the legend on the left.
+base + theme(legend.position = "right") # Put legend on the right
+base + theme(legend.position = "top") # Put legend on the top of the plot.
+base + theme(legend.position = "bottom") # Put legend on the bottom of the plot
+base + theme(legend.position = "none") # Tell R to not include a legend.
+```
+
+
+
+# Replacing a scale
+
+Two types of scales that we might want to swap out are continuous position scales and colour scales. 
+
+It is useful to plot transformations of variables.
+Changing the continuous position scale:
+```{r}
+ggplot(diamonds, aes(carat, price)) +
+  geom_bin2d() + # Set mapping aesthetic.
+  scale_x_log10() + # Log transform x scale.
+  scale_y_log10() # Log transform y scale.
+```
+
+Function: geom_bin2d divides the plane into rectangles, counts the number of cases and then maps the number of cases to the rectangles fill. This is a useful alternative to geom_point() in the presence of overplotting. You can also adjust the bin sizes.
+
+Changing the colour scale:
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = drv)) # Set mapping aesthetic.
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = drv)) +  # Set mapping aesthetic.
+  scale_colour_brewer(palette = "Set1") # cChange colour scale. 
+
+```
+
+Scale_colour_brewer provides sequential, diverging and qualitative colour schemes from ColourBrewer. The colour themes are particularly useful for discrete data. Colour Brewer has many different colour schemes available which you can find at: http://colorbrewer2.org/. For more information on colour schemes visit:  http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/ 
+
+if there are only a few colours, adding redundant shape mapping can help ensure your plot is interpretable in black and white.
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = drv, shape = drv)) + # Set mapping aesthetic and adjust shape of data points.
+  scale_colour_brewer(palette = "Set1") # Select colour scale.
+
+```
+If you are using predefined colours you are wanting to set yourself use scale_colour_manual().
+```{r}
+presidential %>%
+  mutate(id = 33 + row_number()) %>%
+  ggplot(aes(start, id, colour = party)) +
+  geom_point() +
+  geom_segment(aes(xend = end, yend = id)) +
+  scale_colour_manual(values = c(Republican = "red", Democratic = "blue"))
+```
+you can also use the viridis colour scheme colour package.
+```{r}
+# Load and install the required colour packages:
+
+# install.packages('viridis')
+# install.packages('hexbin')
+library(viridis)
+library(viridis)
+
+
+df <- tibble( # Note: we are just making a fake dataset so we can plot it
+  x = rnorm(10000), 
+  y = rnorm(10000)
+  )
+ggplot(df, aes(x, y)) +
+  geom_hex() + # Set mapping aesthetic.
+  coord_fixed() 
+
+ggplot(df, aes(x, y)) +
+  geom_hex() + # Set mapping aesthetic.
+  viridis::scale_fill_viridis() + # Select viridis colour package.
+  coord_fixed()
+```
+
+
+# Themes
+
+You can also change the entire theme of the plot you build in R.
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_bw()
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_light()
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_classic()
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_dark()
+
+```
+
+
+You can also develop your own themes by setting some or all of the arguments to theme() yourself.
+
+For example:
+```{r}
+ theme (panel.border = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        legend.position="bottom",
+        legend.title=element_blank(),
+        legend.text=element_text(size=8),
+        panel.grid.major = element_blank(),
+        legend.key = element_blank(),
+        legend.background = element_blank(),
+        axis.text.y=element_text(colour="black"),
+        axis.text.x=element_text(colour="black"),
+        text=element_text(family="Arial"))
+```
+
+
+# Saving and exporting your plots
+
+Once you have created a plot, you want to save it in a format that allows you to import it into your report and share it.
+
+You can do this using the ggsave() function. These plots will save to your working directory.
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() # Set mapping aesthetics.
+
+ggsave("my-plot.pdf") # Save plot as a pdf.
+```
+
+You can save plots as .jpeg or .pdf though a pdf usually saves nicer.
+
+Sometimes, you might want or need to play with the dimensions of your plot, in which case you can use the width and height arguments to this function.
+
+#Assignment End-to-end data analysis in R
 
 
 
 
+
+
+
+
+----------------------------------------------------------------------------------------------------
+
+Workshop 3 - Data Wrangling in R
+
+--------------------------------------------------
 
 
 
