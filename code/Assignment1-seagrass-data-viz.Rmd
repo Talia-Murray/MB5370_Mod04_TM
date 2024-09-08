@@ -235,8 +235,8 @@ ggplot(FinalData, aes(x = Pubyear, y = value, group = PublicationType, linetype 
     title = "The Total Number of Seagrass Publications Over Time", # Label title.
     subtitle = "Seagrass research categories inlude biomass, production and structure.", # Create a subtitle.
     x = "Year of Publication", y = "Total Number of Publications", # Create axes labels.
-     linetype = "Publication Type", color = "Publication Type"
-    # Adjust legend title.
+     linetype = "Publication Type", color = "Publication Type",  # Adjust legend title. 
+    caption = "Data Sourced From https://doi.org/10.5194/essd-15-511-2023" # Create caption title.
   ) + 
   scale_colour_discrete(labels = c("Biomass", "Production", "Structure")) +
   scale_linetype_discrete(labels = c("Biomass", "Production", "Structure")) +
