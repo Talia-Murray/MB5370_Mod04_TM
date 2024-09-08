@@ -252,9 +252,16 @@ ggplot(FinalData, aes(x = Pubyear, y = value, group = PublicationType, linetype 
 ```{r}
 TotalData %>%
   pivot_longer(cols = -Pubyear) %>%
-  ggplot(aes(x = Pubyear, y = value, group = name, color = name)) + 
-  geom_line() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + xlab("Publication Year") + ylab("Number of Data Points") + scale_color_discrete(labels = c("Biomass", "Production", "Structure"), name = "Publication Types")
-
-  
+  ggplot(aes(x = Pubyear, y = value, group = name, linetype = name, color = name)) + 
+  geom_line() + 
+  theme_classic() +
+  labs(
+    title = "Total Number of Seagrass Publications Over Time",
+    subtitle = "Seagrass research categories include iomass, production, and structure",
+    x = "Publication Year", y = "Total Number of Publications",
+    linetype = "Publication Type", color = "Publication Type"
+  ) +
+  scale_color_discrete(labels = c("Biomass", "Production", "Structure")) +
+  scale_linetype_discrete(labels = c("Biomass", "Production", "Structure")) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
