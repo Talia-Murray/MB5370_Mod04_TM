@@ -243,7 +243,7 @@ ggplot(FinalData, aes(x = Pubyear, y = value, group = PublicationType, linetype 
   scale_y_continuous(breaks = seq(0, 1000, by = 100)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
- ggsave("Seagrass_plot.pdf") # Save plot as a pdf.
+# ggsave("Seagrass_plot.pdf") # Save plot as a pdf.
 
 
 ```
