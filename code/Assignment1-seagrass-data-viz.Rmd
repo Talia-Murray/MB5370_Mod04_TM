@@ -254,7 +254,7 @@ TotalData %>%
   pivot_longer(cols = -Pubyear) %>%
   ggplot(aes(x = Pubyear, y = value, group = name, color = name)) + 
   geom_line() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + xlab("Publication Year") + ylab("Number of Data Points") + scale_color_discrete(labels = c("Biomass", "Production", "Structure"), name = "Publication Types")
 
-            
+  
 ```
