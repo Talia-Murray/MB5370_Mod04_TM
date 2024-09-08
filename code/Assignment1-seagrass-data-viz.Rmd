@@ -259,10 +259,14 @@ TotalData %>%
   labs(
     title = "Total Number of Seagrass Publications Over Time",
     subtitle = "Seagrass research categories include iomass, production, and structure",
+    caption = "Data Source: https://doi.org/10.5194/essd-15-511-2023",
     x = "Publication Year", y = "Total Number of Publications",
     linetype = "Publication Type", color = "Publication Type"
   ) +
   scale_color_discrete(labels = c("Biomass", "Production", "Structure")) +
   scale_linetype_discrete(labels = c("Biomass", "Production", "Structure")) +
+   scale_y_continuous(breaks = seq(0, 1000, by = 100)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+# ggsave("Seagrass_plot.pdf")
 ```
