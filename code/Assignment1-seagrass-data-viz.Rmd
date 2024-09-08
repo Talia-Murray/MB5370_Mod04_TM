@@ -225,7 +225,7 @@ FinalData <- TotalData |>
   )
 ```
 
-#
+# Create Chart Talia
 ```{r}
 
 ggplot(FinalData, aes(x = Pubyear, y = value, group = PublicationType, linetype = PublicationType, colour = PublicationType)) + 
@@ -240,15 +240,16 @@ ggplot(FinalData, aes(x = Pubyear, y = value, group = PublicationType, linetype 
   ) + 
   scale_colour_discrete(labels = c("Biomass", "Production", "Structure")) +
   scale_linetype_discrete(labels = c("Biomass", "Production", "Structure")) +
+  scale_y_continuous(breaks = seq(0, 1000, by = 100)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
- 
+ ggsave("Seagrass_plot.pdf") # Save plot as a pdf.
 
 
 ```
 
 
-# Now we want to create a line graph for the number of publications for 3 seagrass topics.
+# Create Chart Ivy
 ```{r}
 TotalData %>%
   pivot_longer(cols = -Pubyear) %>%
