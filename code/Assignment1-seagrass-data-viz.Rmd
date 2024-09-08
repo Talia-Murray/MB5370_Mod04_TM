@@ -18,7 +18,6 @@ library(tidyverse)
 # Load data set
 ```{r}
 seagrass<-read.csv("../data/SeagrassPubs.csv")
-
 ```
 
 # Look at data
@@ -109,7 +108,6 @@ Structure3<-seagrass2 %>% # Create new data frame and select which data frame to
   drop_na(Seagr.leaf.dens....m..2.) %>% # Remove na values to only count the years with publications.
     tally()
 colnames(Structure3) <- c("Pubyear", "tally3")
-
 
 
 
@@ -213,13 +211,36 @@ TotalData <- df_new2
 TotalData[is.na(TotalData)] <- 0 # Make all NA values equal 0
 
 summary(TotalData)
+view(TotalData)
+```
+
+
+
+```{r}
+FinalData <- TotalData |> 
+  pivot_longer(
+    cols = TotalBiomass:TotalProduction,
+    names_to = "PublicationType",
+    values_to = "value"
+  )
+```
+
+
+
+```{r}
+
+
 
 ```
 
 
 # Now we want to create a line graph for the number of publications for 3 seagrass topics.
 ```{r}
+TotalData %>%
+  pivot_longer(cols = -Pubyear) %>%
+  ggplot(aes(x = Pubyear, y = value, group = name, color = name)) + 
+  geom_line() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
             
 ```
-
