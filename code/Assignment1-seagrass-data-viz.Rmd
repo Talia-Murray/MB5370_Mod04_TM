@@ -9,26 +9,26 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Install and load packages
+# Install and load packages
 ```{r}
 library(tidyverse)
 ```
 
 
-Load data set
+# Load data set
 ```{r}
 seagrass<-read.csv("../data/SeagrassPubs.csv")
 
 ```
 
-Look at data
+# Look at data
 ```{r}
 head(seagrass)
 summary(seagrass)
 glimpse(seagrass)
 ```
 
-
+# Seperate author and year into 2 variables from Reference
 ```{r}
 # Extract author and year from reference column and create new data frame with these two variables separated.
 seagrass1 <- seagrass %>% 
@@ -40,24 +40,24 @@ Pubyear = seagrass1$PubYear
 seagrass2 <- cbind(seagrass, Pubyear)
 ```
 
-Create Biomass category
 
+# Create Biomass category
 ```{r}
-biomass<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+biomass<-seagrass2 %>% # Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>% # Group publications by year.
   select(Pubyear, Seagr.biom.above.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
    drop_na(Seagr.biom.above.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
     tally()
 colnames(biomass) <- c("Pubyear", "tally1")
 
-biomass1<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+biomass1<-seagrass2 %>% # Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.biom.below.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.biom.below.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
     tally()
 colnames(biomass1) <- c("Pubyear", "tally2")
 
-biomass2<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+biomass2<-seagrass2 %>% # Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.biom.tot.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.biom.tot.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
@@ -87,23 +87,23 @@ TBmass2$TotalBiomass<-rowSums(TBmass2[ , c("tally1", "tally2", "tally3")]) # Cre
 ```
 
 
-Create Structure category
+# Create Structure category
 ```{r}
-Structure1<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+Structure1<-seagrass2 %>% # Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>% # Group publications by year.
   select(Pubyear, Seagr.cov....) %>% # Select which 2 variables we are interested in using to tally.
    drop_na(Seagr.cov....) %>% # Remove na values to only count the years with publications.
     tally()
 colnames(Structure1) <- c("Pubyear", "tally1")
 
-Structure2<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+Structure2<-seagrass2 %>% # Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.shoot.dens....m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.shoot.dens....m..2.) %>% # Remove na values to only count the years with publications.
     tally()
 colnames(Structure2) <- c("Pubyear", "tally2")
 
-Structure3<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
+Structure3<-seagrass2 %>% # Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.leaf.dens....m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.leaf.dens....m..2.) %>% # Remove na values to only count the years with publications.
@@ -136,7 +136,7 @@ TStructure2$TotalStructure<-rowSums(TStructure2[ , c("tally1", "tally2", "tally3
 
 
 
-Create Production category
+# Create Production category
 ```{r}
 Production1<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>% # Group publications by year.
@@ -184,8 +184,7 @@ TProduction2$TotalProduction<-rowSums(TProduction2[ , c("tally1", "tally2", "tal
 
 ```
 
-Create new dataset with all the total values
-
+# Create new data set with all the total values
 ```{r}
 
 df_new <- 
@@ -218,8 +217,9 @@ summary(TotalData)
 ```
 
 
-Now we want to create a line graph for the number of publications for 3 seagrass topics.
+# Now we want to create a line graph for the number of publications for 3 seagrass topics.
 ```{r}
 
+            
 ```
 
