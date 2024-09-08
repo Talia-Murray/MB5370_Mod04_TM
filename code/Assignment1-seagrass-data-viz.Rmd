@@ -228,17 +228,19 @@ FinalData <- TotalData |>
 #
 ```{r}
 
-ggplot(FinalData, aes(x = Pubyear, y = value, group = PublicationType, colour = PublicationType)) + 
+ggplot(FinalData, aes(x = Pubyear, y = value, group = PublicationType, linetype = PublicationType, colour = PublicationType)) + 
   geom_line() +
   theme_classic() +
   labs(
-    title = "The Total Number of Seagrass Publications Over time", # Label title.
+    title = "The Total Number of Seagrass Publications Over Time", # Label title.
     subtitle = "Seagrass research categories inlude biomass, production and structure.", # Create a subtitle.
     x = "Year of Publication", y = "Total number of publications", # Create axes labels.
-    color = "Publication Type" # Adjust legend title.
-  ) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
- scale_fill_discrete(labels=c('Biomass', 'Production', 'Structure')) 
+     linetype = "Publication Type", color = "Publication Type"
+    # Adjust legend title.
+  ) + 
+  scale_colour_discrete(labels = c("Biomass", "Production", "Structure")) +
+  scale_linetype_discrete(labels = c("Biomass", "Production", "Structure")) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
  
 
