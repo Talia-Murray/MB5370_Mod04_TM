@@ -17,9 +17,7 @@ library(tidyverse)
 
 Load data set
 ```{r}
-library(readr)
 seagrass<-read.csv("../data/SeagrassPubs.csv")
-View(seagrass)
 ```
 
 Look at data
@@ -30,17 +28,14 @@ glimpse(seagrass)
 ```
 
 ```{r}
-#seagrass %>% 
-  #mutate(
-   # PubYear = str_extract_all(Reference, "[0-9]+") %>%
-  #purrr::map(
-   # ~ifelse(
-    #  length(.x) ==1,
-     # as.numeric(.x),
-      #mean(unlist(as.numeric(.x)))
-    #)
-  #)
-  #)
+# Extract author and year from reference column and create new data frame with these two variables separated.
+seagrass1 <- seagrass %>% 
+  mutate(Author = str_extract(string = Reference, pattern = "(?<=,\\s).+"),
+         PubYear = str_extract(string = Reference, pattern = "[0-9]+")) %>% 
+  select(Author:PubYear)
+# Combine the Coloumn for publication year to the original data frame using cbind function.
+Pubyear = seagrass1$PubYear
+seagrass2 <- cbind(seagrass, Pubyear)
 ```
 
 
@@ -60,3 +55,14 @@ glimpse(seagrass)
 
 
 
+
+```{r}
+Biomass <- seagrass2 %>% group_by(Seagr.biom.above.dm..g.m..2.,
+                                  Seagr.biom.below.dm..g.m..2.,
+                                  Seagr.biom.tot.dm..g.m..2.) %>%
+  summarise(Pubyear)
+
+Biomass1 <- seagrass2 %>% group_by(Pubyear) %>%
+  tally(across(c(Seagr.biom.above.dm..g.m..2.,Seagr.biom.below.dm..g.m..2.,Seagr.biom.tot.dm..g.m..2.)))
+
+```
