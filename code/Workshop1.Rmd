@@ -968,6 +968,370 @@ Why does this code fail?
 Consider the sample tibble below. Do you need to make it wider or longer? What are the variables?
 
 
+# Separating and uniting data tables
+# Separating
+This section will cover separating one column into multiple.
+```{r}
+# Load data.
+table3
+
+# We need to split the rate column into two variables: 1) Cases, 2) Population.
+# separate() will take the name of the column we want to split and the names of the columns we want it to split into.
+table3 %>%
+  separate(rate, into = c("cases", "population"))
+
+```
+By default R will split values wherever it sees a non-alphanumeric character. For example, in the code above, separate() split the values of rate at the forward slash characters. If you wish to use a specific character to separate a column, you can pass the character to the sep argument of separate(). For example, we could rewrite the code above as:
+```{r}
+table3 %>%
+  separate(rate, into = c("cases", "population"), sep = "/")
+```
+Notice the data types in table3 above. Both cases and population are listed as character (<chr>) types. This is a default of using separate(). However, since the values in those columns are actually numbers, we want to ask separate() to convert them to better types using convert = TRUE.
+```{r}
+table3 %>%
+  separate(rate, into = c("cases", "population"), convert = TRUE)
+```
+
+We can also pass a vector of integers to sep. separate() will interpret the integers as positions to split at. Positive values start at 1 on the far-left of the strings; negative values start at -1 on the far-right of the strings. When using integers to separate strings, the length of sep should be one less than the number of names in into.
+We can use this arrangement to separate the last two digits of each year
 
 
+```{r}
+table3 %>%
+  separate(year, into = c("century", "year"), sep = 2) # Separate year by the location of the second number.
+```
+ 
+# Uniting 
+
+The inverse of separating is uniting which uses the unite() function. This combines multiple columns into a single column.
+Use table 5 for this exercise and rejoin the century and year columns.
+```{r}
+# Join year and century columns using unite().
+table5 %>%
+  unite(new, century, year, sep = "") # Use sep = "" because we don't want any separator in the new variable.
+```
+# Handling missing values
+Missing values are sometimes shown with NA or sometimes they could be simply missing altogether from the data (a blank cell).
+# Explicit missing values
+The way data is missing matters a lot when tidying your data. When you see NA this is an example of explicit absence, and a blank cell also inidcates the absence of data but this is known as implicit absence.
+
+A common example for missing values is as a data entry convenience. When data is entered by hand, missing values sometimes indicate that the value in the previous row has been repeated (or carried forward, for example:
+```{r}
+treatment <- tribble(
+  ~person,           ~treatment, ~response,
+  "Derrick Whitmore", 1,         7,
+  NA,                 2,         10,
+  NA,                 3,         NA,
+  "Katherine Burke",  1,         4
+)
+```
+
+We can fill in these missing values with tidyr::fill() which works in a similar way to select(), taking a set of columns:
+```{r}
+treatment |>
+  fill(everything())
+```
+This is also called "last observation carried forward" of locf. You can use the .direction argument to fill in missing values that have been generated in a more complicated way.
+
+# fixed values
+```{r}
+# Sometimes missing values represent some fixed and known value, most commonly 0. You can use dplyr::coalesce() to replace them.
+x <- c (1, 4, 5, 7, NA)
+coalesce(x, 0) # This will change the NA value in x to 0.
+
+# Sometimes you’ll encounter the opposite problem where some other concrete value actually represents a missing value.
+x <- c(1, 4, 5, 7, -99)
+na_if(x, -99)
+
+# This typically happens when data is generated from an older software that can’t properly represent missing values so it uses something like 99 or -999 in place of the missing value. You can fix this with dplyr::na_if():
+
+```
+# NaN
+One special type of missing value worth mentioning is NaN or Not a Number. It typically behaves the same as NA but in some rare cases you may need to distinguish it using is.nan(x):
+```{r}
+x <- c(NA, NaN)
+x * 10
+x == 1
+is.na(x)
+```
+NaN is common when performing a mathematical operation that has an indeterminate result.
+
+
+# Implicit missing values
+Demonstrate a dataset with implicit absence. 
+```{r}
+stocks <- tibble(
+  year  = c(2020, 2020, 2020, 2020, 2021, 2021, 2021),
+  qtr   = c(   1,    2,    3,    4,    2,    3,    4),
+  price = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66)
+)
+
+```
+This dataset has two missing observations:
+1) The price in the fourth quarter of 2020 is explicitly missing, because its value is NA.
+2) The price for the first quarter of 2021 is implicitly missing, because it simply does not appear in the dataset.
+
+Sometimes we want to make the implicit missing values explicit. In other situations explicit missing values are forced upon you by the structure of the data and you want to get rid of those.
+
+A good example of this can be shown using the stocks data:
+```{r}
+stocks |>
+  pivot_wider(
+    names_from = qtr, 
+    values_from = price
+  )
+```
+The function tidyr::complete() allows you to generate explicit missing values by providing a set of variables that define the combination of rows that should exist.
+
+```{r}
+# For Exampele: all combinations of year and qtr should exist in the stocks data:
+stocks |>
+  complete(year, qtr)
+# Normally, we call complete() with names of existing variables to fill in the missing cimbinations. Sometimes the individual variables are incomplete. So instead, we can provide our own data. 
+# For example, we might know that the stocks dataset is supposed to run from 2019 to 2021, so you could explicitly supply those values for year:
+stocks |>
+  complete(year = 2019:2021, qtr)
+```
+
+
+
+# Importing into R
+# CSV files 
+Most common file type for tabular data is a .csv
+Important things to consider when using .csv fies :
+  1) The first row or “header row” gives the column names.
+  2) The following six rows provide the data.
+  3) Columns are separated by commas.
+  
+  
+To import a csv file into R we use the readr package and use the  read_csv() function.
+```{r}
+? read_csv # Go to help to lear more about read_csv function
+# students <- read_csv("C://data/students.csv") # Put pathway to required csv file in the "" so R can find the csv file. Comment this out for now because this line won't actually work as the file doesn't exist on your system.
+
+# To access this csv to use for the following examples read the csv into R using the URL.
+students <- read_csv("https://pos.it/r4ds-students-csv")
+```
+Need to check that our observations are in rows and that our variables are in columns.
+So, after we input a csv file we should check the data to make sure it is set up correctly and to ensure there are no errors.
+```{r}
+# Look at data.
+students
+```
+We can see there are some N/A values in the favourite.food variable. The issue here is R has treated the missing value as a character string (actual value) rather than as a real NA. We can fix this using a simple code when we read in our csv:
+```{r}
+students <- read_csv("https://pos.it/r4ds-students-csv", na = c("N/A", ""))
+students
+```
+
+Sometimes the variable names may have backticks surrounding them. We can fix this by doing a code like this:
+```{r}
+students |> 
+  rename(
+    student_id = `Student ID`,
+    full_name = `Full Name`
+  )
+```
+
+
+# 4.7.3 Exercises
+Identify what is wrong with each of the following inline CSV files. What happens when you run the code?
+
+
+# Learning relational data
+
+
+```{r}
+# Load data and install required packages
+# install.packages("nycflights13") # Comment out once installed.
+
+library(nycflights13)
+
+airlines # Look at data.
+airports # Look at data.
+planes # Look at data.
+weather # Look at data.
+```
+
+
+# Joining datasets
+We join datasets together by identifying keys. A key is a variable (or set of variables) that uniquely identifies an observation. For example, each plane is uniquely identified by its tailnum. In other cases, multiple variables may be needed. For example, to identify an observation in weather you need five variables: year, month, day, hour, origin.
+
+There are two kinds of keys, these are primary and foreign. 
+A primary key uniquely identifies an observation in its own table. For example, planes$tailnum is a primary key because it uniquely identifies each plane in the planes table.
+A foreign key uniquely identifies an observation in another table. For example, flights$tailnum is a foreign key because it appears in the flights table where it matches each flight to a unique plane.
+```{r}
+# After identifying the primary keys in our tables, we need to verify if they do uniquely identify each observation. We can do this using count():
+planes %>%
+  count(tailnum) %>%
+  filter(n > 1)
+  
+weather %>%
+  count(year, month, day, hour, origin) %>%
+  filter(n > 1)
+
+# Sometimes a table doesn’t have an explicit primary key: each row is an observation, but no combination of variables reliably identifies it. For example, you might expect that the primary key for flights would be the date plus the flight or tail number, but neither of those are unique:
+
+flights %>%
+  count(year, month, day, flight) %>%
+  filter(n > 1)
+
+flights %>%
+  count(year, month, day, tailnum) %>%
+  filter(n > 1)
+```
+
+
+# Mutating Joins
+
+```{r}
+flights2 <- flights %>% 
+  select(year:day, hour, origin, dest, tailnum, carrier)
+
+```
+
+
+
+```{r}
+flights2 %>%
+  select(-origin, -dest) %>% 
+  left_join(airlines, by = "carrier")
+
+```
+
+
+
+```{r}
+flights2 %>%
+  select(-origin, -dest) %>% 
+  mutate(name = airlines$name[match(carrier, airlines$carrier)])
+```
+
+```{r}
+x <- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     3, "x3"
+)
+y <- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2",
+     4, "y3"
+)
+```
+
+
+
+
+
+
+```{r}
+x %>% 
+  inner_join(y, by = "key")
+```
+
+
+
+
+```{r}
+x <- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     2, "x3",
+     1, "x4"
+)
+y <- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2"
+)
+left_join(x, y, by = "key")
+```
+
+
+
+```{r}
+x <- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     2, "x3",
+     3, "x4"
+)
+y <- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2",
+     2, "y3",
+     3, "y4"
+)
+left_join(x, y, by = "key")
+```
+
+```{r}
+flights2 %>% 
+  left_join(weather)
+```
+
+```{r}
+flights2 %>% 
+  left_join(planes, by = "tailnum")
+```
+
+```{r}
+flights2 %>% 
+  left_join(airports, c("dest" = "faa"))
+```
+
+```{r}
+flights2 %>% 
+  left_join(airports, c("origin" = "faa"))
+```
+
+
+
+# Pipes for more readable workflows
+```{r}
+foo_foo <- little_bunny
+```
+
+
+
+```{r}
+foo_foo_1 <- hop(foo_foo, through = forest)
+foo_foo_2 <- scoop(foo_foo_1, up = field_mice)
+foo_foo_3 <- bop(foo_foo_2, on = head)
+```
+
+
+
+```{r}
+foo_foo <- hop(foo_foo, through = forest)
+foo_foo <- scoop(foo_foo, up = field_mice)
+foo_foo <- bop(foo_foo, on = head)
+```
+
+
+
+```{r}
+bop(
+  scoop(
+    hop(foo_foo, through = forest),
+    up = field_mice
+  ), 
+  on = head
+)
+```
+
+
+
+```{r}
+foo_foo %>%
+  hop(through = forest) %>%
+  scoop(up = field_mice) %>%
+  bop(on = head)
+```
 
