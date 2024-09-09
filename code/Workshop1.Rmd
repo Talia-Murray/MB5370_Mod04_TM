@@ -787,7 +787,187 @@ Sometimes, you might want or need to play with the dimensions of your plot, in w
 
 Workshop 3 - Data Wrangling in R
 
+This section will focus on tidying data or data wrangling. This section will demonstrate how to use the tidyr package in the tidyverse to tidy data and the dplyr package for joining data.
+
 --------------------------------------------------
+
+
+# Import the required libraries.
+```{r}
+library(tidyverse)
+```
+
+We will often need to tidy data to improve the analytical capacity, essentially the way we collect data in the field may not be useful for when we want to analyse it.
+
+To make a data set tidy there are three interrelated rules: 
+1. Each variable must have its own column.
+2. Each observation must have its own row.
+3. Each value must have its own cell.
+
+
+Tidy data is useful because:
+1. Having a consistent data structure makes it easier to learn the tools that work with it.
+2. Having your variables in columns allows R to use its ability to work with vectors of values. This makes transforming tidy data a smoother process.
+
+
+
+# 4.4.1 Exercise
+1. For each of the sample tables describe what each observation and each column represents
+2. Sketch out the processes you would use  to calculate the rate for table 2 and table 3. you will need to perform the four operations:
+  a) Extract the number of TB cases per country per year.
+  b) Extract the matching population per country per year.
+  c) Divide cases by population, and multiply by 10,000.
+  d) Store back in the appropriate place.
+  
+
+# Pivoting data to make it tidy
+There are two common problems with untidy data:
+1. One variable is spread across multiple columns
+2. One observation is scattered across multiple rows.
+
+To fix these we will pivot our data into tidy form using two functions in tidyr: pivot_longer() to lengthen data and pivot_wider() to widen data.
+
+# Lengthening datasets
+For this exercise we will use the billboard dataset.
+```{r}
+# Load billboard dataset
+billboard
+# In this dataset each observation is a song, the first three columns, artist track and date.entered are variables to describe the song. then we have 76 columns (wk1 - wk76) that describes the rank of the song in each week.
+# Here the column names are one variable (the week) and the cell values are another (the rank)
+# to tidy the data we will use the pivot_longer() function.
+
+# Lengthen data
+billboard |>
+  pivot_longer(
+    cols =  starts_with("wk"),
+    names_to = "Week", 
+    values_to = "Rank"
+  )
+```
+
+There are  three key arguments in the pivot_longer() function:
+  1. cols which specifies the columns you want to pivot.
+  2. names_to which names th variables stored in the column names. We chose to name the variable week.
+  3. values_to which names the variable stored in the cell values that we named rank.
+  
+  
+There are now NAs in the data that we created when we changed the structure of the dataset, not because the values are unknown. Therefore we can remove these by adding the argument values_drop_na = TRUE
+```{r}
+# Lengthen data and remove NAs
+billboard |>
+  pivot_longer(
+    cols =  starts_with("wk"),
+    names_to = "Week", 
+    values_to = "Rank", 
+    values_drop_na = TRUE
+  )
+```
+The data is now tidy but we could also do more to improve the format to make future computation easier, for example, we could convert some of our values from strings to numbers using mutate() and parse_number().
+
+
+# Pivoting longer
+```{r}
+# Create a small data set using tribble called "df" with 3 variables and their associated values.
+df <- tribble(
+  ~id, ~bp1, ~bp2, 
+  "A", 100, 120, 
+  "B", 140, 115, 
+  "C", 120, 125
+)
+
+# Tidy data by making it longer:
+df |> # |> is a piping function.
+  pivot_longer(
+    cols = bp1:bp2, 
+    names_to = "Measurement", 
+    values_to = "Value"
+  )
+# Now we can see how the data changed and was lengthened.
+```
+
+# Widening Datasets
+In less common cases, we may need to widen a dataset. Widening is essentially the opposite of lengthening and we do so by using the function pivot_wider().
+
+We will use an example from R4DS to explore pivot_wider() looking at the cms_patient_experience dataset from the centers of Medicare and Medicaid.
+
+```{r}
+# Load data.
+cms_patient_experience
+```
+The core unit being studied is an organisation but in the current format each organisation is spread across 6 rows with one row for each measurement taken in the survey organisation.
+We can see the complete set of values for measure_cd and measure_title by using distinct()
+```{r}
+cms_patient_experience |>
+  distinct(measure_cd, measure_title)
+```
+
+Neither of these will make great variable names - measure_cd doesn't hint at the meaning of the variable and measure_title is a long sentence with spaces. So, we will use measure_cd as the source for our new column names  for now, but in a real analysis you might want to create your own variable names that are both short and meaningful.
+
+pivot_wider() has the opposite interface to pivot_longer(): instead of choosing new column names, we need to provide the existing columns that define the vlaues (values_from) and the column name (names_from):
+```{r}
+cms_patient_experience |>
+  pivot_wider(
+    names_from = measure_cd, 
+    values_from = prf_rate
+  )
+```
+The above output doesn't look quite right, we still have multiple rows for each organisation. That is because we also need to tell pivot_wider() which column or columns have values that uniquely identify each row; in this case those are the variables starting with "org".
+```{r}
+cms_patient_experience |>
+  pivot_wider(
+    id_cols = starts_with("org"), 
+    names_from = measure_cd, 
+    values_from = prf_rate
+  )
+```
+Create a smaller example pivot_wider using tribble.
+```{r}
+# Create dataset.
+df <- tribble(
+   ~id, ~Measurement, ~Value,
+  "A",        "bp1",    100,
+  "B",        "bp1",    140,
+  "B",        "bp2",    115, 
+  "A",        "bp2",    120,
+  "A",        "bp3",    105
+)
+
+# Widen dataset by taking the names from the measurement column using the names_from() argument and the values from the value column using the values_from() argument.
+df |> 
+  pivot_wider(
+    names_from = Measurement,
+    values_from = Value
+  )
+
+# To start the pivoting process, pivot_wider() needs to first figure out what will go in the rows and columns. The new column names will be the unique values of measurement.
+df |> 
+  distinct(Measurement) |> 
+  pull()
+
+# The rows in the output are determined by all the variables that aren’t going into the new names or values. These are called the id_cols. Here there is only one column, but in general there can be any number.
+df |> 
+  select(-Measurement, -Value) |> 
+  distinct()
+
+# Pivot wider then combines these results to generate an empty dataframe:
+df |> 
+  select(-Measurement, -Value) |> 
+  distinct() |> 
+  mutate(x = NA, y = NA, z = NA)
+# It then fills in all the missing values using the data in the input. IN this case, not every cell in the output has a corresponding value in the input as there is no third blood pressure measurement for patient B, so that cell remains missing.
+```
+
+# 4.5.5 Exercises
+Why are pivot_longer() and pivot_wider() not perfectly symmetrical? Carefully consider the following example. 
+```{r}
+
+```
+
+Why does this code fail?
+
+Consider the sample tibble below. Do you need to make it wider or longer? What are the variables?
+
+
 
 
 
