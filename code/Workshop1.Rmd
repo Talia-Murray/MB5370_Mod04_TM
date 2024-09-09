@@ -1335,3 +1335,278 @@ foo_foo %>%
   bop(on = head)
 ```
 
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Workshop 4 - Spatial data in R
+
+This section will demonstrate how to use GIS in R.
+-------------------------------------------------------------------------------
+
+# Install and load required packages
+```{r}
+# install.packages("sf") # Comment out after install.
+# install.packages("terra") # Comment out after install.
+# install.packages("tmap") # Comment out after install.
+
+# Load into R library.
+library(tidyverse)
+library(sf) # Simple features.
+library(terra) # For raster.
+library(tmap) # Thematic maps are geographical maps in which spatial data distributions are visualised.
+
+```
+
+# Downloading and loading the spatial dataset
+
+```{r}
+# Load the copepod data into R
+library(readr)
+dat <- read_csv("../data/data-for-course/copepods_raw.csv")
+dat
+```
+# Data Exploration
+# Check coordinates
+```{r}
+library(ggplot2)
+ggplot(dat) +
+  aes(x = longitude, y = latitude, colour = richness_raw) +
+  geom_point()
+```
+
+```{r}
+ggplot(dat, aes(x = latitude, y = richness_raw)) +
+  stat_smooth() +
+  geom_point()
+```
+
+
+# Getting going with maps
+```{r}
+sdat <- st_as_sf(dat, coords = c("longitude", "latitude"), crs = 4326)
+```
+
+
+```{r}
+crs4326 <- st_crs(4326)
+crs4326 # Look at whole crs.
+crs4326$Name # Pull out just the name of the crs.
+```
+Now check what the WKT looks like
+```{r}
+crs4326$wkt # crs in well-known text format.
+```
+
+
+
+
+# Feature collection (points)
+```{r}
+sdat
+```
+
+
+# Cartography
+```{r}
+plot(sdat["richness_raw"])
+```
+
+```{r}
+plot(sdat)
+```
+
+
+
+# Thematic maps for communication
+```{r}
+# Using tmap
+tm_shape(sdat) +
+  tm_dots(col = "richness_raw")
+```
+
+
+```{r}
+tmap_save(tm, filename = "Richness-map.png",
+          width = 600, height = 600)
+```
+
+# Mapping spatial polygons as layers
+# Loading shapefiles
+```{r}
+aus <- st_read("../data/data-for-course/spatial-data/Aussie/Aussie.shp") # Read in shapefile.
+
+aus # Look at data.
+
+shelf <- st_read("../data/data-for-course/spatial-data/aus_shelf/aus_shelf.shp") # read in shapefile
+
+shelf # Look at data.
+```
+
+# Mapping your polygons
+```{r}
+tm_shape(shelf) +
+  tm_polygons()
+```
+
+```{r}
+tm_shape(shelf, bbox = sdat) +
+  tm_polygons() +
+  tm_shape(aus) +
+  tm_polygons() +
+  tm_shape(sdat) +
+  tm_dots()
+```
+
+
+# Exploring t_map
+```{r}
+vignette('tmap-getstarted')
+
+# Hello World!
+library(tmap)
+data("World")
+tm_shape(World) +
+  tm_polygons("HPI")
+```
+
+
+```{r}
+# Interactive Maps
+tmap_mode("view")
+
+tm_shape(World) + 
+  tm_polygons("HPI")
+```
+
+
+```{r}
+# Multiple shapes and layers
+data(World, metro, rivers, land)
+
+tmap_mode("plot") #tmap mode set to plotting
+tm_shape(land) +
+  tm_raster("elevation", palette = terrain.colors(10)) +
+  tm_shape(World) +
+  tm_borders("white", lwd = .5) +
+  tm_text("iso_a3", size = "AREA") +
+  tm_shape(metro) +
+  tm_symbols(col = "red", size = "pop2020", scale = .5) +
+  tm_legend(show = FALSE)
+```
+
+
+```{r}
+# Facets
+# Facets can be created in three ways:
+
+# 1) By assigning multiple variable names to one aesthetic ( in this example the first argument of tm_polygons:
+tmap_mode("view")
+tm_shape(World) +
+  tm_polygons(c("HPI", "economy")) +
+  tm_facets(sync = TRUE, ncol = 2)
+
+# 2) By splitting the spatial data with the by argument of tm_facets:
+tmap_mode("plot") # tmap mode set to plotting
+
+data("NLD_muni")
+NLD_muni$perc_men <- NLD_muni$pop_men / NLD_muni$population * 100
+tm_shape(NLD_muni) +
+  tm_polygons("perc_men", palette = "RdYlBu") +
+  tm_facets(by = "province")
+
+# 3) By using the tmap_arrange function
+tmap_mode("plot") # tmap mode set to plotting.
+
+data("NLD_muni")
+tm1 <- tm_shape(NLD_muni) + tm_polygons("population", convert2density = TRUE)
+tm2 <- tm_shape(NLD_muni) + tm_bubbles(size = "population")
+
+tmap_arrange(tm1, tm2)
+```
+
+
+```{r}
+# Basemaps and overlay tile maps
+tmap_mode("view")
+tm_basemap("Stamen.Watercolor ") +
+  tm_shape(metro) + tm_bubbles(size = "pop2020", col = "red") +
+  tm_tiles("Stamen.TonerLabels")
+```
+
+
+```{r}
+# Options and styles 
+tmap_mode("plot") # tmap mode set to plotting
+
+tm_shape(World) +
+  tm_polygons("HPI") +
+  tm_layout(bg.color = "skyblue", inner.margins = c(0, .02, .02, .02))
+
+
+
+tmap_options(bg.color = "black", legend.text.color ="white")
+
+tm_shape(World) +
+  tm_polygons("HPI", legend.title = "Happy Planet Index")
+
+tmap_style("classic")
+
+tm_shape(World) +
+  tm_polygons("HPI", legend.title = "Happy Planet Index")
+
+# See what options have been changed. 
+tmap_options_diff()
+
+# Reset the options to the default values.
+tmap_options_reset()
+```
+
+```{r}
+# Exporting Maps
+tm <- tm_shape(World) +
+  tm_polygons("HPI", legend.title = "Happy Planet Index")
+
+# Save an image ("plot" mode).
+tmap_save(tm, filename = "world_map.png")
+
+# Save as stand-alone HTML file ("view" mode).
+tmap_save(tm, filename = "world_map.html")
+
+```
+
+```{r}
+# Shiny integration
+
+# In UI part:
+tmapOutput("my_tmap")
+
+# In server part:
+output$my_tmap = renderTmap({
+  tm_shape(World) + tm_polygons("HPI", legend.title = "Happy Planet Index")
+})
+```
+
+
+```{r}
+# Quick thematic map
+qtm(World, fill = "HPI", fill.palette = "RdYlGn")
+```
+```{r}
+# Tips and Tricks
+# Run:
+tmap_tip()
+```
+
+
+
+
+
