@@ -1,0 +1,25 @@
+---
+title: "Assignment2-End-to-end-data-analysis"
+author: "Talia Murray"
+date: "2024-09-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Install and load packages
+```{r}
+# install.packages("janitor") # Install required packages
+# install.packages("tidyverse") # Install required packages
+library(janitor)
+library(tidyverse)
+```
+
+# Load data
+```{r}
+sharkcontrol <- 
+  read_csv("../data/export.csv") 
+```
+
