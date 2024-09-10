@@ -9,6 +9,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+To download data go to:
+https://qfish.fisheries.qld.gov.au/query/number-caught-by-area-calendar-year-and-species-group/table
+
 # Install and load packages
 ```{r}
 # install.packages("janitor") # Install required packages
@@ -431,4 +434,9 @@ str(sharkcontrol_long)
                  
 ```
 
+
+# Plot data
+```{r}
+
+```
 
