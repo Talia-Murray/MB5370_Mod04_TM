@@ -774,14 +774,6 @@ You can save plots as .jpeg or .pdf though a pdf usually saves nicer.
 
 Sometimes, you might want or need to play with the dimensions of your plot, in which case you can use the width and height arguments to this function.
 
-#Assignment End-to-end data analysis in R
-
-
-
-
-
-
-
 
 ----------------------------------------------------------------------------------------------------
 
@@ -1295,7 +1287,7 @@ flights2 %>%
 
 # Pipes for more readable workflows
 ```{r}
-foo_foo <- little_bunny
+foo_foo <- little_bunny()
 ```
 
 
@@ -1435,7 +1427,7 @@ tm_shape(sdat) +
 
 
 ```{r}
-tmap_save(tm, filename = "Richness-map.png",
+tmap_save(tm1, filename = "Richness-map.png",
           width = 600, height = 600)
 ```
 
