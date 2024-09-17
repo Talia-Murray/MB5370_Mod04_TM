@@ -443,7 +443,7 @@ sharkcontrol_long[is.na(sharkcontrol_long)] <- 0
 ```{r}
 ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, linetype = SpeciesGroup, colour = SpeciesGroup)) + 
   geom_smooth(se=F) +
-  theme_clean() +
+  theme_classic() +
   labs(
     title = "Animals Caught In The Shark Control Program (2001-2024)", # Label title.
     subtitle = "This data includes shark and non-target species.", # Create a subtitle.
