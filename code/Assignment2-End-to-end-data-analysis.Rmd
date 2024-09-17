@@ -16,8 +16,11 @@ https://qfish.fisheries.qld.gov.au/query/number-caught-by-area-calendar-year-and
 ```{r}
 # install.packages("janitor") # Install required packages
 # install.packages("tidyverse") # Install required packages
+# install.packages("paletteer") # Install required packages
+
 library(janitor)
 library(tidyverse)
+library(paletteer)
 ```
 
 # Load data
@@ -431,12 +434,66 @@ sharkcontrol_long$SpeciesGroup<-as.factor(sharkcontrol_long$SpeciesGroup) # Make
 # Check what data looks like.
 summary(sharkcontrol_long)
 str(sharkcontrol_long)
+sharkcontrol_long[is.na(sharkcontrol_long)] <- 0
                  
 ```
 
 
 # Plot data
 ```{r}
+ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, linetype = SpeciesGroup, colour = SpeciesGroup)) + 
+  geom_smooth(se=F) +
+  theme_clean() +
+  labs(
+    title = "Animals Caught In The Shark Control Program (2001-2024)", # Label title.
+    subtitle = "This data includes shark and non-target species.", # Create a subtitle.
+    x = "Year", y = "Total Number of Animals Caught", # Create axes labels.
+     linetype = "Species Group", color = "Species Group",  # Adjust legend title. 
+    caption = "Data Sourced From https://qfish.fisheries.qld.gov.au" # Create caption title.
+  ) +
+   scale_y_continuous(breaks = seq(0, 70, by = 10)) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+
+```{r}
+# Create facet wrap plot showing species over time for each area.
+# As bar chart
+ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, fill = SpeciesGroup, )) + 
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  labs(
+    title = "Animals Caught In The Shark Control Program (2001-2024)", # Label title.
+    x = "Location", y = "Total Animals Caught", # Create axes labels.
+     fill = "Species Group",  # Adjust legend title. 
+    caption = "Data Sourced From https://qfish.fisheries.qld.gov.au" # Create caption title.
+  ) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.9, hjust=1)) +
+    theme(legend.position = "bottom") +
+  theme(plot.title=element_text(size=10), axis.text.x=element_text(size=6), axis.text.y = element_text(size=6), strip.text.x = element_text(size = 6), axis.title=element_text(size= 8)) +
+   theme(legend.title = element_text(size = 6),
+               legend.text = element_text(size = 6), legend.title.position = "top") +
+  facet_wrap(.~Area, scales="free_y") + # free_y tells R to make y axis variable, this makes the axis more relevant to each plot.
+  scale_fill_paletteer_d("RColorBrewer::Accent")
+
+
+
+# Using geom_smooth to see trends for each area
+ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, colour = SpeciesGroup, )) + 
+  geom_smooth(se = F) +
+  theme_classic() +
+  labs(
+    title = "Animals Caught In The Shark Control Program (2001-2024)", # Label title.
+    x = "Location", y = "Total Animals Caught", # Create axes labels.
+     fill = "Species Group",  # Adjust legend title. 
+    caption = "Data Sourced From https://qfish.fisheries.qld.gov.au" # Create caption title.
+  ) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.9, hjust=1)) +
+    theme(legend.position = "bottom") +
+  theme(plot.title=element_text(size=10), axis.text.x=element_text(size=6), axis.text.y = element_text(size=6), strip.text.x = element_text(size = 6), axis.title=element_text(size= 8)) +
+   theme(legend.title = element_text(size = 6),
+               legend.text = element_text(size = 6), legend.title.position = "top") +
+  facet_wrap(~Area, scales="free_y") # free_y tells R to make y axis variable, this makes the axis more relevant to each plot.
 
 ```
 
