@@ -52,11 +52,11 @@ ggplot(data = penguins)
 ```
 
 If we run ggplot on its own we will just get a blank chart with no axes or information.
-using ggplot (data = penguins) R will give us a blank chart again. This is because we have not been specific wth R and told it what we want to plot and how.
+Using ggplot (data = penguins) R will give us a blank chart again. This is because we have not been specific with R and told it what we want to plot and how.
 
 # Create first plot.
 ```{r}
-ggplot(data = penguins, 
+ggplot(data = penguins,  # Specify data we want to use.
        mapping = aes(x = flipper_length_mm, y = body_mass_g)) # Mapping argument is defined using the aes() function and the x and y arguments of aes specify the variables we want to map on the x and y axes.
 ```
 
@@ -65,7 +65,7 @@ Adding the aes code will give us a blank graph with labelled axes showing where 
 # Add data to first plot.
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g)  # Specify the x and y arguments for the axes.
 ) +
   geom_point() # Set mapping aesthetics.
@@ -76,12 +76,12 @@ Now that we have specified the data told R how to represent the data it is now d
 
 The warning message provided with the chart is telling us that there are two penguins that are missing body mass and/or flipper length in our data set so R has no way of representing them on the plot.
 
-We Want to know if this positive relationship by other variables, for example is it species dependent. To do this we can represent each species on this plot by modifying the aesthetics. 
+We want to know if this positive relationship by other variables, for example is it species dependent. To do this we can represent each species on this plot by modifying the aesthetics. 
 
 # Change point colour by species.
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins, # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)  # Set arguments for x and y axes.
 ) +
   geom_point() # Set mapping aesthetics.
@@ -94,7 +94,7 @@ Now we want to add a relationship curve to visualise the relationship between fl
 # Add a relationship curve:
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g, colour = species)  # Set arguments for x and y axes.
 ) +
   geom_point() + # Set mapping aesthetics
@@ -110,7 +110,7 @@ This plot doesn't provide a line of best fit for the entire data set. If we want
 # Adjust line of best Fit
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g)  # Set arguments for x and y axes.
 ) +
   geom_point(mapping = aes(colour = species)) + # Use mapping and aesthetics functions to change colour of points for each species.
@@ -124,7 +124,7 @@ To further distinguish the different species we can not only adjust the species 
 # Change point shape by species:
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(mapping = aes(colour = species, shape = species)) + # Change point color and shape by species type.
@@ -138,13 +138,13 @@ We can further improve our plot aesthetics by improving our axes labels using th
 # Improve aesthetics.
 ```{r}
 ggplot(
-  data = penguins, # Specify data set.
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(aes(colour = species, shape = species)) + # Adjust data point colour and shape.
   geom_smooth(method = "lm") + # Add a line of best fit to entire data set.
   labs(
-    title = "Body mass and flipper length", # Label title.
+    title = "Body mass and flipper length", # Create title for plot..
     subtitle = "Dimensions for Adelie, Chinstrap and Gentoo Penguins", # Create a subtitle.
     x = "Flipper length (mm)", y = "Body mass (g)", # Create axes labels.
     color = "Species", shape = "Species" # Adjust legend title.
@@ -156,7 +156,7 @@ ggplot(
 
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(mapping = aes(colour = bill_length_mm)) + # Set bill length as point color.
@@ -170,7 +170,7 @@ ggplot(
 ```{r}
 ggplot(data = penguins) + # Specify data set.
   geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify axes data.
-  facet_wrap(~ species, nrow = 2) # This function makes a plot that represents multiple plots which we separated out by species. This now shows three plots for each species. The nrow function tells R how many rows we want on the plot.
+  facet_wrap(~ species, nrow = 2) # This function makes a plot that represents multiple plots which we separated out by species. This now shows three plots for each species. The nrow function tells R how many rows we want on the overall plot.
 ```
 
 This shows the relationship flipper length and body mass for each species.
@@ -178,9 +178,9 @@ This shows the relationship flipper length and body mass for each species.
 ## facet_grid
 A separate facet for each combination of sex and species
 ```{r}
-ggplot(data = penguins) + 
-  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
-  facet_grid( sex ~ species)
+ggplot(data = penguins) +  # Specify data we want to use.
+  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify mapping aesthetics
+  facet_grid( sex ~ species) # Create facet grid and separate out by sex and species.
 ```
 
 This shows the relationship flipper length and body mass for each species and then further separates this by sex of the species.
@@ -188,8 +188,8 @@ This shows the relationship flipper length and body mass for each species and th
 
 ## facet_grid by just row (or column)
 ```{r}
-ggplot(data = penguins) + 
-  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
+ggplot(data = penguins) +  # Specify data we want to use.
+  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Create mapping aesthetics
   facet_grid(sex ~ .) # This tells R to just separate data into rows of each sex.
   #facet_grid(. ~ sex) # Alternatively. This will put it as columns.
 
@@ -212,15 +212,15 @@ ggplot(penguins, aes(body_mass_g, flipper_length_mm)) +
 
 # ncol dictates the number of columns used. 
 # nrow dictates the number of rows used.
-# scales adjust the x and y scales. These can be fixed which is the default, or free. When using the free option we can also specify if this is specifically for the x or y axis. In the above example we made the x axis free.
+# scales adjusts the x and y scales. These can be fixed which is the default, or free. When using the free option we can also specify if this is specifically for the x or y axis. In the above example we made the x axis free.
 # There are many other options available for the facet_wrap function depending on what your needs are. These are all accessible in the help section.
 ```
 
 # Using more aesthetics in facet_wraps
 ```{r}
-ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
-  geom_point(aes(colour = species, shape = species)) +
-  facet_wrap(~island)
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) + # Specify mapping aesthetics.
+  geom_point(aes(colour = species, shape = species)) + # Set aesthetics to the points.
+  facet_wrap(~island) # Create facet wrap. Separate by island.
 ```
 
 
@@ -228,7 +228,7 @@ ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
 # Lines
 We already used points:
 ```{r}
-ggplot(data = penguins) + 
+ggplot(data = penguins) +  # Specify data we want to use.
   geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) # Set arguments for x and y axes.
 ```
 
@@ -238,8 +238,8 @@ However, ggplot2 can use a variety of geom objects to represent the data. Here, 
 # To display the same data as a smooth line fit through the points use geom_smooth().
 
 ```{r}
-ggplot(data = penguins) + 
-  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm))
+ggplot(data = penguins) +  # Specify data we want to use.
+  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm)) # Set arguments for x and y axes. 
 ```
 
 ### Question: whey don't we use geom_line() here? What would that look like? ###
@@ -249,32 +249,40 @@ The geom line function is not really useful for the purpose of this chart. Using
 A geom is an object that your plot uses to represent the data. To change the geom type in your plot, simply change the geom function that you add to your plot template. Sometimes you may want to try a few things out, in which case you could use comments to help you remember what worked and what didn’t. 
 
 ## Using comments (#)
+wecna comment out sections of our coded and leave a note to ourselves to know what we have tried. By doing this we can have a history of what we have attempted and why we decided it was not useful. The below example shows that we attempted a plot using points but this was not a good representation so instead we tried a smooth plot. 
 ```{r}
-ggplot(data = penguins) + 
+ggplot(data = penguins) +  # Specify data we want to use.
   #geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Points horrible. 
   geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm)) # Try smooth line.
 ```
 
-Question: how does R work out where to plot the line??? Can use the chunk output to inform us. Can also use the help menu.
+## Question:
+How does R work out where to plot the line? Can use the chunk output to inform us. Can also use the help menu.
+
+Using the chunk output for the above example we can see that the geom_smooth is using the loess method. When searching this in the help bar this function is explained as the way R determines how to fit the data. There are different kinds of smoothing functions and the one selected depends on the size of the data. In this case using loess is used for datasets with less than 1000 observations.
+
 
 # Changing linetype
+The linetype function is used to change the settings of the lines on our plots. Below we specify the linetype as species which tells R to change the line aesthetics for each species type. We can also use linetype to specify the type of line we want rather than changing it for each species. For example, we could use solid for solid lines or specify dash if we wanted dashed lines.
 ```{r}
-ggplot(data = penguins) + 
-  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm, linetype = species)) # Can also use linetype to specify 
+ggplot(data = penguins) + # Specify data we want to use.
+  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm, linetype = species)) # Specify linetype. 
 ```
 
 
 # Grouping
+You can use the group function to set group aesthetics for a variable. for example when we tell R that we want to group the geom_smooth by species, this will create an individual smooth line for each species type. This differs to linetype as well because it does not add a legend or any other distinguishing features.
 ```{r}
-ggplot(data = penguins) +
-  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm, group = species))
+ggplot(data = penguins) + # Specify data we want to use.
+  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm, group = species)) # Specify grouping to species.
 ```
  
 # Change line colour based on species value
+Different to the group function, we can adjust colours of the geom to a specific category and this will also create multiple lines only this time the colour will vary. This will normally generate a legend which is also different to the group function but in the below example we told R not to include one.
 ```{r}
-ggplot(data = penguins) +
+ggplot(data = penguins) +# Specify data we want to use.
   geom_smooth(
-    mapping = aes(x = body_mass_g, y = flipper_length_mm, color = species),
+    mapping = aes(x = body_mass_g, y = flipper_length_mm, color = species), # Using color =  we tell R to change line colour for each species.
     show.legend = FALSE,# show.legend = FALSE  tells R not to include the legend on the plot.
   )
 ```
@@ -282,59 +290,59 @@ ggplot(data = penguins) +
 
 
 # Multiple geoms
-
-We already did this one way
+We already did this one way:
 ```{r}
-ggplot(data = penguins) + 
-  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) +
-  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm))
+ggplot(data = penguins) + # Specify data we want to use.
+  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Set mapping aesthetics for point geom.
+  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm)) # Set mapping aesthetics for smooth geom.
 ```
 
-A better way...
+A better way to do this is demonstrated below:
 ```{r}
-ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
-  geom_point() + 
-  geom_smooth()
+ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify data we want to use and set mapping aesthetics.
+  geom_point() + # Specify geom we want.
+  geom_smooth() # Specify second geom we want.
 ```
-
+These give the exact same figure the coding is just slightly different. 
 
 # Can still manipulate each geom/layer separately:
+Using the above example, we can also manipulate the geoms to give more information on our plots. The below example demonstrates how we can alter the points on our plot to give more information on the species differences.
 ```{r}
-ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
-  geom_point(mapping = aes(color = species)) + 
-  geom_smooth()
+ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify data we want to use and set mapping aesthetics.
+  geom_point(mapping = aes(color = species)) + # Change geom point aesthetics to set colour dependent on species type.
+  geom_smooth() # Add geom smooth to plot to show trends in data.
 ```
 
 
 
 Using the filter option we can specify a species we want to show the line of best fit for.
 ```{r}
-ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
-  geom_point(mapping = aes(color = species)) + 
-  geom_smooth(data = filter(penguins, species == "Gentoo"), se = FALSE)
+ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify data we want to use and set mapping aesthetics.
+  geom_point(mapping = aes(color = species)) + # Change geom point aesthetics to set colour dependent on species type.
+  geom_smooth(data = filter(penguins, species == "Gentoo"), se = FALSE) # The filter in this tells R we only want to use a geom smooth for the Gentoo species. USing se= False tells R we want to remove the confidence interval around the line.
 ```
 
 #Question: what does the "se = FALSE" do?
 se = FALSE does not include the standard error around the line. 
 
 # Exercise:
-1.  What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
-2.  Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions.
+1.  What geom would you use to draw a line chart? A boxplot? A histogram? 
 
 
-Run a density plot for the line chart (other times we can just use geom_line but this is not useful for this chart), run a boxplot, histogram and a bar chart.
+Run a density plot rather than the line chart (other times we can just use geom_line but this is not useful for this data. We could use geom_smooth but this was done above so I chose density for something different). Run a boxplot, histogram and a bar chart.
 
 ```{r}
 # Density plot:
-ggplot(penguins, aes(x = body_mass_g, colour = species)) +
-  geom_density(linewidth = 0.75)
+ggplot(penguins, aes(x = body_mass_g, colour = species)) + # Specify data we want to use and set mapping aesthetics.
+  geom_density(linewidth = 0.75) # Specify geom type.
+
 #we can map species both to color and fill aesthetics and to make the fill transparent use the alpha aesthetic.
-ggplot(penguins, aes(x = body_mass_g, colour = species, fill = species)) +
-  geom_density(alpha = 0.5)
+ggplot(penguins, aes(x = body_mass_g, colour = species, fill = species)) + # Specify data we want to use and set mapping aesthetics.
+  geom_density(alpha = 0.5) # Alter transparency of fill.
 
 # Boxplot:
-ggplot(penguins, aes(x = species, y = body_mass_g)) +
-  geom_boxplot()
+ggplot(penguins, aes(x = species, y = body_mass_g)) + # Specify data we want to use and set mapping aesthetics.
+  geom_boxplot() # Specify geom type.
 
 # Histogram:
 ggplot(penguins, aes(x = body_mass_g)) +
@@ -354,12 +362,15 @@ ggplot(penguins, aes(x = island, fill = species)) +
 
 
 # Mapping three or more variables
+Sometimes we want to plot multiple bits of information on one plot. We can do this by using different aesthetics.
+
+In the below chart we represent the island by shape and represent the species by colour.
+
 ```{r}
-ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
-  geom_point(aes(color = species, shape = island))
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) + # Specify data we want to use and set mapping aesthetics.
+  geom_point(aes(color = species, shape = island)) # Set colour aesthetics to species and shape aesthetics to island.
 ```
 
-In this chart we represent the island by shape and the color represents the species.
 
 #3.  Will these two graphs look different? Why/why not?
 ```{r}
