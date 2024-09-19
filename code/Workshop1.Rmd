@@ -52,11 +52,11 @@ ggplot(data = penguins)
 ```
 
 If we run ggplot on its own we will just get a blank chart with no axes or information.
-using ggplot (data = penguins) R will give us a blank chart again. This is because we have not been specific wth R and told it what we want to plot and how.
+Using ggplot (data = penguins) R will give us a blank chart again. This is because we have not been specific with R and told it what we want to plot and how.
 
 # Create first plot.
 ```{r}
-ggplot(data = penguins, 
+ggplot(data = penguins,  # Specify data we want to use.
        mapping = aes(x = flipper_length_mm, y = body_mass_g)) # Mapping argument is defined using the aes() function and the x and y arguments of aes specify the variables we want to map on the x and y axes.
 ```
 
@@ -65,7 +65,7 @@ Adding the aes code will give us a blank graph with labelled axes showing where 
 # Add data to first plot.
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g)  # Specify the x and y arguments for the axes.
 ) +
   geom_point() # Set mapping aesthetics.
@@ -76,12 +76,12 @@ Now that we have specified the data told R how to represent the data it is now d
 
 The warning message provided with the chart is telling us that there are two penguins that are missing body mass and/or flipper length in our data set so R has no way of representing them on the plot.
 
-We Want to know if this positive relationship by other variables, for example is it species dependent. To do this we can represent each species on this plot by modifying the aesthetics. 
+We want to know if this positive relationship by other variables, for example is it species dependent. To do this we can represent each species on this plot by modifying the aesthetics. 
 
 # Change point colour by species.
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins, # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)  # Set arguments for x and y axes.
 ) +
   geom_point() # Set mapping aesthetics.
@@ -94,7 +94,7 @@ Now we want to add a relationship curve to visualise the relationship between fl
 # Add a relationship curve:
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g, colour = species)  # Set arguments for x and y axes.
 ) +
   geom_point() + # Set mapping aesthetics
@@ -110,7 +110,7 @@ This plot doesn't provide a line of best fit for the entire data set. If we want
 # Adjust line of best Fit
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g)  # Set arguments for x and y axes.
 ) +
   geom_point(mapping = aes(colour = species)) + # Use mapping and aesthetics functions to change colour of points for each species.
@@ -124,7 +124,7 @@ To further distinguish the different species we can not only adjust the species 
 # Change point shape by species:
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(mapping = aes(colour = species, shape = species)) + # Change point color and shape by species type.
@@ -138,13 +138,13 @@ We can further improve our plot aesthetics by improving our axes labels using th
 # Improve aesthetics.
 ```{r}
 ggplot(
-  data = penguins, # Specify data set.
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(aes(colour = species, shape = species)) + # Adjust data point colour and shape.
   geom_smooth(method = "lm") + # Add a line of best fit to entire data set.
   labs(
-    title = "Body mass and flipper length", # Label title.
+    title = "Body mass and flipper length", # Create title for plot..
     subtitle = "Dimensions for Adelie, Chinstrap and Gentoo Penguins", # Create a subtitle.
     x = "Flipper length (mm)", y = "Body mass (g)", # Create axes labels.
     color = "Species", shape = "Species" # Adjust legend title.
@@ -156,7 +156,7 @@ ggplot(
 
 ```{r}
 ggplot(
-  data = penguins, 
+  data = penguins,  # Specify data we want to use.
   mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(mapping = aes(colour = bill_length_mm)) + # Set bill length as point color.
@@ -170,7 +170,7 @@ ggplot(
 ```{r}
 ggplot(data = penguins) + # Specify data set.
   geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify axes data.
-  facet_wrap(~ species, nrow = 2) # This function makes a plot that represents multiple plots which we separated out by species. This now shows three plots for each species. The nrow function tells R how many rows we want on the plot.
+  facet_wrap(~ species, nrow = 2) # This function makes a plot that represents multiple plots which we separated out by species. This now shows three plots for each species. The nrow function tells R how many rows we want on the overall plot.
 ```
 
 This shows the relationship flipper length and body mass for each species.
@@ -178,9 +178,9 @@ This shows the relationship flipper length and body mass for each species.
 ## facet_grid
 A separate facet for each combination of sex and species
 ```{r}
-ggplot(data = penguins) + 
-  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
-  facet_grid( sex ~ species)
+ggplot(data = penguins) +  # Specify data we want to use.
+  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify mapping aesthetics
+  facet_grid( sex ~ species) # Create facet grid and separate out by sex and species.
 ```
 
 This shows the relationship flipper length and body mass for each species and then further separates this by sex of the species.
@@ -188,8 +188,8 @@ This shows the relationship flipper length and body mass for each species and th
 
 ## facet_grid by just row (or column)
 ```{r}
-ggplot(data = penguins) + 
-  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
+ggplot(data = penguins) +  # Specify data we want to use.
+  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Create mapping aesthetics
   facet_grid(sex ~ .) # This tells R to just separate data into rows of each sex.
   #facet_grid(. ~ sex) # Alternatively. This will put it as columns.
 
@@ -212,15 +212,15 @@ ggplot(penguins, aes(body_mass_g, flipper_length_mm)) +
 
 # ncol dictates the number of columns used. 
 # nrow dictates the number of rows used.
-# scales adjust the x and y scales. These can be fixed which is the default, or free. When using the free option we can also specify if this is specifically for the x or y axis. In the above example we made the x axis free.
+# scales adjusts the x and y scales. These can be fixed which is the default, or free. When using the free option we can also specify if this is specifically for the x or y axis. In the above example we made the x axis free.
 # There are many other options available for the facet_wrap function depending on what your needs are. These are all accessible in the help section.
 ```
 
 # Using more aesthetics in facet_wraps
 ```{r}
-ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
-  geom_point(aes(colour = species, shape = species)) +
-  facet_wrap(~island)
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) + # Specify mapping aesthetics.
+  geom_point(aes(colour = species, shape = species)) + # Set aesthetics to the points.
+  facet_wrap(~island) # Create facet wrap. Separate by island.
 ```
 
 
@@ -228,7 +228,7 @@ ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
 # Lines
 We already used points:
 ```{r}
-ggplot(data = penguins) + 
+ggplot(data = penguins) +  # Specify data we want to use.
   geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) # Set arguments for x and y axes.
 ```
 
@@ -238,8 +238,8 @@ However, ggplot2 can use a variety of geom objects to represent the data. Here, 
 # To display the same data as a smooth line fit through the points use geom_smooth().
 
 ```{r}
-ggplot(data = penguins) + 
-  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm))
+ggplot(data = penguins) +  # Specify data we want to use.
+  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm)) # Set arguments for x and y axes. 
 ```
 
 ### Question: whey don't we use geom_line() here? What would that look like? ###
@@ -249,32 +249,40 @@ The geom line function is not really useful for the purpose of this chart. Using
 A geom is an object that your plot uses to represent the data. To change the geom type in your plot, simply change the geom function that you add to your plot template. Sometimes you may want to try a few things out, in which case you could use comments to help you remember what worked and what didn’t. 
 
 ## Using comments (#)
+wecna comment out sections of our coded and leave a note to ourselves to know what we have tried. By doing this we can have a history of what we have attempted and why we decided it was not useful. The below example shows that we attempted a plot using points but this was not a good representation so instead we tried a smooth plot. 
 ```{r}
-ggplot(data = penguins) + 
+ggplot(data = penguins) +  # Specify data we want to use.
   #geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Points horrible. 
   geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm)) # Try smooth line.
 ```
 
-Question: how does R work out where to plot the line??? Can use the chunk output to inform us. Can also use the help menu.
+## Question:
+How does R work out where to plot the line? Can use the chunk output to inform us. Can also use the help menu.
+
+Using the chunk output for the above example we can see that the geom_smooth is using the loess method. When searching this in the help bar this function is explained as the way R determines how to fit the data. There are different kinds of smoothing functions and the one selected depends on the size of the data. In this case using loess is used for datasets with less than 1000 observations.
+
 
 # Changing linetype
+The linetype function is used to change the settings of the lines on our plots. Below we specify the linetype as species which tells R to change the line aesthetics for each species type. We can also use linetype to specify the type of line we want rather than changing it for each species. For example, we could use solid for solid lines or specify dash if we wanted dashed lines.
 ```{r}
-ggplot(data = penguins) + 
-  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm, linetype = species)) # Can also use linetype to specify 
+ggplot(data = penguins) + # Specify data we want to use.
+  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm, linetype = species)) # Specify linetype. 
 ```
 
 
 # Grouping
+You can use the group function to set group aesthetics for a variable. for example when we tell R that we want to group the geom_smooth by species, this will create an individual smooth line for each species type. This differs to linetype as well because it does not add a legend or any other distinguishing features.
 ```{r}
-ggplot(data = penguins) +
-  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm, group = species))
+ggplot(data = penguins) + # Specify data we want to use.
+  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm, group = species)) # Specify grouping to species.
 ```
  
 # Change line colour based on species value
+Different to the group function, we can adjust colours of the geom to a specific category and this will also create multiple lines only this time the colour will vary. This will normally generate a legend which is also different to the group function but in the below example we told R not to include one.
 ```{r}
-ggplot(data = penguins) +
+ggplot(data = penguins) +# Specify data we want to use.
   geom_smooth(
-    mapping = aes(x = body_mass_g, y = flipper_length_mm, color = species),
+    mapping = aes(x = body_mass_g, y = flipper_length_mm, color = species), # Using color =  we tell R to change line colour for each species.
     show.legend = FALSE,# show.legend = FALSE  tells R not to include the legend on the plot.
   )
 ```
@@ -282,59 +290,59 @@ ggplot(data = penguins) +
 
 
 # Multiple geoms
-
-We already did this one way
+We already did this one way:
 ```{r}
-ggplot(data = penguins) + 
-  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) +
-  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm))
+ggplot(data = penguins) + # Specify data we want to use.
+  geom_point(mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Set mapping aesthetics for point geom.
+  geom_smooth(mapping = aes(x = body_mass_g, y = flipper_length_mm)) # Set mapping aesthetics for smooth geom.
 ```
 
-A better way...
+A better way to do this is demonstrated below:
 ```{r}
-ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
-  geom_point() + 
-  geom_smooth()
+ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify data we want to use and set mapping aesthetics.
+  geom_point() + # Specify geom we want.
+  geom_smooth() # Specify second geom we want.
 ```
-
+These give the exact same figure the coding is just slightly different. 
 
 # Can still manipulate each geom/layer separately:
+Using the above example, we can also manipulate the geoms to give more information on our plots. The below example demonstrates how we can alter the points on our plot to give more information on the species differences.
 ```{r}
-ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
-  geom_point(mapping = aes(color = species)) + 
-  geom_smooth()
+ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify data we want to use and set mapping aesthetics.
+  geom_point(mapping = aes(color = species)) + # Change geom point aesthetics to set colour dependent on species type.
+  geom_smooth() # Add geom smooth to plot to show trends in data.
 ```
 
 
 
 Using the filter option we can specify a species we want to show the line of best fit for.
 ```{r}
-ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + 
-  geom_point(mapping = aes(color = species)) + 
-  geom_smooth(data = filter(penguins, species == "Gentoo"), se = FALSE)
+ggplot(data = penguins, mapping = aes(x = body_mass_g, y = flipper_length_mm)) + # Specify data we want to use and set mapping aesthetics.
+  geom_point(mapping = aes(color = species)) + # Change geom point aesthetics to set colour dependent on species type.
+  geom_smooth(data = filter(penguins, species == "Gentoo"), se = FALSE) # The filter in this tells R we only want to use a geom smooth for the Gentoo species. USing se= False tells R we want to remove the confidence interval around the line.
 ```
 
 #Question: what does the "se = FALSE" do?
 se = FALSE does not include the standard error around the line. 
 
 # Exercise:
-1.  What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
-2.  Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions.
+1.  What geom would you use to draw a line chart? A boxplot? A histogram? 
 
 
-Run a density plot for the line chart (other times we can just use geom_line but this is not useful for this chart), run a boxplot, histogram and a bar chart.
+Run a density plot rather than the line chart (other times we can just use geom_line but this is not useful for this data. We could use geom_smooth but this was done above so I chose density for something different). Run a boxplot, histogram and a bar chart.
 
 ```{r}
 # Density plot:
-ggplot(penguins, aes(x = body_mass_g, colour = species)) +
-  geom_density(linewidth = 0.75)
+ggplot(penguins, aes(x = body_mass_g, colour = species)) + # Specify data we want to use and set mapping aesthetics.
+  geom_density(linewidth = 0.75) # Specify geom type.
+
 #we can map species both to color and fill aesthetics and to make the fill transparent use the alpha aesthetic.
-ggplot(penguins, aes(x = body_mass_g, colour = species, fill = species)) +
-  geom_density(alpha = 0.5)
+ggplot(penguins, aes(x = body_mass_g, colour = species, fill = species)) + # Specify data we want to use and set mapping aesthetics.
+  geom_density(alpha = 0.5) # Alter transparency of fill.
 
 # Boxplot:
-ggplot(penguins, aes(x = species, y = body_mass_g)) +
-  geom_boxplot()
+ggplot(penguins, aes(x = species, y = body_mass_g)) + # Specify data we want to use and set mapping aesthetics.
+  geom_boxplot() # Specify geom type.
 
 # Histogram:
 ggplot(penguins, aes(x = body_mass_g)) +
@@ -354,12 +362,15 @@ ggplot(penguins, aes(x = island, fill = species)) +
 
 
 # Mapping three or more variables
+Sometimes we want to plot multiple bits of information on one plot. We can do this by using different aesthetics.
+
+In the below chart we represent the island by shape and represent the species by colour.
+
 ```{r}
-ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
-  geom_point(aes(color = species, shape = island))
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) + # Specify data we want to use and set mapping aesthetics.
+  geom_point(aes(color = species, shape = island)) # Set colour aesthetics to species and shape aesthetics to island.
 ```
 
-In this chart we represent the island by shape and the color represents the species.
 
 #3.  Will these two graphs look different? Why/why not?
 ```{r}
@@ -774,20 +785,825 @@ You can save plots as .jpeg or .pdf though a pdf usually saves nicer.
 
 Sometimes, you might want or need to play with the dimensions of your plot, in which case you can use the width and height arguments to this function.
 
-#Assignment End-to-end data analysis in R
-
-
-
-
-
-
-
 
 ----------------------------------------------------------------------------------------------------
 
 Workshop 3 - Data Wrangling in R
 
+This section will focus on tidying data or data wrangling. This section will demonstrate how to use the tidyr package in the tidyverse to tidy data and the dplyr package for joining data.
+
 --------------------------------------------------
+
+
+# Import the required libraries.
+```{r}
+library(tidyverse)
+```
+
+We will often need to tidy data to improve the analytical capacity, essentially the way we collect data in the field may not be useful for when we want to analyse it.
+
+To make a data set tidy there are three interrelated rules: 
+1. Each variable must have its own column.
+2. Each observation must have its own row.
+3. Each value must have its own cell.
+
+
+Tidy data is useful because:
+1. Having a consistent data structure makes it easier to learn the tools that work with it.
+2. Having your variables in columns allows R to use its ability to work with vectors of values. This makes transforming tidy data a smoother process.
+
+
+
+# 4.4.1 Exercise
+1. For each of the sample tables describe what each observation and each column represents
+2. Sketch out the processes you would use  to calculate the rate for table 2 and table 3. you will need to perform the four operations:
+  a) Extract the number of TB cases per country per year.
+  b) Extract the matching population per country per year.
+  c) Divide cases by population, and multiply by 10,000.
+  d) Store back in the appropriate place.
+  
+
+# Pivoting data to make it tidy
+There are two common problems with untidy data:
+1. One variable is spread across multiple columns
+2. One observation is scattered across multiple rows.
+
+To fix these we will pivot our data into tidy form using two functions in tidyr: pivot_longer() to lengthen data and pivot_wider() to widen data.
+
+# Lengthening datasets
+For this exercise we will use the billboard dataset.
+```{r}
+# Load billboard dataset
+billboard
+# In this dataset each observation is a song, the first three columns, artist track and date.entered are variables to describe the song. then we have 76 columns (wk1 - wk76) that describes the rank of the song in each week.
+# Here the column names are one variable (the week) and the cell values are another (the rank)
+# to tidy the data we will use the pivot_longer() function.
+
+# Lengthen data
+billboard |>
+  pivot_longer(
+    cols =  starts_with("wk"),
+    names_to = "Week", 
+    values_to = "Rank"
+  )
+```
+
+There are  three key arguments in the pivot_longer() function:
+  1. cols which specifies the columns you want to pivot.
+  2. names_to which names th variables stored in the column names. We chose to name the variable week.
+  3. values_to which names the variable stored in the cell values that we named rank.
+  
+  
+There are now NAs in the data that we created when we changed the structure of the dataset, not because the values are unknown. Therefore we can remove these by adding the argument values_drop_na = TRUE
+```{r}
+# Lengthen data and remove NAs
+billboard |>
+  pivot_longer(
+    cols =  starts_with("wk"),
+    names_to = "Week", 
+    values_to = "Rank", 
+    values_drop_na = TRUE
+  )
+```
+The data is now tidy but we could also do more to improve the format to make future computation easier, for example, we could convert some of our values from strings to numbers using mutate() and parse_number().
+
+
+# Pivoting longer
+```{r}
+# Create a small data set using tribble called "df" with 3 variables and their associated values.
+df <- tribble(
+  ~id, ~bp1, ~bp2, 
+  "A", 100, 120, 
+  "B", 140, 115, 
+  "C", 120, 125
+)
+
+# Tidy data by making it longer:
+df |> # |> is a piping function.
+  pivot_longer(
+    cols = bp1:bp2, 
+    names_to = "Measurement", 
+    values_to = "Value"
+  )
+# Now we can see how the data changed and was lengthened.
+```
+
+# Widening Datasets
+In less common cases, we may need to widen a dataset. Widening is essentially the opposite of lengthening and we do so by using the function pivot_wider().
+
+We will use an example from R4DS to explore pivot_wider() looking at the cms_patient_experience dataset from the centers of Medicare and Medicaid.
+
+```{r}
+# Load data.
+cms_patient_experience
+```
+The core unit being studied is an organisation but in the current format each organisation is spread across 6 rows with one row for each measurement taken in the survey organisation.
+We can see the complete set of values for measure_cd and measure_title by using distinct()
+```{r}
+cms_patient_experience |>
+  distinct(measure_cd, measure_title)
+```
+
+Neither of these will make great variable names - measure_cd doesn't hint at the meaning of the variable and measure_title is a long sentence with spaces. So, we will use measure_cd as the source for our new column names  for now, but in a real analysis you might want to create your own variable names that are both short and meaningful.
+
+pivot_wider() has the opposite interface to pivot_longer(): instead of choosing new column names, we need to provide the existing columns that define the vlaues (values_from) and the column name (names_from):
+```{r}
+cms_patient_experience |>
+  pivot_wider(
+    names_from = measure_cd, 
+    values_from = prf_rate
+  )
+```
+The above output doesn't look quite right, we still have multiple rows for each organisation. That is because we also need to tell pivot_wider() which column or columns have values that uniquely identify each row; in this case those are the variables starting with "org".
+```{r}
+cms_patient_experience |>
+  pivot_wider(
+    id_cols = starts_with("org"), 
+    names_from = measure_cd, 
+    values_from = prf_rate
+  )
+```
+Create a smaller example pivot_wider using tribble.
+```{r}
+# Create dataset.
+df <- tribble(
+   ~id, ~Measurement, ~Value,
+  "A",        "bp1",    100,
+  "B",        "bp1",    140,
+  "B",        "bp2",    115, 
+  "A",        "bp2",    120,
+  "A",        "bp3",    105
+)
+
+# Widen dataset by taking the names from the measurement column using the names_from() argument and the values from the value column using the values_from() argument.
+df |> 
+  pivot_wider(
+    names_from = Measurement,
+    values_from = Value
+  )
+
+# To start the pivoting process, pivot_wider() needs to first figure out what will go in the rows and columns. The new column names will be the unique values of measurement.
+df |> 
+  distinct(Measurement) |> 
+  pull()
+
+# The rows in the output are determined by all the variables that aren’t going into the new names or values. These are called the id_cols. Here there is only one column, but in general there can be any number.
+df |> 
+  select(-Measurement, -Value) |> 
+  distinct()
+
+# Pivot wider then combines these results to generate an empty dataframe:
+df |> 
+  select(-Measurement, -Value) |> 
+  distinct() |> 
+  mutate(x = NA, y = NA, z = NA)
+# It then fills in all the missing values using the data in the input. IN this case, not every cell in the output has a corresponding value in the input as there is no third blood pressure measurement for patient B, so that cell remains missing.
+```
+
+# 4.5.5 Exercises
+Why are pivot_longer() and pivot_wider() not perfectly symmetrical? Carefully consider the following example. 
+```{r}
+
+```
+
+Why does this code fail?
+
+Consider the sample tibble below. Do you need to make it wider or longer? What are the variables?
+
+
+# Separating and uniting data tables
+# Separating
+This section will cover separating one column into multiple.
+```{r}
+# Load data.
+table3
+
+# We need to split the rate column into two variables: 1) Cases, 2) Population.
+# separate() will take the name of the column we want to split and the names of the columns we want it to split into.
+table3 %>%
+  separate(rate, into = c("cases", "population"))
+
+```
+By default R will split values wherever it sees a non-alphanumeric character. For example, in the code above, separate() split the values of rate at the forward slash characters. If you wish to use a specific character to separate a column, you can pass the character to the sep argument of separate(). For example, we could rewrite the code above as:
+```{r}
+table3 %>%
+  separate(rate, into = c("cases", "population"), sep = "/")
+```
+Notice the data types in table3 above. Both cases and population are listed as character (<chr>) types. This is a default of using separate(). However, since the values in those columns are actually numbers, we want to ask separate() to convert them to better types using convert = TRUE.
+```{r}
+table3 %>%
+  separate(rate, into = c("cases", "population"), convert = TRUE)
+```
+
+We can also pass a vector of integers to sep. separate() will interpret the integers as positions to split at. Positive values start at 1 on the far-left of the strings; negative values start at -1 on the far-right of the strings. When using integers to separate strings, the length of sep should be one less than the number of names in into.
+We can use this arrangement to separate the last two digits of each year
+
+
+```{r}
+table3 %>%
+  separate(year, into = c("century", "year"), sep = 2) # Separate year by the location of the second number.
+```
+ 
+# Uniting 
+
+The inverse of separating is uniting which uses the unite() function. This combines multiple columns into a single column.
+Use table 5 for this exercise and rejoin the century and year columns.
+```{r}
+# Join year and century columns using unite().
+table5 %>%
+  unite(new, century, year, sep = "") # Use sep = "" because we don't want any separator in the new variable.
+```
+# Handling missing values
+Missing values are sometimes shown with NA or sometimes they could be simply missing altogether from the data (a blank cell).
+# Explicit missing values
+The way data is missing matters a lot when tidying your data. When you see NA this is an example of explicit absence, and a blank cell also inidcates the absence of data but this is known as implicit absence.
+
+A common example for missing values is as a data entry convenience. When data is entered by hand, missing values sometimes indicate that the value in the previous row has been repeated (or carried forward, for example:
+```{r}
+treatment <- tribble(
+  ~person,           ~treatment, ~response,
+  "Derrick Whitmore", 1,         7,
+  NA,                 2,         10,
+  NA,                 3,         NA,
+  "Katherine Burke",  1,         4
+)
+```
+
+We can fill in these missing values with tidyr::fill() which works in a similar way to select(), taking a set of columns:
+```{r}
+treatment |>
+  fill(everything())
+```
+This is also called "last observation carried forward" of locf. You can use the .direction argument to fill in missing values that have been generated in a more complicated way.
+
+# fixed values
+```{r}
+# Sometimes missing values represent some fixed and known value, most commonly 0. You can use dplyr::coalesce() to replace them.
+x <- c (1, 4, 5, 7, NA)
+coalesce(x, 0) # This will change the NA value in x to 0.
+
+# Sometimes you’ll encounter the opposite problem where some other concrete value actually represents a missing value.
+x <- c(1, 4, 5, 7, -99)
+na_if(x, -99)
+
+# This typically happens when data is generated from an older software that can’t properly represent missing values so it uses something like 99 or -999 in place of the missing value. You can fix this with dplyr::na_if():
+
+```
+# NaN
+One special type of missing value worth mentioning is NaN or Not a Number. It typically behaves the same as NA but in some rare cases you may need to distinguish it using is.nan(x):
+```{r}
+x <- c(NA, NaN)
+x * 10
+x == 1
+is.na(x)
+```
+NaN is common when performing a mathematical operation that has an indeterminate result.
+
+
+# Implicit missing values
+Demonstrate a dataset with implicit absence. 
+```{r}
+stocks <- tibble(
+  year  = c(2020, 2020, 2020, 2020, 2021, 2021, 2021),
+  qtr   = c(   1,    2,    3,    4,    2,    3,    4),
+  price = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66)
+)
+
+```
+This dataset has two missing observations:
+1) The price in the fourth quarter of 2020 is explicitly missing, because its value is NA.
+2) The price for the first quarter of 2021 is implicitly missing, because it simply does not appear in the dataset.
+
+Sometimes we want to make the implicit missing values explicit. In other situations explicit missing values are forced upon you by the structure of the data and you want to get rid of those.
+
+A good example of this can be shown using the stocks data:
+```{r}
+stocks |>
+  pivot_wider(
+    names_from = qtr, 
+    values_from = price
+  )
+```
+The function tidyr::complete() allows you to generate explicit missing values by providing a set of variables that define the combination of rows that should exist.
+
+```{r}
+# For Exampele: all combinations of year and qtr should exist in the stocks data:
+stocks |>
+  complete(year, qtr)
+# Normally, we call complete() with names of existing variables to fill in the missing cimbinations. Sometimes the individual variables are incomplete. So instead, we can provide our own data. 
+# For example, we might know that the stocks dataset is supposed to run from 2019 to 2021, so you could explicitly supply those values for year:
+stocks |>
+  complete(year = 2019:2021, qtr)
+```
+
+
+
+# Importing into R
+# CSV files 
+Most common file type for tabular data is a .csv
+Important things to consider when using .csv fies :
+  1) The first row or “header row” gives the column names.
+  2) The following six rows provide the data.
+  3) Columns are separated by commas.
+  
+  
+To import a csv file into R we use the readr package and use the  read_csv() function.
+```{r}
+? read_csv # Go to help to lear more about read_csv function
+# students <- read_csv("C://data/students.csv") # Put pathway to required csv file in the "" so R can find the csv file. Comment this out for now because this line won't actually work as the file doesn't exist on your system.
+
+# To access this csv to use for the following examples read the csv into R using the URL.
+students <- read_csv("https://pos.it/r4ds-students-csv")
+```
+Need to check that our observations are in rows and that our variables are in columns.
+So, after we input a csv file we should check the data to make sure it is set up correctly and to ensure there are no errors.
+```{r}
+# Look at data.
+students
+```
+We can see there are some N/A values in the favourite.food variable. The issue here is R has treated the missing value as a character string (actual value) rather than as a real NA. We can fix this using a simple code when we read in our csv:
+```{r}
+students <- read_csv("https://pos.it/r4ds-students-csv", na = c("N/A", ""))
+students
+```
+
+Sometimes the variable names may have backticks surrounding them. We can fix this by doing a code like this:
+```{r}
+students |> 
+  rename(
+    student_id = `Student ID`,
+    full_name = `Full Name`
+  )
+```
+
+
+# 4.7.3 Exercises
+Identify what is wrong with each of the following inline CSV files. What happens when you run the code?
+
+
+# Learning relational data
+
+
+```{r}
+# Load data and install required packages
+# install.packages("nycflights13") # Comment out once installed.
+
+library(nycflights13)
+
+airlines # Look at data.
+airports # Look at data.
+planes # Look at data.
+weather # Look at data.
+```
+
+
+# Joining datasets
+We join datasets together by identifying keys. A key is a variable (or set of variables) that uniquely identifies an observation. For example, each plane is uniquely identified by its tailnum. In other cases, multiple variables may be needed. For example, to identify an observation in weather you need five variables: year, month, day, hour, origin.
+
+There are two kinds of keys, these are primary and foreign. 
+A primary key uniquely identifies an observation in its own table. For example, planes$tailnum is a primary key because it uniquely identifies each plane in the planes table.
+A foreign key uniquely identifies an observation in another table. For example, flights$tailnum is a foreign key because it appears in the flights table where it matches each flight to a unique plane.
+```{r}
+# After identifying the primary keys in our tables, we need to verify if they do uniquely identify each observation. We can do this using count():
+planes %>%
+  count(tailnum) %>%
+  filter(n > 1)
+  
+weather %>%
+  count(year, month, day, hour, origin) %>%
+  filter(n > 1)
+
+# Sometimes a table doesn’t have an explicit primary key: each row is an observation, but no combination of variables reliably identifies it. For example, you might expect that the primary key for flights would be the date plus the flight or tail number, but neither of those are unique:
+
+flights %>%
+  count(year, month, day, flight) %>%
+  filter(n > 1)
+
+flights %>%
+  count(year, month, day, tailnum) %>%
+  filter(n > 1)
+```
+
+
+# Mutating Joins
+
+```{r}
+flights2 <- flights %>% 
+  select(year:day, hour, origin, dest, tailnum, carrier)
+
+```
+
+
+
+```{r}
+flights2 %>%
+  select(-origin, -dest) %>% 
+  left_join(airlines, by = "carrier")
+
+```
+
+
+
+```{r}
+flights2 %>%
+  select(-origin, -dest) %>% 
+  mutate(name = airlines$name[match(carrier, airlines$carrier)])
+```
+
+```{r}
+x <- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     3, "x3"
+)
+y <- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2",
+     4, "y3"
+)
+```
+
+
+
+
+
+
+```{r}
+x %>% 
+  inner_join(y, by = "key")
+```
+
+
+
+
+```{r}
+x <- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     2, "x3",
+     1, "x4"
+)
+y <- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2"
+)
+left_join(x, y, by = "key")
+```
+
+
+
+```{r}
+x <- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     2, "x3",
+     3, "x4"
+)
+y <- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2",
+     2, "y3",
+     3, "y4"
+)
+left_join(x, y, by = "key")
+```
+
+```{r}
+flights2 %>% 
+  left_join(weather)
+```
+
+```{r}
+flights2 %>% 
+  left_join(planes, by = "tailnum")
+```
+
+```{r}
+flights2 %>% 
+  left_join(airports, c("dest" = "faa"))
+```
+
+```{r}
+flights2 %>% 
+  left_join(airports, c("origin" = "faa"))
+```
+
+
+
+# Pipes for more readable workflows
+```{r}
+foo_foo <- little_bunny()
+```
+
+
+
+```{r}
+foo_foo_1 <- hop(foo_foo, through = forest)
+foo_foo_2 <- scoop(foo_foo_1, up = field_mice)
+foo_foo_3 <- bop(foo_foo_2, on = head)
+```
+
+
+
+```{r}
+foo_foo <- hop(foo_foo, through = forest)
+foo_foo <- scoop(foo_foo, up = field_mice)
+foo_foo <- bop(foo_foo, on = head)
+```
+
+
+
+```{r}
+bop(
+  scoop(
+    hop(foo_foo, through = forest),
+    up = field_mice
+  ), 
+  on = head
+)
+```
+
+
+
+```{r}
+foo_foo %>%
+  hop(through = forest) %>%
+  scoop(up = field_mice) %>%
+  bop(on = head)
+```
+
+
+
+
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Workshop 4 - Spatial data in R
+
+This section will demonstrate how to use GIS in R.
+-------------------------------------------------------------------------------
+
+# Install and load required packages
+```{r}
+# install.packages("sf") # Comment out after install.
+# install.packages("terra") # Comment out after install.
+# install.packages("tmap") # Comment out after install.
+
+# Load into R library.
+library(tidyverse)
+library(sf) # Simple features.
+library(terra) # For raster.
+library(tmap) # Thematic maps are geographical maps in which spatial data distributions are visualised.
+
+```
+
+# Downloading and loading the spatial dataset
+
+```{r}
+# Load the copepod data into R
+library(readr)
+dat <- read_csv("../data/data-for-course/copepods_raw.csv")
+dat
+```
+# Data Exploration
+# Check coordinates
+```{r}
+library(ggplot2)
+ggplot(dat) +
+  aes(x = longitude, y = latitude, colour = richness_raw) +
+  geom_point()
+```
+
+```{r}
+ggplot(dat, aes(x = latitude, y = richness_raw)) +
+  stat_smooth() +
+  geom_point()
+```
+
+
+# Getting going with maps
+```{r}
+sdat <- st_as_sf(dat, coords = c("longitude", "latitude"), crs = 4326)
+```
+
+
+```{r}
+crs4326 <- st_crs(4326)
+crs4326 # Look at whole crs.
+crs4326$Name # Pull out just the name of the crs.
+```
+Now check what the WKT looks like
+```{r}
+crs4326$wkt # crs in well-known text format.
+```
+
+
+
+
+# Feature collection (points)
+```{r}
+sdat
+```
+
+
+# Cartography
+```{r}
+plot(sdat["richness_raw"])
+```
+
+```{r}
+plot(sdat)
+```
+
+
+
+# Thematic maps for communication
+```{r}
+# Using tmap
+tm_shape(sdat) +
+  tm_dots(col = "richness_raw")
+```
+
+
+```{r}
+tmap_save(tm1, filename = "Richness-map.png",
+          width = 600, height = 600)
+```
+
+# Mapping spatial polygons as layers
+# Loading shapefiles
+```{r}
+aus <- st_read("../data/data-for-course/spatial-data/Aussie/Aussie.shp") # Read in shapefile.
+
+aus # Look at data.
+
+shelf <- st_read("../data/data-for-course/spatial-data/aus_shelf/aus_shelf.shp") # read in shapefile
+
+shelf # Look at data.
+```
+
+# Mapping your polygons
+```{r}
+tm_shape(shelf) +
+  tm_polygons()
+```
+
+```{r}
+tm_shape(shelf, bbox = sdat) +
+  tm_polygons() +
+  tm_shape(aus) +
+  tm_polygons() +
+  tm_shape(sdat) +
+  tm_dots()
+```
+
+
+# Exploring t_map
+```{r}
+vignette('tmap-getstarted')
+
+# Hello World!
+library(tmap)
+data("World")
+tm_shape(World) +
+  tm_polygons("HPI")
+```
+
+
+```{r}
+# Interactive Maps
+tmap_mode("view")
+
+tm_shape(World) + 
+  tm_polygons("HPI")
+```
+
+
+```{r}
+# Multiple shapes and layers
+data(World, metro, rivers, land)
+
+tmap_mode("plot") #tmap mode set to plotting
+tm_shape(land) +
+  tm_raster("elevation", palette = terrain.colors(10)) +
+  tm_shape(World) +
+  tm_borders("white", lwd = .5) +
+  tm_text("iso_a3", size = "AREA") +
+  tm_shape(metro) +
+  tm_symbols(col = "red", size = "pop2020", scale = .5) +
+  tm_legend(show = FALSE)
+```
+
+
+```{r}
+# Facets
+# Facets can be created in three ways:
+
+# 1) By assigning multiple variable names to one aesthetic ( in this example the first argument of tm_polygons:
+tmap_mode("view")
+tm_shape(World) +
+  tm_polygons(c("HPI", "economy")) +
+  tm_facets(sync = TRUE, ncol = 2)
+
+# 2) By splitting the spatial data with the by argument of tm_facets:
+tmap_mode("plot") # tmap mode set to plotting
+
+data("NLD_muni")
+NLD_muni$perc_men <- NLD_muni$pop_men / NLD_muni$population * 100
+tm_shape(NLD_muni) +
+  tm_polygons("perc_men", palette = "RdYlBu") +
+  tm_facets(by = "province")
+
+# 3) By using the tmap_arrange function
+tmap_mode("plot") # tmap mode set to plotting.
+
+data("NLD_muni")
+tm1 <- tm_shape(NLD_muni) + tm_polygons("population", convert2density = TRUE)
+tm2 <- tm_shape(NLD_muni) + tm_bubbles(size = "population")
+
+tmap_arrange(tm1, tm2)
+```
+
+
+```{r}
+# Basemaps and overlay tile maps
+tmap_mode("view")
+tm_basemap("Stamen.Watercolor ") +
+  tm_shape(metro) + tm_bubbles(size = "pop2020", col = "red") +
+  tm_tiles("Stamen.TonerLabels")
+```
+
+
+```{r}
+# Options and styles 
+tmap_mode("plot") # tmap mode set to plotting
+
+tm_shape(World) +
+  tm_polygons("HPI") +
+  tm_layout(bg.color = "skyblue", inner.margins = c(0, .02, .02, .02))
+
+
+
+tmap_options(bg.color = "black", legend.text.color ="white")
+
+tm_shape(World) +
+  tm_polygons("HPI", legend.title = "Happy Planet Index")
+
+tmap_style("classic")
+
+tm_shape(World) +
+  tm_polygons("HPI", legend.title = "Happy Planet Index")
+
+# See what options have been changed. 
+tmap_options_diff()
+
+# Reset the options to the default values.
+tmap_options_reset()
+```
+
+```{r}
+# Exporting Maps
+tm <- tm_shape(World) +
+  tm_polygons("HPI", legend.title = "Happy Planet Index")
+
+# Save an image ("plot" mode).
+tmap_save(tm, filename = "world_map.png")
+
+# Save as stand-alone HTML file ("view" mode).
+tmap_save(tm, filename = "world_map.html")
+
+```
+
+```{r}
+# Shiny integration
+
+# In UI part:
+tmapOutput("my_tmap")
+
+# In server part:
+output$my_tmap = renderTmap({
+  tm_shape(World) + tm_polygons("HPI", legend.title = "Happy Planet Index")
+})
+```
+
+
+```{r}
+# Quick thematic map
+qtm(World, fill = "HPI", fill.palette = "RdYlGn")
+```
+```{r}
+# Tips and Tricks
+# Run:
+tmap_tip()
+```
+
+
 
 
 

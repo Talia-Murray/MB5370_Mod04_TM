@@ -17,14 +17,14 @@ library(tidyverse)
 
 # Load data set
 ```{r}
-seagrass<-read.csv("../data/SeagrassPubs.csv")
+seagrass<-read.csv("../data/SeagrassPubs.csv") # Read in data.
 ```
 
 # Look at data
 ```{r}
-head(seagrass)
-summary(seagrass)
-glimpse(seagrass)
+head(seagrass) # Look at data.
+summary(seagrass) # Get summary of data.
+glimpse(seagrass) # Look at data
 ```
 
 # Seperate author and year into 2 variables from Reference
@@ -36,7 +36,7 @@ seagrass1 <- seagrass %>%
   select(Author:PubYear)
 # Combine the Column for publication year to the original data frame using cbind function.
 Pubyear = seagrass1$PubYear
-seagrass2 <- cbind(seagrass, Pubyear)
+seagrass2 <- cbind(seagrass, Pubyear) 
 ```
 
 
@@ -46,22 +46,22 @@ biomass<-seagrass2 %>% # Create new data frame and select which data frame to pu
   group_by(Pubyear) %>% # Group publications by year.
   select(Pubyear, Seagr.biom.above.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
    drop_na(Seagr.biom.above.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
-    tally()
-colnames(biomass) <- c("Pubyear", "tally1")
+    tally() # Use tally function to get information on number of publications.
+colnames(biomass) <- c("Pubyear", "tally1") # Create new column names.
 
 biomass1<-seagrass2 %>% # Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.biom.below.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.biom.below.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
-    tally()
-colnames(biomass1) <- c("Pubyear", "tally2")
+    tally() # Use tally function to get information on number of publications.
+colnames(biomass1) <- c("Pubyear", "tally2") # Create new column names.
 
 biomass2<-seagrass2 %>% # Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.biom.tot.dm..g.m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.biom.tot.dm..g.m..2.) %>% # Remove na values to only count the years with publications.
-    tally()
-colnames(biomass2) <- c("Pubyear", "tally3")
+    tally() # Use tally function to get information on number of publications.
+colnames(biomass2) <- c("Pubyear", "tally3") # Create new column names.
 
 
 # Organise data into one dataframe.
@@ -92,22 +92,22 @@ Structure1<-seagrass2 %>% # Create new data frame and select which data frame to
   group_by(Pubyear) %>% # Group publications by year.
   select(Pubyear, Seagr.cov....) %>% # Select which 2 variables we are interested in using to tally.
    drop_na(Seagr.cov....) %>% # Remove na values to only count the years with publications.
-    tally()
-colnames(Structure1) <- c("Pubyear", "tally1")
+    tally() # Use tally function to get information on number of publications.
+colnames(Structure1) <- c("Pubyear", "tally1") # Create new column names.
 
 Structure2<-seagrass2 %>% # Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.shoot.dens....m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.shoot.dens....m..2.) %>% # Remove na values to only count the years with publications.
-    tally()
-colnames(Structure2) <- c("Pubyear", "tally2")
+    tally() # Use tally function to get information on number of publications.
+colnames(Structure2) <- c("Pubyear", "tally2") # Create new column names.
 
 Structure3<-seagrass2 %>% # Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.leaf.dens....m..2.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.leaf.dens....m..2.) %>% # Remove na values to only count the years with publications.
-    tally()
-colnames(Structure3) <- c("Pubyear", "tally3")
+    tally() # Use tally function to get information on number of publications.
+colnames(Structure3) <- c("Pubyear", "tally3") # Create new column names.
 
 
 
@@ -140,22 +140,22 @@ Production1<-seagrass2 %>% #Create new data frame and select which data frame to
   group_by(Pubyear) %>% # Group publications by year.
   select(Pubyear, Seagr.prod.above.dm..g.m..2.day.) %>% # Select which 2 variables we are interested in using to tally.
    drop_na(Seagr.prod.above.dm..g.m..2.day.) %>% # Remove na values to only count the years with publications.
-    tally()
-colnames(Production1) <- c("Pubyear", "tally1")
+    tally() # Use tally function to get information on number of publications.
+colnames(Production1) <- c("Pubyear", "tally1") # Create new column names.
 
 Production2<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.prod.below.dm..g.m..2.day.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.prod.below.dm..g.m..2.day.) %>% # Remove na values to only count the years with publications.
-    tally()
-colnames(Production2) <- c("Pubyear", "tally2")
+    tally() # Use tally function to get information on number of publications.
+colnames(Production2) <- c("Pubyear", "tally2") # Create new column names.
 
 Production3<-seagrass2 %>% #Create new data frame and select which data frame to pull data from.
   group_by(Pubyear) %>%  # Group publications by year.
   select(Pubyear, Seagr.prod.total.dm..g.m..2.day.) %>% # Select which 2 variables we are interested in using to tally.
   drop_na(Seagr.prod.total.dm..g.m..2.day.) %>% # Remove na values to only count the years with publications.
-    tally()
-colnames(Production3) <- c("Pubyear", "tally3")
+    tally() # Use tally function to get information on number of publications.
+colnames(Production3) <- c("Pubyear", "tally3") # Create new column names.
 
 
 
@@ -184,16 +184,17 @@ TProduction2$TotalProduction<-rowSums(TProduction2[ , c("tally1", "tally2", "tal
 
 # Create new data set with all the total values
 ```{r}
-
+# Join data into new data frame df_new using left join function. Join TBmass2 and Tstructure2 joining using Pubyear.
 df_new <- 
   left_join(TBmass2, TStructure2, by = 'Pubyear') %>% 
-  mutate(Pubyear = replace_na(Pubyear, 0))
+  mutate(Pubyear = replace_na(Pubyear, 0)) # Replace na values with 0.
 
+# Join data into new data frame df_new2 using left join function. Join df_new and TProduction2 joining using Pubyear.
 df_new2 <- 
   left_join(df_new, TProduction2, by = 'Pubyear') %>% 
-  mutate(Pubyear = replace_na(Pubyear, 0))
+  mutate(Pubyear = replace_na(Pubyear, 0)) # Replace na values with 0.
 
-summary(df_new2)
+summary(df_new2) # Look at new dataframe.
 
 
 # Remove unwanted variables.
@@ -207,44 +208,45 @@ df_new2 <- subset(df_new2, select = -(tally2.y))
 df_new2 <- subset(df_new2, select = -(tally3.x))
 df_new2 <- subset(df_new2, select = -(tally3.y))
 
-TotalData <- df_new2
+TotalData <- df_new2 # Create new dataframe called TotalData using data in df_new2
 TotalData[is.na(TotalData)] <- 0 # Make all NA values equal 0
+TotalData <- filter(TotalData, !Pubyear %in% c(2030, 2031, 2032, 2033)) # Remove years 2030, 2031, 2032 and 2033 from Total Data.
+TotalData # Look at TotalData.
 
-summary(TotalData)
-view(TotalData)
+summary(TotalData) # Get summary of data.
+
 ```
 
 
 # Lengthen data set
 ```{r}
 FinalData <- TotalData |> 
-  pivot_longer(
-    cols = TotalBiomass:TotalProduction,
-    names_to = "PublicationType",
-    values_to = "value"
+  pivot_longer( # Pivot longer is used to lengthen and reshape dataframe.
+    cols = TotalBiomass:TotalProduction, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including TotalBiomass and TotalProduction are being reshaped.
+    names_to = "PublicationType", # This tells R that the reshaped columns will be organised under the new column called PublicationType.
+    values_to = "value" # This function tells R that we want to create a new column called value for the data that was stored in the cells of the original columns.
   )
 ```
 
+
 # Create Chart Talia
 ```{r}
-
-ggplot(FinalData, aes(x = Pubyear, y = value, group = PublicationType, linetype = PublicationType, colour = PublicationType)) + 
-  geom_line() +
-  theme_classic() +
+ggplot(FinalData, aes(x = Pubyear, y = value, group = PublicationType, linetype = PublicationType, colour = PublicationType)) + # Create mapping aesthetics.
+  geom_smooth(se=F) + # Create smooth plot and remove the confidence interval ribbons.
+  theme_classic() + # Use classic theme aesthetics.
   labs(
     title = "The Total Number of Seagrass Publications Over Time", # Label title.
     subtitle = "Seagrass research categories inlude biomass, production and structure.", # Create a subtitle.
     x = "Year of Publication", y = "Total Number of Publications", # Create axes labels.
-     linetype = "Publication Type", color = "Publication Type"
-    # Adjust legend title.
+     linetype = "Publication Type", color = "Publication Type",  # Adjust legend title. 
+    caption = "Data Sourced From https://doi.org/10.5194/essd-15-511-2023" # Create caption title.
   ) + 
-  scale_colour_discrete(labels = c("Biomass", "Production", "Structure")) +
-  scale_linetype_discrete(labels = c("Biomass", "Production", "Structure")) +
-  scale_y_continuous(breaks = seq(0, 1000, by = 100)) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+    scale_colour_discrete(labels = c("Biomass", "Production", "Structure")) + # Adjust the labels used for colour legend.
+  scale_linetype_discrete(labels = c("Biomass", "Production", "Structure")) + # Adjust the labels used for linetype legend.
+  scale_y_continuous(breaks = seq(0, 700, by = 100)) + # Adjust y axis scale.
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) # Change the angle of x axis labels.
 
-# ggsave("Seagrass_plot.pdf") # Save plot as a pdf.
-
+#ggsave("Seagrass_plot.pdf") # Save plot as a pdf.
 
 ```
 
