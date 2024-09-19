@@ -883,9 +883,9 @@ billboard
 # Lengthen data
 billboard |>
   pivot_longer(
-    cols =  starts_with("wk"),
-    names_to = "Week", 
-    values_to = "Rank"
+    cols =  starts_with("wk"), # This line of code is telling which columns need to be reorganised.
+    names_to = "Week", # This tells R that the reshaped columns will be organised under the new column called Week.
+    values_to = "Rank" # This function tells R that we want to create a new column called Rank for the data that was stored in the cells of the original columns.
   )
 ```
 
@@ -900,10 +900,10 @@ There are now NAs in the data that we created when we changed the structure of t
 # Lengthen data and remove NAs
 billboard |>
   pivot_longer(
-    cols =  starts_with("wk"),
-    names_to = "Week", 
-    values_to = "Rank", 
-    values_drop_na = TRUE
+    cols =  starts_with("wk"), # Select column to reorganise.
+    names_to = "Week", # Create name for reshaped column.
+    values_to = "Rank", # Create a new column for the values stored in original columns.
+    values_drop_na = TRUE # Remove NAs
   )
 ```
 The data is now tidy but we could also do more to improve the format to make future computation easier, for example, we could convert some of our values from strings to numbers using mutate() and parse_number().
@@ -922,7 +922,7 @@ df <- tribble(
 # Tidy data by making it longer:
 df |> # |> is a piping function.
   pivot_longer(
-    cols = bp1:bp2, 
+    cols = bp1:bp2, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including bp1 and bp2 are being reshaped.
     names_to = "Measurement", 
     values_to = "Value"
   )
@@ -939,10 +939,12 @@ We will use an example from R4DS to explore pivot_wider() looking at the cms_pat
 cms_patient_experience
 ```
 The core unit being studied is an organisation but in the current format each organisation is spread across 6 rows with one row for each measurement taken in the survey organisation.
+
 We can see the complete set of values for measure_cd and measure_title by using distinct()
+
 ```{r}
 cms_patient_experience |>
-  distinct(measure_cd, measure_title)
+  distinct(measure_cd, measure_title) # Select a specific row/column using distinct function
 ```
 
 Neither of these will make great variable names - measure_cd doesn't hint at the meaning of the variable and measure_title is a long sentence with spaces. So, we will use measure_cd as the source for our new column names  for now, but in a real analysis you might want to create your own variable names that are both short and meaningful.
@@ -950,16 +952,17 @@ Neither of these will make great variable names - measure_cd doesn't hint at the
 pivot_wider() has the opposite interface to pivot_longer(): instead of choosing new column names, we need to provide the existing columns that define the vlaues (values_from) and the column name (names_from):
 ```{r}
 cms_patient_experience |>
-  pivot_wider(
+  pivot_wider( # Widen data set
     names_from = measure_cd, 
     values_from = prf_rate
   )
 ```
+
 The above output doesn't look quite right, we still have multiple rows for each organisation. That is because we also need to tell pivot_wider() which column or columns have values that uniquely identify each row; in this case those are the variables starting with "org".
 ```{r}
 cms_patient_experience |>
-  pivot_wider(
-    id_cols = starts_with("org"), 
+  pivot_wider( # Widen data set.
+    id_cols = starts_with("org"), # Select columns that start with org
     names_from = measure_cd, 
     values_from = prf_rate
   )
@@ -978,7 +981,7 @@ df <- tribble(
 
 # Widen dataset by taking the names from the measurement column using the names_from() argument and the values from the value column using the values_from() argument.
 df |> 
-  pivot_wider(
+  pivot_wider( # Widen dataset.
     names_from = Measurement,
     values_from = Value
   )
@@ -986,7 +989,7 @@ df |>
 # To start the pivoting process, pivot_wider() needs to first figure out what will go in the rows and columns. The new column names will be the unique values of measurement.
 df |> 
   distinct(Measurement) |> 
-  pull()
+  pull() # pull() selects a column in a data frame and transforms it into a vector.
 
 # The rows in the output are determined by all the variables that aren’t going into the new names or values. These are called the id_cols. Here there is only one column, but in general there can be any number.
 df |> 
@@ -998,21 +1001,72 @@ df |>
   select(-Measurement, -Value) |> 
   distinct() |> 
   mutate(x = NA, y = NA, z = NA)
+
 # It then fills in all the missing values using the data in the input. IN this case, not every cell in the output has a corresponding value in the input as there is no third blood pressure measurement for patient B, so that cell remains missing.
 ```
 
 # 4.5.5 Exercises
 Why are pivot_longer() and pivot_wider() not perfectly symmetrical? Carefully consider the following example. 
 ```{r}
+stocks <- tibble(
+  year   = c(2015, 2015, 2016, 2016),
+  half  = c(   1,    2,     1,    2),
+  return = c(1.88, 0.59, 0.92, 0.17)
+)
+
+stocks %>% 
+  pivot_wider(names_from = year, values_from = return) %>% 
+  pivot_longer(`2015`:`2016`, names_to = "year", values_to = "return")
+# Lengthening the data set there are three columns and four rows. This is because all the values are placed into one column stacking each value. 
+
+stocks %>% 
+  pivot_wider(names_from = year, values_from = return)
+# Using wider we get three columns and 2 rows. The years are split into two separate columns. In this example the half column has only one row for value 1 and value 2 where the longer version has two rows for value 1 and two rows for value 2.
 
 ```
 
 Why does this code fail?
+```{r}
+table4a
+table4a %>% 
+  pivot_longer(c(1999, 2000), names_to = "year", values_to = "cases")
+```
+
+This code fails because it doesn't register 1999 and 2000 as columns so it doesn't believe they exist.
+
+The correct way to do this is below:
+```{r}
+table4a %>%
+  pivot_longer(
+    cols = "1999":"2000", 
+    names_to = "year",
+    values_to = "cases"
+  )
+```
+
 
 Consider the sample tibble below. Do you need to make it wider or longer? What are the variables?
+```{r}
+preg <- tribble(
+  ~pregnant, ~male, ~female,
+  "yes",     NA,    10,
+  "no",      20,    12
+)
+```
+We could make this table longer by putting male and female into one column called sex and the numbers below as results in another column. For example the way this can be done is demonstrated below:
+```{r}
+preg %>%
+  pivot_longer(
+    cols = "male":"female", 
+    names_to = "Sex",
+    values_to = "results",
+    values_drop_na = TRUE # Remove NAs
+  )
+```
 
 
 # Separating and uniting data tables
+
 # Separating
 This section will cover separating one column into multiple.
 ```{r}
@@ -1020,11 +1074,12 @@ This section will cover separating one column into multiple.
 table3
 
 # We need to split the rate column into two variables: 1) Cases, 2) Population.
-# separate() will take the name of the column we want to split and the names of the columns we want it to split into.
+
 table3 %>%
-  separate(rate, into = c("cases", "population"))
+  separate(rate, into = c("cases", "population")) # separate() will take the name of the column we want to split and the names of the columns we want it to split into.
 
 ```
+
 By default R will split values wherever it sees a non-alphanumeric character. For example, in the code above, separate() split the values of rate at the forward slash characters. If you wish to use a specific character to separate a column, you can pass the character to the sep argument of separate(). For example, we could rewrite the code above as:
 ```{r}
 table3 %>%
@@ -1073,7 +1128,7 @@ treatment <- tribble(
 We can fill in these missing values with tidyr::fill() which works in a similar way to select(), taking a set of columns:
 ```{r}
 treatment |>
-  fill(everything())
+  fill(everything()) # Fill empty rows.
 ```
 This is also called "last observation carried forward" of locf. You can use the .direction argument to fill in missing values that have been generated in a more complicated way.
 
@@ -1096,7 +1151,8 @@ One special type of missing value worth mentioning is NaN or Not a Number. It ty
 x <- c(NA, NaN)
 x * 10
 x == 1
-is.na(x)
+is.na(x) # This can tell both Na and NaN are NA values
+is.nan(x) # In cases where we need to be specific we can use this function. This shows FALSE TRUE  because it is specifically identifying NaN values.
 ```
 NaN is common when performing a mathematical operation that has an indeterminate result.
 
@@ -1112,6 +1168,7 @@ stocks <- tibble(
 
 ```
 This dataset has two missing observations:
+
 1) The price in the fourth quarter of 2020 is explicitly missing, because its value is NA.
 2) The price for the first quarter of 2021 is implicitly missing, because it simply does not appear in the dataset.
 
@@ -1119,6 +1176,7 @@ Sometimes we want to make the implicit missing values explicit. In other situati
 
 A good example of this can be shown using the stocks data:
 ```{r}
+# Widen dataset
 stocks |>
   pivot_wider(
     names_from = qtr, 
@@ -1134,12 +1192,13 @@ stocks |>
 # Normally, we call complete() with names of existing variables to fill in the missing cimbinations. Sometimes the individual variables are incomplete. So instead, we can provide our own data. 
 # For example, we might know that the stocks dataset is supposed to run from 2019 to 2021, so you could explicitly supply those values for year:
 stocks |>
-  complete(year = 2019:2021, qtr)
+  complete(year = 2019:2021, qtr) # Generate missing values in special cases
 ```
 
 
 
 # Importing into R
+
 # CSV files 
 Most common file type for tabular data is a .csv
 Important things to consider when using .csv fies :
@@ -1164,7 +1223,7 @@ students
 ```
 We can see there are some N/A values in the favourite.food variable. The issue here is R has treated the missing value as a character string (actual value) rather than as a real NA. We can fix this using a simple code when we read in our csv:
 ```{r}
-students <- read_csv("https://pos.it/r4ds-students-csv", na = c("N/A", ""))
+students <- read_csv("https://pos.it/r4ds-students-csv", na = c("N/A", "")) # Make N/A and empty cells equal NA values. 
 students
 ```
 
@@ -1172,14 +1231,24 @@ Sometimes the variable names may have backticks surrounding them. We can fix thi
 ```{r}
 students |> 
   rename(
-    student_id = `Student ID`,
-    full_name = `Full Name`
+    student_id = `Student ID`, # Remove backticks from column name and rename variable.
+    full_name = `Full Name` # Remove backticks from column name and rename variable.
   )
 ```
 
 
 # 4.7.3 Exercises
 Identify what is wrong with each of the following inline CSV files. What happens when you run the code?
+```{r}
+
+read_csv("a,b\n1,2,3\n4,5,6")
+read_csv("a,b,c\n1,2\n1,2,3,4")
+read_csv("a,b\n\"1")
+read_csv("a,b\n1,2\na,b")
+read_csv("a;b\n1;3")
+
+```
+
 
 
 # Learning relational data
