@@ -33,371 +33,395 @@ sharkcontrol <- # Name data frame.
 head(sharkcontrol) # Look at data
 
 sharkcontrol <- subset(sharkcontrol, select = -(na_2)) # Remove empty column.
-head(sharkcontrol) # Check data
-glimpse(sharkcontrol)
-summary(sharkcontrol)
+head(sharkcontrol) # Look at data.
+glimpse(sharkcontrol) # Look at data
+summary(sharkcontrol) # Provide a summary of the data
 ```
 
 
 # Tidy Data
 
 ```{r}
-# Seperate data into individual data sets for year and lengthen data. Remove total column for the total catch in area, this is optional, you can leave it if needed.
+# Separate data into individual data sets for year and lengthen data. Remove total column for the total catch in area, this is optional, you can leave it if needed.
 
 #Year 2001
-year2001 <- sharkcontrol |>
+year2001 <- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
   select(na | contains("x2001")) |> # Select out year value.
-  row_to_names(row_number = 1) 
-colnames(year2001)[6] = "Total" # Create colummn name total. 
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2001)[6] = "Total" # Create column name total using an index. 
 year2001 <- subset(year2001, select = -(Total)) # Remove total column.
 year2001$Year <- c("2001") # Create year column.
-year2001 <- year2001 |> # Lengthen data.
+year2001 <- year2001 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
 
 
 # Year 2002
-year2002 <- sharkcontrol |>
-  select(na | contains("x2002")) |>
-  row_to_names(row_number = 1) 
-colnames(year2002)[6] = "Total"
-year2002 <- subset(year2002, select = -(Total))
+year2002 <- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2002")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2002)[6] = "Total" # Create column name total using an index. 
+year2002 <- subset(year2002, select = -(Total)) # Remove total column.
 year2002$Year <- c("2002") # Create year column.
-year2002 <- year2002 |> 
+year2002 <- year2002 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count"# This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
 
 
 # Year 2003
-year2003 <- sharkcontrol |>
-  select(na | contains("x2003")) |>
-  row_to_names(row_number = 1)
-colnames(year2003)[6] = "Total"
-year2003 <- subset(year2003, select = -(Total))
+year2003 <- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2003")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2003)[6] = "Total" # Create column name total using an index. 
+year2003 <- subset(year2003, select = -(Total)) # Remove total column.
 year2003$Year <- c("2003") # Create year column.
-year2003 <- year2003 |> 
+year2003 <- year2003 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
 
+
+
 # Year 2004
-year2004<- sharkcontrol |>
-  select(na | contains("x2004")) |>
-  row_to_names(row_number = 1) 
-colnames(year2004)[6] = "Total"
-year2004 <- subset(year2004, select = -(Total))
+year2004<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2004")) |> # Select out year value.
+  row_to_names(row_number = 1)  # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2004)[6] = "Total" # Create column name total using an index. 
+year2004 <- subset(year2004, select = -(Total)) # Remove total column.
 year2004$Year <- c("2004") # Create year column.
-year2004 <- year2004 |> 
+year2004 <- year2004 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
 
 
 
 # Year 2005
-year2005<- sharkcontrol |>
-  select(na | contains("x2005")) |>
-  row_to_names(row_number = 1) 
-colnames(year2005)[6] = "Total"
-year2005 <- subset(year2005, select = -(Total))
+year2005<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2005")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2005)[6] = "Total" # Create column name total using an index. 
+year2005 <- subset(year2005, select = -(Total)) # Remove total column.
 year2005$Year <- c("2005") # Create year column.
-year2005 <- year2005 |> 
+year2005 <- year2005 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
 
 
 # Year 2006
-year2006<- sharkcontrol |>
-  select(na | contains("x2006")) |>
-  row_to_names(row_number = 1) 
-colnames(year2006)[6] = "Total"
-year2006 <- subset(year2006, select = -(Total))
+year2006<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2006")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2006)[6] = "Total" # Create column name total using an index. 
+year2006 <- subset(year2006, select = -(Total)) # Remove total column.
 year2006$Year <- c("2006") # Create year column.
-year2006 <- year2006 |> 
+year2006 <- year2006 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
+
 
 # Year 2007
-year2007<- sharkcontrol |>
-  select(na | contains("x2007")) |>
-  row_to_names(row_number = 1) 
-colnames(year2007)[6] = "Total"
-year2007 <- subset(year2007, select = -(Total))
+year2007<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2007")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2007)[6] = "Total" # Create column name total using an index. 
+year2007 <- subset(year2007, select = -(Total)) # Remove total column.
 year2007$Year <- c("2007") # Create year column.
-year2007 <- year2007 |> 
+year2007 <- year2007 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
+
 
 # Year 2008
-year2008<- sharkcontrol |>
-  select(na | contains("x2008")) |>
-  row_to_names(row_number = 1) 
-colnames(year2008)[6] = "Total"
-year2008 <- subset(year2008, select = -(Total))
+year2008<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2008")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2008)[6] = "Total" # Create column name total using an index. 
+year2008 <- subset(year2008, select = -(Total)) # Remove total column.
 year2008$Year <- c("2008") # Create year column.
-year2008 <- year2008 |> 
+year2008 <- year2008 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
+
 
 # Year 2009
-year2009<- sharkcontrol |>
-  select(na | contains("x2009")) |>
-  row_to_names(row_number = 1)
-colnames(year2009)[6] = "Total"
-year2009 <- subset(year2009, select = -(Total))
+year2009<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2009")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2009)[6] = "Total" # Create column name total using an index. 
+year2009 <- subset(year2009, select = -(Total)) # Remove total column.
 year2009$Year <- c("2009") # Create year column.
-year2009 <- year2009 |> 
+year2009 <- year2009 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
 
+
+
 # Year 2010
-year2010<- sharkcontrol |>
-  select(na | contains("x2010")) |>
-  row_to_names(row_number = 1) 
-colnames(year2010)[6] = "Total"
-year2010 <- subset(year2010, select = -(Total))
+year2010<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2010")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2010)[6] = "Total" # Create column name total using an index. 
+year2010 <- subset(year2010, select = -(Total)) # Remove total column.
 year2010$Year <- c("2010") # Create year column.
-year2010 <- year2010 |> 
+year2010 <- year2010 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
 
 
 # Year 2011
-year2011<- sharkcontrol |>
-  select(na | contains("x2011")) |>
-  row_to_names(row_number = 1)
-colnames(year2011)[6] = "Total"
-year2011 <- subset(year2011, select = -(Total))
+year2011<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2011")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2011)[6] = "Total" # Create column name total using an index. 
+year2011 <- subset(year2011, select = -(Total)) # Remove total column.
 year2011$Year <- c("2011") # Create year column.
-year2011 <- year2011 |> 
+year2011 <- year2011 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
 
 # Year 2012
 
-year2012<- sharkcontrol |>
-  select(na | contains("x2012")) |>
-  row_to_names(row_number = 1)
-colnames(year2012)[6] = "Total"
-year2012 <- subset(year2012, select = -(Total))
+year2012<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2012")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2012)[6] = "Total" # Create column name total using an index. 
+year2012 <- subset(year2012, select = -(Total)) # Remove total column.
 year2012$Year <- c("2012") # Create year column.
-year2012 <- year2012 |> 
+year2012 <- year2012 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
 
 # Year 2013
 
-year2013<- sharkcontrol |>
-  select(na | contains("x2013")) |>
-  row_to_names(row_number = 1)
-colnames(year2013)[6] = "Total"
-year2013 <- subset(year2013, select = -(Total))
+year2013<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2013")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2013)[6] = "Total" # Create column name total using an index. 
+year2013 <- subset(year2013, select = -(Total)) # Remove total column.
 year2013$Year <- c("2013") # Create year column.
-year2013 <- year2013 |> 
+year2013 <- year2013 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
 
 # Year 2014
 
-year2014<- sharkcontrol |>
-  select(na | contains("x2014")) |>
-  row_to_names(row_number = 1)
-colnames(year2014)[6] = "Total"
-year2014 <- subset(year2014, select = -(Total))
+year2014<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2014")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2014)[6] = "Total" # Create column name total using an index. 
+year2014 <- subset(year2014, select = -(Total)) # Remove total column.
 year2014$Year <- c("2014") # Create year column.
-year2014 <- year2014 |> 
+year2014 <- year2014 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
 
 # Year 2015
 
-year2015<- sharkcontrol |>
-  select(na | contains("x2015")) |>
-  row_to_names(row_number = 1)
-colnames(year2015)[6] = "Total"
-year2015 <- subset(year2015, select = -(Total))
+year2015<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2015")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2015)[6] = "Total" # Create column name total using an index. 
+year2015 <- subset(year2015, select = -(Total)) # Remove total column.
 year2015$Year <- c("2015") # Create year column.
-year2015 <- year2015 |> 
+year2015 <- year2015 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
+
 # Year 2016
 
-year2016<- sharkcontrol |>
-  select(na | contains("x2010")) |>
-  row_to_names(row_number = 1)
-colnames(year2016)[6] = "Total"
-year2016 <- subset(year2016, select = -(Total))
+year2016<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2010")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2016)[6] = "Total" # Create column name total using an index. 
+year2016 <- subset(year2016, select = -(Total)) # Remove total column.
 year2016$Year <- c("2016") # Create year column.
-year2016 <- year2016 |> 
+year2016 <- year2016 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
 
 # Year 2017
 
-year2017<- sharkcontrol |>
-  select(na | contains("x2017")) |>
-  row_to_names(row_number = 1)
-colnames(year2017)[6] = "Total"
-year2017 <- subset(year2017, select = -(Total))
+year2017<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2017")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2017)[6] = "Total" # Create column name total using an index. 
+year2017 <- subset(year2017, select = -(Total)) # Remove total column.
 year2017$Year <- c("2017") # Create year column.
-year2017 <- year2017 |> 
+year2017 <- year2017 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
 
 # Year 2018
-year2018<- sharkcontrol |>
-  select(na | contains("x2018")) |>
-  row_to_names(row_number = 1)
-colnames(year2018)[6] = "Total"
-year2018 <- subset(year2018, select = -(Total))
+year2018<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2018")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2018)[6] = "Total" # Create column name total using an index. 
+year2018 <- subset(year2018, select = -(Total)) # Remove total column.
 year2018$Year <- c("2018") # Create year column.
-year2018 <- year2018 |> 
+year2018 <- year2018 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
 
 # Year 2019
-year2019<- sharkcontrol |>
-  select(na | contains("x2019")) |>
-  row_to_names(row_number = 1)
-colnames(year2019)[6] = "Total"
-year2019 <- subset(year2019, select = -(Total))
+year2019<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2019")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2019)[6] = "Total" # Create column name total using an index. 
+year2019 <- subset(year2019, select = -(Total)) # Remove total column.
 year2019$Year <- c("2019") # Create year column.
-year2019 <- year2019 |> 
+year2019 <- year2019 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
 
 # Year 2020
 
-year2020<- sharkcontrol |>
-  select(na | contains("x2020")) |>
-  row_to_names(row_number = 1)
-colnames(year2020)[6] = "Total"
-year2020 <- subset(year2020, select = -(Total))
+year2020<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2020")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2020)[6] = "Total" # Create column name total using an index. 
+year2020 <- subset(year2020, select = -(Total)) # Remove total column.
 year2020$Year <- c("2020") # Create year column.
-year2020 <- year2020 |> 
+year2020 <- year2020 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
 
 # Year 2021
 
-year2021<- sharkcontrol |>
-  select(na | contains("x2021")) |>
-  row_to_names(row_number = 1)
-colnames(year2021)[6] = "Total"
-year2021 <- subset(year2021, select = -(Total))
+year2021<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2021")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2021)[6] = "Total" # Create column name total using an index. 
+year2021 <- subset(year2021, select = -(Total)) # Remove total column.
 year2021$Year <- c("2021") # Create year column.
-year2021 <- year2021 |> 
+year2021 <- year2021 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
 
 # Year 2022
-year2022<- sharkcontrol |>
-  select(na | contains("x2022")) |>
-  row_to_names(row_number = 1)
-colnames(year2022)[6] = "Total"
-year2022 <- subset(year2022, select = -(Total))
+year2022<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2022")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2022)[6] = "Total" # Create column name total using an index. 
+year2022 <- subset(year2022, select = -(Total)) # Remove total column.
 year2022$Year <- c("2022") # Create year column.
-year2022 <- year2022 |> 
+year2022 <- year2022 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
 
+
 # Year 2023
-year2023<- sharkcontrol |>
-  select(na | contains("x2023")) |>
-  row_to_names(row_number = 1)
-colnames(year2023)[6] = "Total"
-year2023 <- subset(year2023, select = -(Total))
+year2023<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2023")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2023)[6] = "Total" # Create column name total using an index. 
+year2023 <- subset(year2023, select = -(Total)) # Remove total column.
 year2023$Year <- c("2023") # Create year column.
-year2023 <- year2023 |> 
+year2023 <- year2023 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
+
 
 
 # Year 2024
-year2024<- sharkcontrol |>
-  select(na | contains("x2024")) |>
-  row_to_names(row_number = 1)
-colnames(year2024)[6] = "Total"
-year2024 <- subset(year2024, select = -(Total))
+year2024<- sharkcontrol |> # Create new dataframe using data from sharkcontrol.
+  select(na | contains("x2024")) |> # Select out year value.
+  row_to_names(row_number = 1) # Row to names function elevates the selected row (row_number = 1) to become the column names of the new dataframe. 
+colnames(year2024)[6] = "Total" # Create column name total using an index. 
+year2024 <- subset(year2024, select = -(Total)) # Remove total column.
 year2024$Year <- c("2024") # Create year column.
-year2024 <- year2024 |> 
+year2024 <- year2024 |> # Lengthen data using the pivot longer function. 
   pivot_longer(
-    cols = Mammal:Turtle,
-    names_to = "SpeciesGroup",
-    values_to = "Count"
+    cols = Mammal:Turtle, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including mammal and turtle are being reshaped.
+    names_to = "SpeciesGroup", # This tells R that the reshaped columns will be organised under the new column called SpeciesGroup.
+    values_to = "Count" # This function tells R that we want to create a new column called Count for the data that was stored in the cells of the original columns.
   )
 
 ```
 
 ```{r}
-# Combine dataframes to form large overall data frame
+# Combine all year dataframes from 2001-2024 to form large overall dataframe called sharkcontrol_long.
 
 sharkcontrol_long <- year2001 %>%
   full_join(year2002) %>%
@@ -423,7 +447,7 @@ sharkcontrol_long <- year2001 %>%
   full_join(year2022) %>%
   full_join(year2023) %>%
   full_join(year2024) |>
-  filter(Area != "Grand Total")
+  filter(Area != "Grand Total") # Remove Grand Total values from data frame.
 
 
 # Change data types
@@ -433,17 +457,17 @@ sharkcontrol_long$SpeciesGroup<-as.factor(sharkcontrol_long$SpeciesGroup) # Make
 
 # Check what data looks like.
 summary(sharkcontrol_long)
-str(sharkcontrol_long)
-sharkcontrol_long[is.na(sharkcontrol_long)] <- 0
+str(sharkcontrol_long) # Look at structure of data and ensure variables are correct, Count should be listed as numeric.
+sharkcontrol_long[is.na(sharkcontrol_long)] <- 0 # Make Na values = 0.
                  
 ```
 
 
 # Plot data
 ```{r}
-ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, linetype = SpeciesGroup, colour = SpeciesGroup)) + 
-  geom_smooth(se=F) +
-  theme_classic() +
+ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, linetype = SpeciesGroup, colour = SpeciesGroup)) + #Create plot aesthetics, linetype and colour are organised by species group, x axis is year and y axis is count. 
+  geom_smooth(se=F) + # Remove the Confidence interval ribbons from smooth plot.
+  theme_classic() + # Use classic theme.
   labs(
     title = "Animals Caught In The Shark Control Program (2001-2024)", # Label title.
     subtitle = "This data includes shark and non-target species.", # Create a subtitle.
@@ -451,37 +475,42 @@ ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, linetyp
      linetype = "Species Group", color = "Species Group",  # Adjust legend title. 
     caption = "Data Sourced From https://qfish.fisheries.qld.gov.au" # Create caption title.
   ) +
-   scale_y_continuous(breaks = seq(0, 70, by = 10)) +
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+   scale_y_continuous(breaks = seq(0, 70, by = 10)) + # Adjust y axis scale.
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + # Adjust x axis labels to be on 90 degree angle.
+  scale_colour_paletteer_d("ggthemes::Superfishel_Stone") # Select colour theme.
+
 ```
+
+
+
 
 
 ```{r}
 # Create facet wrap plot showing species over time for each area.
 # As bar chart
-ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, fill = SpeciesGroup, )) + 
-  geom_bar(stat = "identity") +
-  theme_classic() +
+ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, fill = SpeciesGroup, )) +  # Create mapping aesthetics.
+  geom_bar(stat = "identity") + # Creat a bar plot. stat = "identity" tells R to display values in data frame as is.
+  theme_classic() + # Use classic theme.
   labs(
     title = "Animals Caught In The Shark Control Program (2001-2024)", # Label title.
     x = "Location", y = "Total Animals Caught", # Create axes labels.
      fill = "Species Group",  # Adjust legend title. 
     caption = "Data Sourced From https://qfish.fisheries.qld.gov.au" # Create caption title.
   ) +
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.9, hjust=1)) +
-    theme(legend.position = "bottom") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.9, hjust=1)) + # Adjust the x axis so text is on 90 degree angle.
+    theme(legend.position = "bottom") + # Adjust location of legend to the bottom
   theme(plot.title=element_text(size=10), axis.text.x=element_text(size=6), axis.text.y = element_text(size=6), strip.text.x = element_text(size = 6), axis.title=element_text(size= 8)) +
-   theme(legend.title = element_text(size = 6),
-               legend.text = element_text(size = 6), legend.title.position = "top") +
-  facet_wrap(.~Area, scales="free_y") + # free_y tells R to make y axis variable, this makes the axis more relevant to each plot.
-  scale_fill_paletteer_d("RColorBrewer::Accent")
+   theme(legend.title = element_text(size = 6), # Adjust text sizes for axes, titles.
+               legend.text = element_text(size = 6), legend.title.position = "top") + # Adjust legend size and title position.
+  facet_wrap(.~Area, scales="free_y") + # Facet wrap so each location has its own plot. free_y tells R to make y axis variable, this makes the axis more relevant to each plot.
+  scale_fill_paletteer_d("ggthemes::Superfishel_Stone") # Select colour theme.
 
 
 
 # Using geom_smooth to see trends for each area
-ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, colour = SpeciesGroup, )) + 
-  geom_smooth(se = F) +
-  theme_classic() +
+ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, colour = SpeciesGroup, )) +  # Create mapping aesthetics.
+  geom_smooth(se = F) + # Use smooth plot, remove the confidence interval ribbons.
+  theme_classic() + # Use classic theme.
   labs(
     title = "Animals Caught In The Shark Control Program (2001-2024)", # Label title.
     x = "Location", y = "Total Animals Caught", # Create axes labels.
@@ -489,11 +518,11 @@ ggplot(sharkcontrol_long, aes(x = Year, y = Count, group = SpeciesGroup, colour 
     caption = "Data Sourced From https://qfish.fisheries.qld.gov.au" # Create caption title.
   ) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.9, hjust=1)) +
-    theme(legend.position = "bottom") +
+    theme(legend.position = "bottom") + # Adjust location of legend to the bottom
   theme(plot.title=element_text(size=10), axis.text.x=element_text(size=6), axis.text.y = element_text(size=6), strip.text.x = element_text(size = 6), axis.title=element_text(size= 8)) +
-   theme(legend.title = element_text(size = 6),
-               legend.text = element_text(size = 6), legend.title.position = "top") +
-  facet_wrap(~Area, scales="free_y") # free_y tells R to make y axis variable, this makes the axis more relevant to each plot.
-
+   theme(legend.title = element_text(size = 6), # Adjust text sizes for axes, titles.
+               legend.text = element_text(size = 6), legend.title.position = "top") + # Adjust legend size and title position.
+  facet_wrap(~Area, scales="free_y") + # Facet wrap so each location has its own plot. free_y tells R to make y axis variable, this makes the axis more relevant to each plot.
+scale_colour_paletteer_d("ggthemes::Superfishel_Stone") # Select colour theme.
 ```
 
