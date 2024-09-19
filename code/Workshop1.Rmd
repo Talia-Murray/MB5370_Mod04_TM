@@ -43,6 +43,7 @@ glimpse(penguins) # Shows all variables and the first few observations of each v
 summary(penguins) # Provides information on each of the variables in the data set.
 
 ```
+
 # Understanding grammar of graphics
 What happens if we just try to run ggplot on its own?
 ```{r}
@@ -142,7 +143,7 @@ ggplot(
   mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(aes(colour = species, shape = species)) + # Adjust data point colour and shape.
-  geom_smooth(method = "lm") + # Add a line of best fit to entire data set.
+  geom_smooth(method = "lm") + # Add a line of best fit to entire data set, method = 'lm' tells R to fit a linear relationship for line of best fit.
   labs(
     title = "Body mass and flipper length", # Create title for plot..
     subtitle = "Dimensions for Adelie, Chinstrap and Gentoo Penguins", # Create a subtitle.
@@ -389,28 +390,28 @@ This section will cover transformations and data summaries using the diamond dat
 
 ## Load data
 ```{r}
-data("diamonds")
-glimpse(diamonds)
+data("diamonds") # Load data.
+glimpse(diamonds) # Look at data.
 ```
 
 You can use geoms and stats interchangeably which is demonstrated below. The man reason for this is because every geom has a default stat and every stat has a default geom.
 
 # Bar plot
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut))
+ggplot(data = diamonds) + # Specify data.
+  geom_bar(mapping = aes(x = cut)) # Set mapping aesthetics using geom.
 ```
 
 ```{r}
-ggplot(data = diamonds) + 
-  stat_count(mapping = aes(x = cut))
+ggplot(data = diamonds) + # Specify data.
+  stat_count(mapping = aes(x = cut)) # Set mapping aesthetics using stat instead of geom.
 ```
 
 
 # Overriding defaults
 Make some new data
 ```{r}
-demo <- tribble(
+demo <- tribble( # Make new data set using tribble.
   ~cut,         ~freq,
   "Fair",       1610,
   "Good",       4906,
@@ -423,8 +424,8 @@ demo
 
 
 ```{r}
-ggplot(data = demo) +
-  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
+ggplot(data = demo) + # Specify data.
+  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity") # Set mapping aesthetics.
 ```
 
 # Question: Why did we specify now specify a y axis?
@@ -432,8 +433,8 @@ We need to specify the y axis because stat = "identity" tells R to give a sum of
 
 # What if we want to know the proportion rather than the absolute frequency?
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, y = stat(prop), group = 1))
+ggplot(data = diamonds) + # Specify data we want to use.
+  geom_bar(mapping = aes(x = cut, y = stat(prop), group = 1)) # Use stat prop to get a proportion of the total diamond dataset rather than a count which is what stat = identity gives.
 ```
 
 #Question: does R give the warning that's in the workbook?
@@ -443,8 +444,8 @@ Yes.
 
 So, can use # geom_bar(mapping = aes(x = cut, y = stage(after_stat = prop), group = 1))
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, y = stage(after_stat = prop), group = 1))
+ggplot(data = diamonds) + # Specify data we want to use.
+  geom_bar(mapping = aes(x = cut, y = stage(after_stat = prop), group = 1)) # Get the proportion of diamond data set using after_stat = prop.
 
 ```
 
@@ -466,67 +467,67 @@ ggplot(data = diamonds) +
 Another way to boost the way you can convey information with plots using ggplot2 is to use aesthetics like colour or fill to change aspects of bar colours. We already did this once, but there are multiple options available to you, including changing the fill our outline colours.
 
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, colour = cut))
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, fill = cut))
-```
+ggplot(data = diamonds) + # Specify data.
+  geom_bar(mapping = aes(x = cut, colour = cut)) # Set mapping aesthetics, set colour to cut. This will do the outline.
 
-#Question: Does anyone notice anything different in the colour scheme of this plot?
-(Hint: It's in the viridis colour palette (colour blind friendly), but why is it different from the colour palette we used earlier?)
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = cut)) # Set mapping aesthetics, set fill to cut. This will ensure the bars are a solid block colour depending on the cut type.
+```
+The above charts are using the viridis colour package which is why the colour scheme is different. this is demonstrated below. The first graphuses the default colour package and the second chart uses the viridis colour package for colour blindness.
+
 Check out the difference:
 ```{r}
-ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
-  geom_point(mapping = aes(color = class)) 
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + # Specify data and set mapping aesthetics.
+  geom_point(mapping = aes(color = class)) # Select geom type and make colour = class.
 
-ggplot(data = diamonds, mapping = aes(x = color, y = depth)) + 
-  geom_point(mapping = aes(color = cut)) 
+ggplot(data = diamonds, mapping = aes(x = color, y = depth)) + # Specify data and set mapping aesthetics.
+  geom_point(mapping = aes(color = cut))  # Select geom type and make colour = cut.
 ```
 
 
 # Filling by a variable
 Now try using these aesthetics to colour by another variable like clarity. Notice how the stacking is done automatically. This is done behind the scenes with a position argument.
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, fill = clarity))
+ggplot(data = diamonds) + # Specify data.
+  geom_bar(mapping = aes(x = cut, fill = clarity)) # Set mapping aesthetics, make fill = clarity.
 ```
 
 
 # To alter transparency (alpha)
 ```{r}
-ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + 
-  geom_bar(alpha = 1/5, position = "identity")
+ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + # Specify data and set mapping aesthetics.
+  geom_bar(alpha = 1/5, position = "identity") # Use alpha function too adjust the transparency of the fill which is set to clarity.
 ```
 
 
 # To color the bar outlines with no fill color
 ```{r}
-ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) + 
-  geom_bar(fill = NA, position = "identity")
+ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) + # Specify data and set apping aesthetics so colour = clarity.
+  geom_bar(fill = NA, position = "identity") # fill = NA tells R to not fill geom so we only have coloured outlines to what we have specified in the previous line of code.
 ```
 
 
 # Position adjustments
 position = "fill" works like stacking, but makes each set of stacked bars the same height.
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+ggplot(data = diamonds) + # Specify data.
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill") # Set mapping aesthetics.
 ```
 
 
 # position = "dodge" 
 Places overlapping objects directly beside one another.
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+ggplot(data = diamonds) + # Specify data
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge") # Set mapping aesthetics.
 ```
 
 # Jittering
 position = "jitter" adds a small amount of random noise to each point to avoid overplotting when points overlap. This is useful for scatterplots but not barplots.
 ```{r}
-ggplot(data = penguins) + 
-  #geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
-  geom_point(mapping = aes(x = species, y = flipper_length_mm))
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+
 ```
 
 
@@ -546,10 +547,10 @@ When using plots for communicating your results it is important to have good lab
 
 Adding a title to a plot:
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  geom_smooth(se =  FALSE) +
-  labs(title = "Fuel efficiency generally decreases with engine size")
+ggplot(mpg, aes(displ, hwy)) + # Specify data and select variables of interest.
+  geom_point(aes(colour = class)) + # Set mapping aesthetics
+  geom_smooth(se =  FALSE) + # Remove the confidence intervals from plot.
+  labs(title = "Fuel efficiency generally decreases with engine size") # Create Plot title.
 ```
 
 You can also add more text to this if needed by using other functions:
@@ -558,26 +559,25 @@ You can also add more text to this if needed by using other functions:
 
 Add these two functions to the code above:
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  geom_smooth(se =  FALSE) +
-  labs(title = "Fuel efficiency generally decreases with engine size", 
-       subtitle = "Two seaters (sports cars) are an exception because of their light weight", 
-       caption = "Data from fueleconomy.gov")
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  geom_smooth(se =  FALSE) + # Remove confidence intervals.
+  labs(title = "Fuel efficiency generally decreases with engine size", # Create title.
+       subtitle = "Two seaters (sports cars) are an exception because of their light weight", # Create subtitle
+       caption = "Data from fueleconomy.gov") # Create caption.
 ```
 
 
 Using the labs function we can also replace axis labels and legend titles:
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  geom_smooth(se = FALSE) +
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  geom_smooth(se = FALSE) + # Remove confidence intervals.
   labs(
-    x = "Engine displacement (L)", 
-    y = "Highway fuel economy (mpg)", 
-    colour = "Car type"
-  )
-  
+    x = "Engine displacement (L)", # Create label for x axis.
+    y = "Highway fuel economy (mpg)", # Create label fro y axis.
+    colour = "Car type" # Create legend title.
+  ) 
 
 ```
 
@@ -586,13 +586,13 @@ ggplot(mpg, aes(displ, hwy)) +
 Sometimes we want to add text to the plot itself to highlight single observations.
 
 ```{r}
-best_in_class <- mpg %>%
-  group_by(class) %>%
-  filter(row_number(desc(hwy))==1) # desc function means descending order
+best_in_class <- mpg %>% # Use mpg data to create new data frame.
+  group_by(class) %>% # group by class.
+  filter(row_number(desc(hwy))==1) # desc function means descending order. 
 
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  geom_text(aes(label = model), data = best_in_class)
+ggplot(mpg, aes(displ, hwy)) + # Specify data
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  geom_text(aes(label = model), data = best_in_class) # USe geom_text to create annotations on the chart.
 ```
 Some of the labels overlap, there are ways you can handle this issue. This could include using the nudge() function to move your text a certain amount and using other R packages to handle text wrapping etc. 
 
@@ -600,8 +600,8 @@ Some of the labels overlap, there are ways you can handle this issue. This could
 Adjusting your default scales in ggplot2 can also help improve the communication of your results.
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class))
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(colour = class)) # Set mapping aesthetics.
 ```
 
 Creating a plot this way, ggplot2 will automatically add the default scales.
@@ -609,30 +609,30 @@ We can change these by giving parameters to the scale arguments.
 To provide limits you’ll need to offer a character vector showing the start and end of your limit (e.g. c(0,12).
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  scale_x_continuous(limits = c(1, 8)) + # Change x axis limts 
-  scale_y_continuous(limits = c(10, 45)) + # Change y axis limts 
-  scale_colour_discrete()
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  scale_x_continuous(limits = c(1, 8)) + # Change x axis limits. 
+  scale_y_continuous(limits = c(10, 45)) + # Change y axis limits. 
+  scale_colour_discrete() # Select colour package.
 
 ```
 # Axis Ticks
 We can also change the ticks on the axes of our plots.
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  scale_y_continuous(breaks = seq(15, 40, by = 5))
+ggplot(mpg, aes(displ, hwy)) + # Specify data
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  scale_y_continuous(breaks = seq(15, 40, by = 5)) # Adjust y axis limits.
   
 ```
 Using the code seq(15, 40, by = 5) we tell R to format our y axis limits starting at 15, ending at 40 and to create axis ticks at intervals of 5.
 
 We can use the scale functions to also suppress the labels completely. This would be used for certain formatting purposes.
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  scale_x_continuous(labels = NULL) +
-  scale_y_continuous(labels = NULL)
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  scale_x_continuous(labels = NULL) + # Remove axis tick labels from x axis.
+  scale_y_continuous(labels = NULL) # Remove axis tick labels from y axis.
 ```
 
 
@@ -640,8 +640,8 @@ ggplot(mpg, aes(displ, hwy)) +
 
 We can also adjust the location of the legend on our plot using the theme() setting:
 ```{r}
-base <- ggplot(mpg, aes(displ, hwy)) +
-        geom_point(aes(colour = class))
+base <- ggplot(mpg, aes(displ, hwy)) + # Specify data.
+        geom_point(aes(colour = class)) # Set mapping aesthetics.
 base + theme(legend.position = "left") # legend.position tells R where we want to position the legend on the plot. This line of code has told R to put the legend on the left.
 base + theme(legend.position = "right") # Put legend on the right
 base + theme(legend.position = "top") # Put legend on the top of the plot.
@@ -658,7 +658,7 @@ Two types of scales that we might want to swap out are continuous position scale
 It is useful to plot transformations of variables.
 Changing the continuous position scale:
 ```{r}
-ggplot(diamonds, aes(carat, price)) +
+ggplot(diamonds, aes(carat, price)) + # Specify data.
   geom_bin2d() + # Set mapping aesthetic.
   scale_x_log10() + # Log transform x scale.
   scale_y_log10() # Log transform y scale.
@@ -668,33 +668,32 @@ Function: geom_bin2d divides the plane into rectangles, counts the number of cas
 
 Changing the colour scale:
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
   geom_point(aes(colour = drv)) # Set mapping aesthetic.
 
-ggplot(mpg, aes(displ, hwy)) +
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
   geom_point(aes(colour = drv)) +  # Set mapping aesthetic.
-  scale_colour_brewer(palette = "Set1") # cChange colour scale. 
+  scale_colour_brewer(palette = "Set2") # Change colour package. 
 
 ```
 
 Scale_colour_brewer provides sequential, diverging and qualitative colour schemes from ColourBrewer. The colour themes are particularly useful for discrete data. Colour Brewer has many different colour schemes available which you can find at: http://colorbrewer2.org/. For more information on colour schemes visit:  http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/ 
 
-if there are only a few colours, adding redundant shape mapping can help ensure your plot is interpretable in black and white.
+If there are only a few colours, adding redundant shape mapping can help ensure your plot is interpretable in black and white.
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
+ggplot(mpg, aes(displ, hwy)) +# Specify data.
   geom_point(aes(color = drv, shape = drv)) + # Set mapping aesthetic and adjust shape of data points.
-  scale_colour_brewer(palette = "Set1") # Select colour scale.
-
+  scale_colour_brewer(palette = "Set1") # Select colour package.
 ```
 If you are using predefined colours you are wanting to set yourself use scale_colour_manual().
 ```{r}
-presidential %>%
-  mutate(id = 33 + row_number()) %>%
-  ggplot(aes(start, id, colour = party)) +
-  geom_point() +
-  geom_segment(aes(xend = end, yend = id)) +
-  scale_colour_manual(values = c(Republican = "red", Democratic = "blue"))
+presidential %>% # Specify data.
+  mutate(id = 33 + row_number()) %>%  # Wrangle data.
+  ggplot(aes(start, id, colour = party)) + # Set mapping aesthetics
+  geom_point() + # Set mapping aesthetics
+  geom_segment(aes(xend = end, yend = id)) + # Set mapping aesthetics.
+  scale_colour_manual(values = c(Republican = "red", Democratic = "blue")) # Manually set colours for specified values.
 ```
 you can also use the viridis colour scheme colour package.
 ```{r}
@@ -710,14 +709,14 @@ df <- tibble( # Note: we are just making a fake dataset so we can plot it
   x = rnorm(10000), 
   y = rnorm(10000)
   )
-ggplot(df, aes(x, y)) +
+ggplot(df, aes(x, y)) + # Sepecify data.
   geom_hex() + # Set mapping aesthetic.
-  coord_fixed() 
+  coord_fixed() # Set a fixed aspect ratio for x and y axes.
 
 ggplot(df, aes(x, y)) +
   geom_hex() + # Set mapping aesthetic.
   viridis::scale_fill_viridis() + # Select viridis colour package.
-  coord_fixed()
+  coord_fixed() # Set a fixed aspect ratio for x and y axes.
 ```
 
 
@@ -726,25 +725,25 @@ ggplot(df, aes(x, y)) +
 You can also change the entire theme of the plot you build in R.
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(color = class)) +
-  geom_smooth(se = FALSE) +
-  theme_bw()
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(color = class)) + # Set mapping aesthetics.
+  geom_smooth(se = FALSE) + # Remove confidence interval.
+  theme_bw() # Selct theme.
 
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(color = class)) +
-  geom_smooth(se = FALSE) +
-  theme_light()
+ggplot(mpg, aes(displ, hwy)) +# Specify data.
+  geom_point(aes(color = class)) + # Set mapping aesthetics.
+  geom_smooth(se = FALSE) + # Remove confidence interval.
+  theme_light() # Selct theme.
 
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(color = class)) +
-  geom_smooth(se = FALSE) +
-  theme_classic()
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(color = class)) + # Set mapping aesthetics.
+  geom_smooth(se = FALSE) + # Remove confidence interval.
+  theme_classic() # Selct theme.
 
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(color = class)) +
-  geom_smooth(se = FALSE) +
-  theme_dark()
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(color = class)) + # Set mapping aesthetics.
+  geom_smooth(se = FALSE) + # Remove confidence interval.
+  theme_dark() # Selct theme.
 
 ```
 
@@ -753,18 +752,18 @@ You can also develop your own themes by setting some or all of the arguments to 
 
 For example:
 ```{r}
- theme (panel.border = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.minor.y = element_blank(),
-        legend.position="bottom",
-        legend.title=element_blank(),
-        legend.text=element_text(size=8),
-        panel.grid.major = element_blank(),
-        legend.key = element_blank(),
-        legend.background = element_blank(),
-        axis.text.y=element_text(colour="black"),
-        axis.text.x=element_text(colour="black"),
-        text=element_text(family="Arial"))
+ theme (panel.border = element_blank(), #Adjust border.
+        panel.grid.minor.x = element_blank(), #  Adjust minor grid lines for x axis.
+        panel.grid.minor.y = element_blank(), # Adjust minor grid lines for y axis.
+        legend.position="bottom", # adjust legend position.
+        legend.title=element_blank(), # Adjust legend title.
+        legend.text=element_text(size=8), # Adjust text size.
+        panel.grid.major = element_blank(), # Adjust major grid lines.
+        legend.key = element_blank(), # Adjust legend key.
+        legend.background = element_blank(), # Adjust background.
+        axis.text.y=element_text(colour="black"), # Select text colour for y axis.
+        axis.text.x=element_text(colour="black"),# Select text colour for x axis.
+        text=element_text(family="Arial")) # Select font.
 ```
 
 
@@ -775,10 +774,10 @@ Once you have created a plot, you want to save it in a format that allows you to
 You can do this using the ggsave() function. These plots will save to your working directory.
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) + 
+ggplot(mpg, aes(displ, hwy)) + #Specify data.
   geom_point() # Set mapping aesthetics.
 
-ggsave("my-plot.pdf") # Save plot as a pdf.
+# ggsave("my-plot.pdf") # Save plot as a pdf.
 ```
 
 You can save plots as .jpeg or .pdf though a pdf usually saves nicer.
@@ -797,7 +796,7 @@ This section will focus on tidying data or data wrangling. This section will dem
 
 # Import the required libraries.
 ```{r}
-library(tidyverse)
+library(tidyverse) # Load required
 ```
 
 We will often need to tidy data to improve the analytical capacity, essentially the way we collect data in the field may not be useful for when we want to analyse it.
@@ -816,12 +815,54 @@ Tidy data is useful because:
 
 # 4.4.1 Exercise
 1. For each of the sample tables describe what each observation and each column represents
-2. Sketch out the processes you would use  to calculate the rate for table 2 and table 3. you will need to perform the four operations:
+
+# Question 1
+```{r}
+# Load tables
+table1
+table2
+table3
+```
+Table 1 shows four different columns these are country, year, cases and population. The observations in this table give numeric data for the population column which provides information on the population size of a country at a given year. The cases columnn is also numeric observations showing the total cases that occurred in a country for a given year.
+
+
+Table 2 also has four columns, country, year, type and count. In this case the column type has two main observations which are cases and population. The count column has numeric data that corresponds to the type column and varies between counts of cases and counts of population.
+
+Table 3 has only three columns, country year and rate. Rate is a combined number of cases and population which is separated using a / to determine where one number ends and where the other begins.
+
+Of all these tables only Table 1 is tidy. This is because it can easily be worked with in R where the following tables are more complicated and will need to be better organised. Particularly table 3. The rate column is not provided in a way that allos us to work with it for any kind of analysis or visualisation.
+
+# Question 2:
+Sketch out the processes you would use  to calculate the rate for table 2 and table 3. you will need to perform the four operations:
   a) Extract the number of TB cases per country per year.
   b) Extract the matching population per country per year.
   c) Divide cases by population, and multiply by 10,000.
   d) Store back in the appropriate place.
   
+For table 2 we will have to separate the column type into a seperate column for cases and one for population with the correct values placed into each of those columns from the count column. From this we can then follow a similar method outlined in the chunk below as was done for table 1.
+
+For table 3 we need to create a column for the different values. We could easily separate these using the / as a way to determine where to split the data into separate columns titled cases and population. Then follow a similar method as in the chunk below.
+
+  
+```{r}
+# Using table1, compute rate per 10,000
+table1 %>% 
+  mutate(rate = cases / population * 10000) # mutate allows us to create new variables.
+
+# Using table1, compute cases per year
+table1 %>% 
+  count(year, wt = cases) # Creates a total sum of values using count function for each year.
+
+# Visualise changes over time
+library(ggplot2)
+ggplot(table1, aes(year, cases)) + # Specify data.
+  geom_line(aes(group = country), colour = "grey50") + # Set mapping aesthetics.
+  geom_point(aes(colour = country)) # set mapping aesthetics.
+
+
+```
+
+
 
 # Pivoting data to make it tidy
 There are two common problems with untidy data:
