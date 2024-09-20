@@ -43,6 +43,7 @@ glimpse(penguins) # Shows all variables and the first few observations of each v
 summary(penguins) # Provides information on each of the variables in the data set.
 
 ```
+
 # Understanding grammar of graphics
 What happens if we just try to run ggplot on its own?
 ```{r}
@@ -142,7 +143,7 @@ ggplot(
   mapping = aes(x = flipper_length_mm, y = body_mass_g) # Set arguments for x and y axes.
 ) +
   geom_point(aes(colour = species, shape = species)) + # Adjust data point colour and shape.
-  geom_smooth(method = "lm") + # Add a line of best fit to entire data set.
+  geom_smooth(method = "lm") + # Add a line of best fit to entire data set, method = 'lm' tells R to fit a linear relationship for line of best fit.
   labs(
     title = "Body mass and flipper length", # Create title for plot..
     subtitle = "Dimensions for Adelie, Chinstrap and Gentoo Penguins", # Create a subtitle.
@@ -389,28 +390,28 @@ This section will cover transformations and data summaries using the diamond dat
 
 ## Load data
 ```{r}
-data("diamonds")
-glimpse(diamonds)
+data("diamonds") # Load data.
+glimpse(diamonds) # Look at data.
 ```
 
 You can use geoms and stats interchangeably which is demonstrated below. The man reason for this is because every geom has a default stat and every stat has a default geom.
 
 # Bar plot
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut))
+ggplot(data = diamonds) + # Specify data.
+  geom_bar(mapping = aes(x = cut)) # Set mapping aesthetics using geom.
 ```
 
 ```{r}
-ggplot(data = diamonds) + 
-  stat_count(mapping = aes(x = cut))
+ggplot(data = diamonds) + # Specify data.
+  stat_count(mapping = aes(x = cut)) # Set mapping aesthetics using stat instead of geom.
 ```
 
 
 # Overriding defaults
 Make some new data
 ```{r}
-demo <- tribble(
+demo <- tribble( # Make new data set using tribble.
   ~cut,         ~freq,
   "Fair",       1610,
   "Good",       4906,
@@ -423,8 +424,8 @@ demo
 
 
 ```{r}
-ggplot(data = demo) +
-  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
+ggplot(data = demo) + # Specify data.
+  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity") # Set mapping aesthetics.
 ```
 
 # Question: Why did we specify now specify a y axis?
@@ -432,8 +433,8 @@ We need to specify the y axis because stat = "identity" tells R to give a sum of
 
 # What if we want to know the proportion rather than the absolute frequency?
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, y = stat(prop), group = 1))
+ggplot(data = diamonds) + # Specify data we want to use.
+  geom_bar(mapping = aes(x = cut, y = stat(prop), group = 1)) # Use stat prop to get a proportion of the total diamond dataset rather than a count which is what stat = identity gives.
 ```
 
 #Question: does R give the warning that's in the workbook?
@@ -443,8 +444,8 @@ Yes.
 
 So, can use # geom_bar(mapping = aes(x = cut, y = stage(after_stat = prop), group = 1))
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, y = stage(after_stat = prop), group = 1))
+ggplot(data = diamonds) + # Specify data we want to use.
+  geom_bar(mapping = aes(x = cut, y = stage(after_stat = prop), group = 1)) # Get the proportion of diamond data set using after_stat = prop.
 
 ```
 
@@ -466,67 +467,67 @@ ggplot(data = diamonds) +
 Another way to boost the way you can convey information with plots using ggplot2 is to use aesthetics like colour or fill to change aspects of bar colours. We already did this once, but there are multiple options available to you, including changing the fill our outline colours.
 
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, colour = cut))
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, fill = cut))
-```
+ggplot(data = diamonds) + # Specify data.
+  geom_bar(mapping = aes(x = cut, colour = cut)) # Set mapping aesthetics, set colour to cut. This will do the outline.
 
-#Question: Does anyone notice anything different in the colour scheme of this plot?
-(Hint: It's in the viridis colour palette (colour blind friendly), but why is it different from the colour palette we used earlier?)
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = cut)) # Set mapping aesthetics, set fill to cut. This will ensure the bars are a solid block colour depending on the cut type.
+```
+The above charts are using the viridis colour package which is why the colour scheme is different. this is demonstrated below. The first graphuses the default colour package and the second chart uses the viridis colour package for colour blindness.
+
 Check out the difference:
 ```{r}
-ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
-  geom_point(mapping = aes(color = class)) 
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + # Specify data and set mapping aesthetics.
+  geom_point(mapping = aes(color = class)) # Select geom type and make colour = class.
 
-ggplot(data = diamonds, mapping = aes(x = color, y = depth)) + 
-  geom_point(mapping = aes(color = cut)) 
+ggplot(data = diamonds, mapping = aes(x = color, y = depth)) + # Specify data and set mapping aesthetics.
+  geom_point(mapping = aes(color = cut))  # Select geom type and make colour = cut.
 ```
 
 
 # Filling by a variable
 Now try using these aesthetics to colour by another variable like clarity. Notice how the stacking is done automatically. This is done behind the scenes with a position argument.
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, fill = clarity))
+ggplot(data = diamonds) + # Specify data.
+  geom_bar(mapping = aes(x = cut, fill = clarity)) # Set mapping aesthetics, make fill = clarity.
 ```
 
 
 # To alter transparency (alpha)
 ```{r}
-ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + 
-  geom_bar(alpha = 1/5, position = "identity")
+ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + # Specify data and set mapping aesthetics.
+  geom_bar(alpha = 1/5, position = "identity") # Use alpha function too adjust the transparency of the fill which is set to clarity.
 ```
 
 
 # To color the bar outlines with no fill color
 ```{r}
-ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) + 
-  geom_bar(fill = NA, position = "identity")
+ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) + # Specify data and set apping aesthetics so colour = clarity.
+  geom_bar(fill = NA, position = "identity") # fill = NA tells R to not fill geom so we only have coloured outlines to what we have specified in the previous line of code.
 ```
 
 
 # Position adjustments
 position = "fill" works like stacking, but makes each set of stacked bars the same height.
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+ggplot(data = diamonds) + # Specify data.
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill") # Set mapping aesthetics.
 ```
 
 
 # position = "dodge" 
 Places overlapping objects directly beside one another.
 ```{r}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+ggplot(data = diamonds) + # Specify data
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge") # Set mapping aesthetics.
 ```
 
 # Jittering
 position = "jitter" adds a small amount of random noise to each point to avoid overplotting when points overlap. This is useful for scatterplots but not barplots.
 ```{r}
-ggplot(data = penguins) + 
-  #geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
-  geom_point(mapping = aes(x = species, y = flipper_length_mm))
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+
 ```
 
 
@@ -546,10 +547,10 @@ When using plots for communicating your results it is important to have good lab
 
 Adding a title to a plot:
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  geom_smooth(se =  FALSE) +
-  labs(title = "Fuel efficiency generally decreases with engine size")
+ggplot(mpg, aes(displ, hwy)) + # Specify data and select variables of interest.
+  geom_point(aes(colour = class)) + # Set mapping aesthetics
+  geom_smooth(se =  FALSE) + # Remove the confidence intervals from plot.
+  labs(title = "Fuel efficiency generally decreases with engine size") # Create Plot title.
 ```
 
 You can also add more text to this if needed by using other functions:
@@ -558,26 +559,25 @@ You can also add more text to this if needed by using other functions:
 
 Add these two functions to the code above:
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  geom_smooth(se =  FALSE) +
-  labs(title = "Fuel efficiency generally decreases with engine size", 
-       subtitle = "Two seaters (sports cars) are an exception because of their light weight", 
-       caption = "Data from fueleconomy.gov")
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  geom_smooth(se =  FALSE) + # Remove confidence intervals.
+  labs(title = "Fuel efficiency generally decreases with engine size", # Create title.
+       subtitle = "Two seaters (sports cars) are an exception because of their light weight", # Create subtitle
+       caption = "Data from fueleconomy.gov") # Create caption.
 ```
 
 
 Using the labs function we can also replace axis labels and legend titles:
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  geom_smooth(se = FALSE) +
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  geom_smooth(se = FALSE) + # Remove confidence intervals.
   labs(
-    x = "Engine displacement (L)", 
-    y = "Highway fuel economy (mpg)", 
-    colour = "Car type"
-  )
-  
+    x = "Engine displacement (L)", # Create label for x axis.
+    y = "Highway fuel economy (mpg)", # Create label fro y axis.
+    colour = "Car type" # Create legend title.
+  ) 
 
 ```
 
@@ -586,13 +586,13 @@ ggplot(mpg, aes(displ, hwy)) +
 Sometimes we want to add text to the plot itself to highlight single observations.
 
 ```{r}
-best_in_class <- mpg %>%
-  group_by(class) %>%
-  filter(row_number(desc(hwy))==1) # desc function means descending order
+best_in_class <- mpg %>% # Use mpg data to create new data frame.
+  group_by(class) %>% # group by class.
+  filter(row_number(desc(hwy))==1) # desc function means descending order. 
 
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  geom_text(aes(label = model), data = best_in_class)
+ggplot(mpg, aes(displ, hwy)) + # Specify data
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  geom_text(aes(label = model), data = best_in_class) # USe geom_text to create annotations on the chart.
 ```
 Some of the labels overlap, there are ways you can handle this issue. This could include using the nudge() function to move your text a certain amount and using other R packages to handle text wrapping etc. 
 
@@ -600,8 +600,8 @@ Some of the labels overlap, there are ways you can handle this issue. This could
 Adjusting your default scales in ggplot2 can also help improve the communication of your results.
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class))
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(colour = class)) # Set mapping aesthetics.
 ```
 
 Creating a plot this way, ggplot2 will automatically add the default scales.
@@ -609,30 +609,30 @@ We can change these by giving parameters to the scale arguments.
 To provide limits you’ll need to offer a character vector showing the start and end of your limit (e.g. c(0,12).
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  scale_x_continuous(limits = c(1, 8)) + # Change x axis limts 
-  scale_y_continuous(limits = c(10, 45)) + # Change y axis limts 
-  scale_colour_discrete()
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  scale_x_continuous(limits = c(1, 8)) + # Change x axis limits. 
+  scale_y_continuous(limits = c(10, 45)) + # Change y axis limits. 
+  scale_colour_discrete() # Select colour package.
 
 ```
 # Axis Ticks
 We can also change the ticks on the axes of our plots.
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  scale_y_continuous(breaks = seq(15, 40, by = 5))
+ggplot(mpg, aes(displ, hwy)) + # Specify data
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  scale_y_continuous(breaks = seq(15, 40, by = 5)) # Adjust y axis limits.
   
 ```
 Using the code seq(15, 40, by = 5) we tell R to format our y axis limits starting at 15, ending at 40 and to create axis ticks at intervals of 5.
 
 We can use the scale functions to also suppress the labels completely. This would be used for certain formatting purposes.
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = class)) +
-  scale_x_continuous(labels = NULL) +
-  scale_y_continuous(labels = NULL)
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(colour = class)) + # Set mapping aesthetics.
+  scale_x_continuous(labels = NULL) + # Remove axis tick labels from x axis.
+  scale_y_continuous(labels = NULL) # Remove axis tick labels from y axis.
 ```
 
 
@@ -640,8 +640,8 @@ ggplot(mpg, aes(displ, hwy)) +
 
 We can also adjust the location of the legend on our plot using the theme() setting:
 ```{r}
-base <- ggplot(mpg, aes(displ, hwy)) +
-        geom_point(aes(colour = class))
+base <- ggplot(mpg, aes(displ, hwy)) + # Specify data.
+        geom_point(aes(colour = class)) # Set mapping aesthetics.
 base + theme(legend.position = "left") # legend.position tells R where we want to position the legend on the plot. This line of code has told R to put the legend on the left.
 base + theme(legend.position = "right") # Put legend on the right
 base + theme(legend.position = "top") # Put legend on the top of the plot.
@@ -658,7 +658,7 @@ Two types of scales that we might want to swap out are continuous position scale
 It is useful to plot transformations of variables.
 Changing the continuous position scale:
 ```{r}
-ggplot(diamonds, aes(carat, price)) +
+ggplot(diamonds, aes(carat, price)) + # Specify data.
   geom_bin2d() + # Set mapping aesthetic.
   scale_x_log10() + # Log transform x scale.
   scale_y_log10() # Log transform y scale.
@@ -668,33 +668,32 @@ Function: geom_bin2d divides the plane into rectangles, counts the number of cas
 
 Changing the colour scale:
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
   geom_point(aes(colour = drv)) # Set mapping aesthetic.
 
-ggplot(mpg, aes(displ, hwy)) +
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
   geom_point(aes(colour = drv)) +  # Set mapping aesthetic.
-  scale_colour_brewer(palette = "Set1") # cChange colour scale. 
+  scale_colour_brewer(palette = "Set2") # Change colour package. 
 
 ```
 
 Scale_colour_brewer provides sequential, diverging and qualitative colour schemes from ColourBrewer. The colour themes are particularly useful for discrete data. Colour Brewer has many different colour schemes available which you can find at: http://colorbrewer2.org/. For more information on colour schemes visit:  http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/ 
 
-if there are only a few colours, adding redundant shape mapping can help ensure your plot is interpretable in black and white.
+If there are only a few colours, adding redundant shape mapping can help ensure your plot is interpretable in black and white.
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
+ggplot(mpg, aes(displ, hwy)) +# Specify data.
   geom_point(aes(color = drv, shape = drv)) + # Set mapping aesthetic and adjust shape of data points.
-  scale_colour_brewer(palette = "Set1") # Select colour scale.
-
+  scale_colour_brewer(palette = "Set1") # Select colour package.
 ```
 If you are using predefined colours you are wanting to set yourself use scale_colour_manual().
 ```{r}
-presidential %>%
-  mutate(id = 33 + row_number()) %>%
-  ggplot(aes(start, id, colour = party)) +
-  geom_point() +
-  geom_segment(aes(xend = end, yend = id)) +
-  scale_colour_manual(values = c(Republican = "red", Democratic = "blue"))
+presidential %>% # Specify data.
+  mutate(id = 33 + row_number()) %>%  # Wrangle data.
+  ggplot(aes(start, id, colour = party)) + # Set mapping aesthetics
+  geom_point() + # Set mapping aesthetics
+  geom_segment(aes(xend = end, yend = id)) + # Set mapping aesthetics.
+  scale_colour_manual(values = c(Republican = "red", Democratic = "blue")) # Manually set colours for specified values.
 ```
 you can also use the viridis colour scheme colour package.
 ```{r}
@@ -710,14 +709,14 @@ df <- tibble( # Note: we are just making a fake dataset so we can plot it
   x = rnorm(10000), 
   y = rnorm(10000)
   )
-ggplot(df, aes(x, y)) +
+ggplot(df, aes(x, y)) + # Sepecify data.
   geom_hex() + # Set mapping aesthetic.
-  coord_fixed() 
+  coord_fixed() # Set a fixed aspect ratio for x and y axes.
 
 ggplot(df, aes(x, y)) +
   geom_hex() + # Set mapping aesthetic.
   viridis::scale_fill_viridis() + # Select viridis colour package.
-  coord_fixed()
+  coord_fixed() # Set a fixed aspect ratio for x and y axes.
 ```
 
 
@@ -726,25 +725,25 @@ ggplot(df, aes(x, y)) +
 You can also change the entire theme of the plot you build in R.
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(color = class)) +
-  geom_smooth(se = FALSE) +
-  theme_bw()
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(color = class)) + # Set mapping aesthetics.
+  geom_smooth(se = FALSE) + # Remove confidence interval.
+  theme_bw() # Selct theme.
 
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(color = class)) +
-  geom_smooth(se = FALSE) +
-  theme_light()
+ggplot(mpg, aes(displ, hwy)) +# Specify data.
+  geom_point(aes(color = class)) + # Set mapping aesthetics.
+  geom_smooth(se = FALSE) + # Remove confidence interval.
+  theme_light() # Selct theme.
 
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(color = class)) +
-  geom_smooth(se = FALSE) +
-  theme_classic()
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(color = class)) + # Set mapping aesthetics.
+  geom_smooth(se = FALSE) + # Remove confidence interval.
+  theme_classic() # Selct theme.
 
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(color = class)) +
-  geom_smooth(se = FALSE) +
-  theme_dark()
+ggplot(mpg, aes(displ, hwy)) + # Specify data.
+  geom_point(aes(color = class)) + # Set mapping aesthetics.
+  geom_smooth(se = FALSE) + # Remove confidence interval.
+  theme_dark() # Selct theme.
 
 ```
 
@@ -753,18 +752,18 @@ You can also develop your own themes by setting some or all of the arguments to 
 
 For example:
 ```{r}
- theme (panel.border = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.minor.y = element_blank(),
-        legend.position="bottom",
-        legend.title=element_blank(),
-        legend.text=element_text(size=8),
-        panel.grid.major = element_blank(),
-        legend.key = element_blank(),
-        legend.background = element_blank(),
-        axis.text.y=element_text(colour="black"),
-        axis.text.x=element_text(colour="black"),
-        text=element_text(family="Arial"))
+ theme (panel.border = element_blank(), #Adjust border.
+        panel.grid.minor.x = element_blank(), #  Adjust minor grid lines for x axis.
+        panel.grid.minor.y = element_blank(), # Adjust minor grid lines for y axis.
+        legend.position="bottom", # adjust legend position.
+        legend.title=element_blank(), # Adjust legend title.
+        legend.text=element_text(size=8), # Adjust text size.
+        panel.grid.major = element_blank(), # Adjust major grid lines.
+        legend.key = element_blank(), # Adjust legend key.
+        legend.background = element_blank(), # Adjust background.
+        axis.text.y=element_text(colour="black"), # Select text colour for y axis.
+        axis.text.x=element_text(colour="black"),# Select text colour for x axis.
+        text=element_text(family="Arial")) # Select font.
 ```
 
 
@@ -775,10 +774,10 @@ Once you have created a plot, you want to save it in a format that allows you to
 You can do this using the ggsave() function. These plots will save to your working directory.
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) + 
+ggplot(mpg, aes(displ, hwy)) + #Specify data.
   geom_point() # Set mapping aesthetics.
 
-ggsave("my-plot.pdf") # Save plot as a pdf.
+# ggsave("my-plot.pdf") # Save plot as a pdf.
 ```
 
 You can save plots as .jpeg or .pdf though a pdf usually saves nicer.
@@ -797,7 +796,7 @@ This section will focus on tidying data or data wrangling. This section will dem
 
 # Import the required libraries.
 ```{r}
-library(tidyverse)
+library(tidyverse) # Load required
 ```
 
 We will often need to tidy data to improve the analytical capacity, essentially the way we collect data in the field may not be useful for when we want to analyse it.
@@ -816,12 +815,54 @@ Tidy data is useful because:
 
 # 4.4.1 Exercise
 1. For each of the sample tables describe what each observation and each column represents
-2. Sketch out the processes you would use  to calculate the rate for table 2 and table 3. you will need to perform the four operations:
+
+# Question 1
+```{r}
+# Load tables
+table1
+table2
+table3
+```
+Table 1 shows four different columns these are country, year, cases and population. The observations in this table give numeric data for the population column which provides information on the population size of a country at a given year. The cases columnn is also numeric observations showing the total cases that occurred in a country for a given year.
+
+
+Table 2 also has four columns, country, year, type and count. In this case the column type has two main observations which are cases and population. The count column has numeric data that corresponds to the type column and varies between counts of cases and counts of population.
+
+Table 3 has only three columns, country year and rate. Rate is a combined number of cases and population which is separated using a / to determine where one number ends and where the other begins.
+
+Of all these tables only Table 1 is tidy. This is because it can easily be worked with in R where the following tables are more complicated and will need to be better organised. Particularly table 3. The rate column is not provided in a way that allos us to work with it for any kind of analysis or visualisation.
+
+# Question 2:
+Sketch out the processes you would use  to calculate the rate for table 2 and table 3. you will need to perform the four operations:
   a) Extract the number of TB cases per country per year.
   b) Extract the matching population per country per year.
   c) Divide cases by population, and multiply by 10,000.
   d) Store back in the appropriate place.
   
+For table 2 we will have to separate the column type into a seperate column for cases and one for population with the correct values placed into each of those columns from the count column. From this we can then follow a similar method outlined in the chunk below as was done for table 1.
+
+For table 3 we need to create a column for the different values. We could easily separate these using the / as a way to determine where to split the data into separate columns titled cases and population. Then follow a similar method as in the chunk below.
+
+  
+```{r}
+# Using table1, compute rate per 10,000
+table1 %>% 
+  mutate(rate = cases / population * 10000) # mutate allows us to create new variables.
+
+# Using table1, compute cases per year
+table1 %>% 
+  count(year, wt = cases) # Creates a total sum of values using count function for each year.
+
+# Visualise changes over time
+library(ggplot2)
+ggplot(table1, aes(year, cases)) + # Specify data.
+  geom_line(aes(group = country), colour = "grey50") + # Set mapping aesthetics.
+  geom_point(aes(colour = country)) # set mapping aesthetics.
+
+
+```
+
+
 
 # Pivoting data to make it tidy
 There are two common problems with untidy data:
@@ -842,9 +883,9 @@ billboard
 # Lengthen data
 billboard |>
   pivot_longer(
-    cols =  starts_with("wk"),
-    names_to = "Week", 
-    values_to = "Rank"
+    cols =  starts_with("wk"), # This line of code is telling which columns need to be reorganised.
+    names_to = "Week", # This tells R that the reshaped columns will be organised under the new column called Week.
+    values_to = "Rank" # This function tells R that we want to create a new column called Rank for the data that was stored in the cells of the original columns.
   )
 ```
 
@@ -859,10 +900,10 @@ There are now NAs in the data that we created when we changed the structure of t
 # Lengthen data and remove NAs
 billboard |>
   pivot_longer(
-    cols =  starts_with("wk"),
-    names_to = "Week", 
-    values_to = "Rank", 
-    values_drop_na = TRUE
+    cols =  starts_with("wk"), # Select column to reorganise.
+    names_to = "Week", # Create name for reshaped column.
+    values_to = "Rank", # Create a new column for the values stored in original columns.
+    values_drop_na = TRUE # Remove NAs
   )
 ```
 The data is now tidy but we could also do more to improve the format to make future computation easier, for example, we could convert some of our values from strings to numbers using mutate() and parse_number().
@@ -881,7 +922,7 @@ df <- tribble(
 # Tidy data by making it longer:
 df |> # |> is a piping function.
   pivot_longer(
-    cols = bp1:bp2, 
+    cols = bp1:bp2, # This line of code is telling which columns need to be reorganised, using the : we tell R that all columns between and including bp1 and bp2 are being reshaped.
     names_to = "Measurement", 
     values_to = "Value"
   )
@@ -898,10 +939,12 @@ We will use an example from R4DS to explore pivot_wider() looking at the cms_pat
 cms_patient_experience
 ```
 The core unit being studied is an organisation but in the current format each organisation is spread across 6 rows with one row for each measurement taken in the survey organisation.
+
 We can see the complete set of values for measure_cd and measure_title by using distinct()
+
 ```{r}
 cms_patient_experience |>
-  distinct(measure_cd, measure_title)
+  distinct(measure_cd, measure_title) # Select a specific row/column using distinct function
 ```
 
 Neither of these will make great variable names - measure_cd doesn't hint at the meaning of the variable and measure_title is a long sentence with spaces. So, we will use measure_cd as the source for our new column names  for now, but in a real analysis you might want to create your own variable names that are both short and meaningful.
@@ -909,16 +952,17 @@ Neither of these will make great variable names - measure_cd doesn't hint at the
 pivot_wider() has the opposite interface to pivot_longer(): instead of choosing new column names, we need to provide the existing columns that define the vlaues (values_from) and the column name (names_from):
 ```{r}
 cms_patient_experience |>
-  pivot_wider(
+  pivot_wider( # Widen data set
     names_from = measure_cd, 
     values_from = prf_rate
   )
 ```
+
 The above output doesn't look quite right, we still have multiple rows for each organisation. That is because we also need to tell pivot_wider() which column or columns have values that uniquely identify each row; in this case those are the variables starting with "org".
 ```{r}
 cms_patient_experience |>
-  pivot_wider(
-    id_cols = starts_with("org"), 
+  pivot_wider( # Widen data set.
+    id_cols = starts_with("org"), # Select columns that start with org
     names_from = measure_cd, 
     values_from = prf_rate
   )
@@ -937,7 +981,7 @@ df <- tribble(
 
 # Widen dataset by taking the names from the measurement column using the names_from() argument and the values from the value column using the values_from() argument.
 df |> 
-  pivot_wider(
+  pivot_wider( # Widen dataset.
     names_from = Measurement,
     values_from = Value
   )
@@ -945,7 +989,7 @@ df |>
 # To start the pivoting process, pivot_wider() needs to first figure out what will go in the rows and columns. The new column names will be the unique values of measurement.
 df |> 
   distinct(Measurement) |> 
-  pull()
+  pull() # pull() selects a column in a data frame and transforms it into a vector.
 
 # The rows in the output are determined by all the variables that aren’t going into the new names or values. These are called the id_cols. Here there is only one column, but in general there can be any number.
 df |> 
@@ -957,21 +1001,72 @@ df |>
   select(-Measurement, -Value) |> 
   distinct() |> 
   mutate(x = NA, y = NA, z = NA)
+
 # It then fills in all the missing values using the data in the input. IN this case, not every cell in the output has a corresponding value in the input as there is no third blood pressure measurement for patient B, so that cell remains missing.
 ```
 
 # 4.5.5 Exercises
 Why are pivot_longer() and pivot_wider() not perfectly symmetrical? Carefully consider the following example. 
 ```{r}
+stocks <- tibble(
+  year   = c(2015, 2015, 2016, 2016),
+  half  = c(   1,    2,     1,    2),
+  return = c(1.88, 0.59, 0.92, 0.17)
+)
+
+stocks %>% 
+  pivot_wider(names_from = year, values_from = return) %>% 
+  pivot_longer(`2015`:`2016`, names_to = "year", values_to = "return")
+# Lengthening the data set there are three columns and four rows. This is because all the values are placed into one column stacking each value. 
+
+stocks %>% 
+  pivot_wider(names_from = year, values_from = return)
+# Using wider we get three columns and 2 rows. The years are split into two separate columns. In this example the half column has only one row for value 1 and value 2 where the longer version has two rows for value 1 and two rows for value 2.
 
 ```
 
 Why does this code fail?
+```{r}
+table4a
+table4a %>% 
+  pivot_longer(c(1999, 2000), names_to = "year", values_to = "cases")
+```
+
+This code fails because it doesn't register 1999 and 2000 as columns so it doesn't believe they exist.
+
+The correct way to do this is below:
+```{r}
+table4a %>%
+  pivot_longer(
+    cols = "1999":"2000", 
+    names_to = "year",
+    values_to = "cases"
+  )
+```
+
 
 Consider the sample tibble below. Do you need to make it wider or longer? What are the variables?
+```{r}
+preg <- tribble(
+  ~pregnant, ~male, ~female,
+  "yes",     NA,    10,
+  "no",      20,    12
+)
+```
+We could make this table longer by putting male and female into one column called sex and the numbers below as results in another column. For example the way this can be done is demonstrated below:
+```{r}
+preg %>%
+  pivot_longer(
+    cols = "male":"female", 
+    names_to = "Sex",
+    values_to = "results",
+    values_drop_na = TRUE # Remove NAs
+  )
+```
 
 
 # Separating and uniting data tables
+
 # Separating
 This section will cover separating one column into multiple.
 ```{r}
@@ -979,11 +1074,12 @@ This section will cover separating one column into multiple.
 table3
 
 # We need to split the rate column into two variables: 1) Cases, 2) Population.
-# separate() will take the name of the column we want to split and the names of the columns we want it to split into.
+
 table3 %>%
-  separate(rate, into = c("cases", "population"))
+  separate(rate, into = c("cases", "population")) # separate() will take the name of the column we want to split and the names of the columns we want it to split into.
 
 ```
+
 By default R will split values wherever it sees a non-alphanumeric character. For example, in the code above, separate() split the values of rate at the forward slash characters. If you wish to use a specific character to separate a column, you can pass the character to the sep argument of separate(). For example, we could rewrite the code above as:
 ```{r}
 table3 %>%
@@ -1032,7 +1128,7 @@ treatment <- tribble(
 We can fill in these missing values with tidyr::fill() which works in a similar way to select(), taking a set of columns:
 ```{r}
 treatment |>
-  fill(everything())
+  fill(everything()) # Fill empty rows.
 ```
 This is also called "last observation carried forward" of locf. You can use the .direction argument to fill in missing values that have been generated in a more complicated way.
 
@@ -1055,7 +1151,8 @@ One special type of missing value worth mentioning is NaN or Not a Number. It ty
 x <- c(NA, NaN)
 x * 10
 x == 1
-is.na(x)
+is.na(x) # This can tell both Na and NaN are NA values
+is.nan(x) # In cases where we need to be specific we can use this function. This shows FALSE TRUE  because it is specifically identifying NaN values.
 ```
 NaN is common when performing a mathematical operation that has an indeterminate result.
 
@@ -1063,7 +1160,7 @@ NaN is common when performing a mathematical operation that has an indeterminate
 # Implicit missing values
 Demonstrate a dataset with implicit absence. 
 ```{r}
-stocks <- tibble(
+stocks <- tibble( # Create dataset
   year  = c(2020, 2020, 2020, 2020, 2021, 2021, 2021),
   qtr   = c(   1,    2,    3,    4,    2,    3,    4),
   price = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66)
@@ -1071,6 +1168,7 @@ stocks <- tibble(
 
 ```
 This dataset has two missing observations:
+
 1) The price in the fourth quarter of 2020 is explicitly missing, because its value is NA.
 2) The price for the first quarter of 2021 is implicitly missing, because it simply does not appear in the dataset.
 
@@ -1078,6 +1176,7 @@ Sometimes we want to make the implicit missing values explicit. In other situati
 
 A good example of this can be shown using the stocks data:
 ```{r}
+# Widen dataset
 stocks |>
   pivot_wider(
     names_from = qtr, 
@@ -1093,12 +1192,13 @@ stocks |>
 # Normally, we call complete() with names of existing variables to fill in the missing cimbinations. Sometimes the individual variables are incomplete. So instead, we can provide our own data. 
 # For example, we might know that the stocks dataset is supposed to run from 2019 to 2021, so you could explicitly supply those values for year:
 stocks |>
-  complete(year = 2019:2021, qtr)
+  complete(year = 2019:2021, qtr) # Generate missing values in special cases
 ```
 
 
 
 # Importing into R
+
 # CSV files 
 Most common file type for tabular data is a .csv
 Important things to consider when using .csv fies :
@@ -1123,7 +1223,7 @@ students
 ```
 We can see there are some N/A values in the favourite.food variable. The issue here is R has treated the missing value as a character string (actual value) rather than as a real NA. We can fix this using a simple code when we read in our csv:
 ```{r}
-students <- read_csv("https://pos.it/r4ds-students-csv", na = c("N/A", ""))
+students <- read_csv("https://pos.it/r4ds-students-csv", na = c("N/A", "")) # Make N/A and empty cells equal NA values. 
 students
 ```
 
@@ -1131,46 +1231,71 @@ Sometimes the variable names may have backticks surrounding them. We can fix thi
 ```{r}
 students |> 
   rename(
-    student_id = `Student ID`,
-    full_name = `Full Name`
+    student_id = `Student ID`, # Remove backticks from column name and rename variable.
+    full_name = `Full Name` # Remove backticks from column name and rename variable.
   )
 ```
 
 
 # 4.7.3 Exercises
 Identify what is wrong with each of the following inline CSV files. What happens when you run the code?
+```{r}
+
+read_csv("a,b\n1,2,3\n4,5,6") # The first line is used for data columns but the following 2 chunks of code have three variables not 2 so R will join the last two numbers of each chunk  together for the second column rather than having them as separate variables.
+read_csv("a,b,c\n1,2\n1,2,3,4") # The 3 and 4 join together in the last row of the last column because there are more variables than there are columns.
+read_csv("a,b\n\"1") # The "1" makes R unable to read the inline csv.
+read_csv("a,b\n1,2\na,b") # The letters in the last chunk will put letters in the last row instead of numbers.
+read_csv("a;b\n1;3") # Using a semicolon instead of a comma joins the a and b and the 1 and 3 together instead of separating them.
+
+```
+
 
 
 # Learning relational data
+Relational data is a collection of multiple data tables in a given dataset that are related in some way. The term relational comes from the relations between the tables not just in the individual tables.
 
+Relations are always defined between a pair of tables. All other relations are built up from this simple idea: the relations of three or more tables are always a property of the relations between each pair. 
 
+To work with relational data you need verbs that work with pairs of tables.
+The three families of verbs designed to work with relational data are:
+  1) Mutating joins - add new variables to one     dataframe from matching observations in        another
+  2) Filtering joins - filter observations from     one data frame based on whether or not they     match an observation in the other table
+  3) Set operations - treat observations as if      they are set elements
+
+# Explore a relational dataset
 ```{r}
 # Load data and install required packages
 # install.packages("nycflights13") # Comment out once installed.
 
 library(nycflights13)
 
-airlines # Look at data.
-airports # Look at data.
-planes # Look at data.
-weather # Look at data.
+airlines # Shows the full carrier name from its abbreviated code.
+airports #  Gives information about each airport, identified by the FAA airport code.
+planes # Gives information about each plane, identified by its tailnum.
+weather # Gives weather at each NYC airport for each hour.
 ```
 
+flights connects to planes via a single variable, tailnum.
+flights connects to airlines through the carrier variable.
+flights connects to airports in two ways: via origin and dest variables.
+flights connects to weather via origin (the location), and year, month, day and hour (the time).
 
 # Joining datasets
 We join datasets together by identifying keys. A key is a variable (or set of variables) that uniquely identifies an observation. For example, each plane is uniquely identified by its tailnum. In other cases, multiple variables may be needed. For example, to identify an observation in weather you need five variables: year, month, day, hour, origin.
 
 There are two kinds of keys, these are primary and foreign. 
+
 A primary key uniquely identifies an observation in its own table. For example, planes$tailnum is a primary key because it uniquely identifies each plane in the planes table.
+
 A foreign key uniquely identifies an observation in another table. For example, flights$tailnum is a foreign key because it appears in the flights table where it matches each flight to a unique plane.
 ```{r}
 # After identifying the primary keys in our tables, we need to verify if they do uniquely identify each observation. We can do this using count():
 planes %>%
-  count(tailnum) %>%
+  count(tailnum) %>% # Count tailnum.
   filter(n > 1)
   
 weather %>%
-  count(year, month, day, hour, origin) %>%
+  count(year, month, day, hour, origin) %>% # Count year, month, day, hour and origin.
   filter(n > 1)
 
 # Sometimes a table doesn’t have an explicit primary key: each row is an observation, but no combination of variables reliably identifies it. For example, you might expect that the primary key for flights would be the date plus the flight or tail number, but neither of those are unique:
@@ -1186,38 +1311,41 @@ flights %>%
 
 
 # Mutating Joins
+Mutating join is a tool to combine a pair of tables.
 
+join functions add variables to the right side of the data table.
 ```{r}
 flights2 <- flights %>% 
-  select(year:day, hour, origin, dest, tailnum, carrier)
+  select(year:day, hour, origin, dest, tailnum, carrier) # Create a subset of the data.
 
 ```
 
 
-
+Use the mutating function left_join()
 ```{r}
 flights2 %>%
-  select(-origin, -dest) %>% 
-  left_join(airlines, by = "carrier")
+  select(-origin, -dest) %>%  # Remove origin and dest variables.
+  left_join(airlines, by = "carrier") # Use left join to join datasets by keeping ll observation in x.
 
 ```
 
 
-
+The mutate() function can create the same result but is more involved which can become messy when matching multiple variables.
 ```{r}
 flights2 %>%
-  select(-origin, -dest) %>% 
-  mutate(name = airlines$name[match(carrier, airlines$carrier)])
+  select(-origin, -dest) %>% # Remove origin and dest variables.
+  mutate(name = airlines$name[match(carrier, airlines$carrier)]) # Tell R where we want to join the dataset.
 ```
 
+Create a two small datasets to visualise the joins.
 ```{r}
-x <- tribble(
+x <- tribble( # Create a dataset.
   ~key, ~val_x,
      1, "x1",
      2, "x2",
      3, "x3"
 )
-y <- tribble(
+y <- tribble( # create a dataset.
   ~key, ~val_y,
      1, "y1",
      2, "y2",
@@ -1226,15 +1354,12 @@ y <- tribble(
 ```
 
 
-
-
-
+The inner join is the simplest join as it matches observations with equivalent keys.
 
 ```{r}
 x %>% 
-  inner_join(y, by = "key")
+  inner_join(y, by = "key") # Join x and y by key variable using the inner_join function.
 ```
-
 
 
 
@@ -1251,7 +1376,7 @@ y <- tribble(
      1, "y1",
      2, "y2"
 )
-left_join(x, y, by = "key")
+left_join(x, y, by = "key") # Keep all observations in x
 ```
 
 
@@ -1273,53 +1398,64 @@ y <- tribble(
 )
 left_join(x, y, by = "key")
 ```
+right_join() keeps all observations in y.
+full_join() keeps all observations in x and y.
+
+These joins work by adding an additional “virtual” observation to each table. This observation has a key that always matches (if no other key matches), and a value filled with NA. The left join should be your default join, because it preserves the original observations even when there isn’t a match.
+
 
 ```{r}
 flights2 %>% 
-  left_join(weather)
+  left_join(weather) # Join by weather.
 ```
 
 ```{r}
 flights2 %>% 
-  left_join(planes, by = "tailnum")
+  left_join(planes, by = "tailnum") # Joing flights2 and planes datasets using tailnum.
 ```
 
 ```{r}
 flights2 %>% 
-  left_join(airports, c("dest" = "faa"))
+  left_join(airports, c("dest" = "faa")) # This will match dest variable in table flights2 to variable faa in dataset airports. 
 ```
 
 ```{r}
 flights2 %>% 
-  left_join(airports, c("origin" = "faa"))
+  left_join(airports, c("origin" = "faa")) # This will match origin variable in table flights2 to variable faa in dataset airports. 
 ```
 
 
 
 # Pipes for more readable workflows
+
+Let’s explore pipes using code to tell a kids story about a little bunny named Foo Foo:
+
+And we’ll use a function for each key verb: hop(), scoop(), and bop(). Using this object and these verbs, there are (at least) four ways we could retell the story in code:
+  1) Save each intermediate step as a new            object.
+  2) Overwrite the original object many times.
+     Compose functions.
+  3) Use the pipe.
+
+
 ```{r}
-foo_foo <- little_bunny()
+# foo_foo <- little_bunny()
+
+# Step 1:
+
+# foo_foo_1 <- hop(foo_foo, through = forest)
+# foo_foo_2 <- scoop(foo_foo_1, up = field_mice)
+# foo_foo_3 <- bop(foo_foo_2, on = head)
+
+#Step 2:
+
+# foo_foo <- hop(foo_foo, through = forest)
+# foo_foo <- scoop(foo_foo, up = field_mice)
+# foo_foo <- bop(foo_foo, on = head)
 ```
 
-
-
+This is how we could write a workflow.
 ```{r}
-foo_foo_1 <- hop(foo_foo, through = forest)
-foo_foo_2 <- scoop(foo_foo_1, up = field_mice)
-foo_foo_3 <- bop(foo_foo_2, on = head)
-```
-
-
-
-```{r}
-foo_foo <- hop(foo_foo, through = forest)
-foo_foo <- scoop(foo_foo, up = field_mice)
-foo_foo <- bop(foo_foo, on = head)
-```
-
-
-
-```{r}
+# Step 3:
 bop(
   scoop(
     hop(foo_foo, through = forest),
@@ -1327,8 +1463,11 @@ bop(
   ), 
   on = head
 )
-```
 
+```
+The main disadvantage of this method is that you have to read from inside-out, from right-to-left, and that the arguments end up spread far apart. This makes it harder for us to read and digest easily. 
+
+We can make this more readable by using pipe functions
 
 
 ```{r}
@@ -1338,7 +1477,13 @@ foo_foo %>%
   bop(on = head)
 ```
 
+Things to Note when using pipes:
 
+If your pipes are longer than  ~ten steps. Create intermediate objects with meaningful names. That will make debugging easier and it makes it easier to understand your code.
+
+If you have multiple inputs or outputs. If there isn’t one primary object being transformed, but two or more objects being combined together, don’t use the pipe.
+
+If you are starting to think about a directed graph with a complex dependency structure. Pipes are fundamentally linear and expressing complex relationships with them will typically yield confusing code.
 
 
 
@@ -1371,26 +1516,45 @@ library(readr)
 dat <- read_csv("../data/data-for-course/copepods_raw.csv")
 dat
 ```
+
 # Data Exploration
 # Check coordinates
 ```{r}
 library(ggplot2)
-ggplot(dat) +
-  aes(x = longitude, y = latitude, colour = richness_raw) +
-  geom_point()
+ggplot(dat) + # Specify data.
+  aes(x = longitude, y = latitude, colour = richness_raw) + # Set mapping aesthetics.
+  geom_point() # Select geom.
 ```
+Shows the location of every segment and colour the points by species richness. The axes are set up as latitude and longitude just like a map. However, it is not a map because it is lacking important map elements. In reality we have just got a scatter plot and a easy way to look at our data.
 
+Visualise richness in a non-spatial way with latitude on the x-axis and richness on the y-axis.
 ```{r}
-ggplot(dat, aes(x = latitude, y = richness_raw)) +
-  stat_smooth() +
-  geom_point()
+ggplot(dat, aes(x = latitude, y = richness_raw)) + # Specify data and set mapping aesthetics.
+  stat_smooth() + # Select Stat type.
+  geom_point() # Select geom.
 ```
 
 
 # Getting going with maps
+First we need to turn our point data into a spatially referenced data frame using the sf package (sf stands for ‘simple features’) which is an open standard for geospatial databases.
 ```{r}
 sdat <- st_as_sf(dat, coords = c("longitude", "latitude"), crs = 4326)
 ```
+
+st_as_sf function converts different data types to simple features.
+dat is our original data.
+coords gives the names of the columns that relate to the spatial coordinates.
+crs stands for coordinate reference system.
+
+
+# Coordinate Reference Systems
+Coordinate reference systems are required for 2D mapping to compensate for the lumpy, spherical (3D) nature of the earth
+
+In mapping, we refer to the reference point as datum and the lumpy spherical earth model as an ellipsoid. Together, these make a geographic coordinate reference system (GCS), which tells us where the coordinates of our copepod data are located on the earth.
+
+GCS’s are represented by angular units (i.e. longitude and latitude), usually in decimal degree
+
+An EPSG code is a unique, short-hand code for a specific coordinate reference system (CRS).
 
 
 ```{r}
@@ -1398,111 +1562,129 @@ crs4326 <- st_crs(4326)
 crs4326 # Look at whole crs.
 crs4326$Name # Pull out just the name of the crs.
 ```
+
 Now check what the WKT looks like
 ```{r}
 crs4326$wkt # crs in well-known text format.
 ```
 
+When we make a 2-dimensional map in WGS84 GCS, we assume that a degree is a linear unit of measure (when in reality it’s angular).
+
+To more accurately map our data in 2 dimensions, we need to decide how to ‘project’ 3 dimensions into 2. 
+
+There are many ways to do the projection depending on where we are in the world and what we’re most interested in preserving (e.g., angles vs. distances vs. area). Projections are defined by a projected coordinate reference system (PCS), and spatial packages in R use the software PROJ to do this.
 
 
 
 # Feature collection (points)
+Look at sdat
 ```{r}
 sdat
 ```
 
+The data table in sdat looks much like dat did, but note it now has a geometry column. This is where the coordinates (just one point for each data row) are stored
+
+When using sf we can use all the operations that work on dataframes on sf simple features collections. These include data wrangling operations like inner_join, plotting operations from ggplot2 and model fitting tools too (like glm).
+
+sf also adds geometric operations, like st_join which does joins based on the coordinates. 
 
 # Cartography
+sfhas simple plottingfeatures like this:
 ```{r}
-plot(sdat["richness_raw"])
+plot(sdat["richness_raw"]) # Plot raw richness data.
 ```
+If we used plot(sdat) it would create a panel for every variable in our dataframe, see below. In sf, we can use square brackets ["richness_raw"] to select a single variable.
 
 ```{r}
 plot(sdat)
 ```
 
-
-
 # Thematic maps for communication
+Like ggplot2 we can change the aesthetics of maps from the different packages available in R.
+
+tmap works similarly to ggplot2 in that we build and add on layers. Here we only have one layer from sdat. We declare the layer with tm_shape() (in this case sdat), then the plot type with the following command.
 ```{r}
 # Using tmap
-tm_shape(sdat) +
-  tm_dots(col = "richness_raw")
+tm_shape(sdat) + # Declare the layer.
+  tm_dots(col = "richness_raw") # Plots dots of the coordinates. Select richness as the colour scale.
 ```
 
+We can use tm_polygons and tm_symbols as an alternative to tm_dots.
 
+Use tmap_save to save the map to your working directory.
 ```{r}
-tmap_save(tm1, filename = "Richness-map.png",
-          width = 600, height = 600)
+# tmap_save(tm1, filename = "Richness-map.png", width = 600, height = 600)
 ```
 
 # Mapping spatial polygons as layers
 # Loading shapefiles
+We are working with shapefiles in this case study because it is still the most likely format you’ll encounter when someone sends you a spatial dataset.
+We can read shapefiles directly into R with the st_read command. 
 ```{r}
-aus <- st_read("../data/data-for-course/spatial-data/Aussie/Aussie.shp") # Read in shapefile.
+aus <- st_read("../data/data-for-course/spatial-data/Aussie/Aussie.shp") # Read in aus shapefile.
 
 aus # Look at data.
 
-shelf <- st_read("../data/data-for-course/spatial-data/aus_shelf/aus_shelf.shp") # read in shapefile
+shelf <- st_read("../data/data-for-course/spatial-data/aus_shelf/aus_shelf.shp") # Read in shelf shapefile.
 
 shelf # Look at data.
 ```
 
 # Mapping your polygons
 ```{r}
-tm_shape(shelf) +
-  tm_polygons()
+tm_shape(shelf) + # Declare layer 'shelf'.
+  tm_polygons() # Plot polygon of coordinates
 ```
 
+Now we can build on the map by layering in a similar way as we do in ggplot2.
+
+Here we have indicated the shape of our map (shelf) and we have added a command bbox = sdat to expand the extent of the map so it depicts all of our copepod data points. We then add the shape of Australia (aus) on top of the shelf, and finally our copepod data (sdat) in the form of points using tm_dots()
 ```{r}
-tm_shape(shelf, bbox = sdat) +
-  tm_polygons() +
-  tm_shape(aus) +
-  tm_polygons() +
-  tm_shape(sdat) +
-  tm_dots()
+tm_shape(shelf, bbox = sdat) + # Use bbox to expand the extent of the map.
+  tm_polygons() + 
+  tm_shape(aus) + # Add shape.
+  tm_polygons() + 
+  tm_shape(sdat) + # Add copepod data.
+  tm_dots() # Display data points.
 ```
 
 
 # Exploring t_map
 ```{r}
-vignette('tmap-getstarted')
+vignette('tmap-getstarted') # This is a built-in workflow in R on using tmap.
 
 # Hello World!
 library(tmap)
-data("World")
-tm_shape(World) +
-  tm_polygons("HPI")
+data("World") # Load data.
+tm_shape(World) + # Set shape of data.
+  tm_polygons("HPI") # Use HPI to form polygons.
 ```
 
-
-```{r}
 # Interactive Maps
-tmap_mode("view")
+```{r}
+tmap_mode("view") # Make the map interactive.
 
-tm_shape(World) + 
-  tm_polygons("HPI")
+tm_shape(World) + # Set shape of data.
+  tm_polygons("HPI") # Use HPI to form polygons.
 ```
 
-
-```{r}
 # Multiple shapes and layers
+```{r}
 data(World, metro, rivers, land)
 
 tmap_mode("plot") #tmap mode set to plotting
-tm_shape(land) +
-  tm_raster("elevation", palette = terrain.colors(10)) +
-  tm_shape(World) +
-  tm_borders("white", lwd = .5) +
-  tm_text("iso_a3", size = "AREA") +
+tm_shape(land) + # Set shape.
+  tm_raster("elevation", palette = terrain.colors(10)) + # Set colour.
+  tm_shape(World) + # Set shape.
+  tm_borders("white", lwd = .5) + # Create border aesthetics.
+  tm_text("iso_a3", size = "AREA") + # Add text to map.
   tm_shape(metro) +
-  tm_symbols(col = "red", size = "pop2020", scale = .5) +
-  tm_legend(show = FALSE)
+  tm_symbols(col = "red", size = "pop2020", scale = .5) + # Set pop2020 for symbols and set aesthetics for symbols.
+  tm_legend(show = FALSE) # Don't include legend.
 ```
 
-
-```{r}
 # Facets
+```{r}
 # Facets can be created in three ways:
 
 # 1) By assigning multiple variable names to one aesthetic ( in this example the first argument of tm_polygons:
@@ -1530,35 +1712,34 @@ tm2 <- tm_shape(NLD_muni) + tm_bubbles(size = "population")
 tmap_arrange(tm1, tm2)
 ```
 
-
-```{r}
-# Basemaps and overlay tile maps
-tmap_mode("view")
-tm_basemap("Stamen.Watercolor ") +
-  tm_shape(metro) + tm_bubbles(size = "pop2020", col = "red") +
-  tm_tiles("Stamen.TonerLabels")
-```
-
-
-```{r}
 # Options and styles 
+The functions tm_layout and tm_view are used to specify the map layout and the interactive aspects respectively. These functions can be used in the same way as the layer functions.
+```{r}
 tmap_mode("plot") # tmap mode set to plotting
 
 tm_shape(World) +
   tm_polygons("HPI") +
-  tm_layout(bg.color = "skyblue", inner.margins = c(0, .02, .02, .02))
+  tm_layout(bg.color = "skyblue", inner.margins = c(0, .02, .02, .02)) # Set aesthetics.
+```
 
+These options, as well as a couple of others, can also be set within with tmap_options, which works in the same way as the base R function options. 
 
+The main advantage is that these options are set globally, so they do not have to be specified in each map, for the duration of the session.
 
-tmap_options(bg.color = "black", legend.text.color ="white")
+```{r}
+tmap_options(bg.color = "black", legend.text.color ="white") # Create legned aesthetics.
 
 tm_shape(World) +
-  tm_polygons("HPI", legend.title = "Happy Planet Index")
+  tm_polygons("HPI", legend.title = "Happy Planet Index")# Set aesthetics.
+```
 
-tmap_style("classic")
+A style is a certain configuration of the tmap options.
+```{r}
+tmap_style("classic") # Set map style to classic.
 
 tm_shape(World) +
-  tm_polygons("HPI", legend.title = "Happy Planet Index")
+  tm_polygons("HPI", legend.title = "Happy Planet Index") # Set aesthetics.
+
 
 # See what options have been changed. 
 tmap_options_diff()
@@ -1567,8 +1748,8 @@ tmap_options_diff()
 tmap_options_reset()
 ```
 
-```{r}
 # Exporting Maps
+```{r}
 tm <- tm_shape(World) +
   tm_polygons("HPI", legend.title = "Happy Planet Index")
 
@@ -1580,9 +1761,8 @@ tmap_save(tm, filename = "world_map.html")
 
 ```
 
-```{r}
 # Shiny integration
-
+```{r}
 # In UI part:
 tmapOutput("my_tmap")
 
@@ -1592,13 +1772,14 @@ output$my_tmap = renderTmap({
 })
 ```
 
-
-```{r}
 # Quick thematic map
+Maps can also be made with one function call. This function is qtm:
+```{r}
 qtm(World, fill = "HPI", fill.palette = "RdYlGn")
 ```
-```{r}
+
 # Tips and Tricks
+```{r}
 # Run:
 tmap_tip()
 ```
