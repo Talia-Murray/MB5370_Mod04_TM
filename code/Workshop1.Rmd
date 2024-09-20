@@ -1493,7 +1493,7 @@ Workshop 4 - Spatial data in R
 
 This section will demonstrate how to use GIS in R.
 -------------------------------------------------------------------------------
-
+# Spatial Data in R
 # Install and load required packages
 ```{r}
 # install.packages("sf") # Comment out after install.
