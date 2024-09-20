@@ -1160,7 +1160,7 @@ NaN is common when performing a mathematical operation that has an indeterminate
 # Implicit missing values
 Demonstrate a dataset with implicit absence. 
 ```{r}
-stocks <- tibble(
+stocks <- tibble( # Create dataset
   year  = c(2020, 2020, 2020, 2020, 2021, 2021, 2021),
   qtr   = c(   1,    2,    3,    4,    2,    3,    4),
   price = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66)
@@ -1241,46 +1241,61 @@ students |>
 Identify what is wrong with each of the following inline CSV files. What happens when you run the code?
 ```{r}
 
-read_csv("a,b\n1,2,3\n4,5,6")
-read_csv("a,b,c\n1,2\n1,2,3,4")
-read_csv("a,b\n\"1")
-read_csv("a,b\n1,2\na,b")
-read_csv("a;b\n1;3")
+read_csv("a,b\n1,2,3\n4,5,6") # The first line is used for data columns but the following 2 chunks of code have three variables not 2 so R will join the last two numbers of each chunk  together for the second column rather than having them as separate variables.
+read_csv("a,b,c\n1,2\n1,2,3,4") # The 3 and 4 join together in the last row of the last column because there are more variables than there are columns.
+read_csv("a,b\n\"1") # The "1" makes R unable to read the inline csv.
+read_csv("a,b\n1,2\na,b") # The letters in the last chunk will put letters in the last row instead of numbers.
+read_csv("a;b\n1;3") # Using a semicolon instead of a comma joins the a and b and the 1 and 3 together instead of separating them.
 
 ```
 
 
 
 # Learning relational data
+Relational data is a collection of multiple data tables in a given dataset that are related in some way. The term relational comes from the relations between the tables not just in the individual tables.
 
+Relations are always defined between a pair of tables. All other relations are built up from this simple idea: the relations of three or more tables are always a property of the relations between each pair. 
 
+To work with relational data you need verbs that work with pairs of tables.
+The three families of verbs designed to work with relational data are:
+  1) Mutating joins - add new variables to one     dataframe from matching observations in        another
+  2) Filtering joins - filter observations from     one data frame based on whether or not they     match an observation in the other table
+  3) Set operations - treat observations as if      they are set elements
+
+# Explore a relational dataset
 ```{r}
 # Load data and install required packages
 # install.packages("nycflights13") # Comment out once installed.
 
 library(nycflights13)
 
-airlines # Look at data.
-airports # Look at data.
-planes # Look at data.
-weather # Look at data.
+airlines # Shows the full carrier name from its abbreviated code.
+airports #  Gives information about each airport, identified by the FAA airport code.
+planes # Gives information about each plane, identified by its tailnum.
+weather # Gives weather at each NYC airport for each hour.
 ```
 
+flights connects to planes via a single variable, tailnum.
+flights connects to airlines through the carrier variable.
+flights connects to airports in two ways: via origin and dest variables.
+flights connects to weather via origin (the location), and year, month, day and hour (the time).
 
 # Joining datasets
 We join datasets together by identifying keys. A key is a variable (or set of variables) that uniquely identifies an observation. For example, each plane is uniquely identified by its tailnum. In other cases, multiple variables may be needed. For example, to identify an observation in weather you need five variables: year, month, day, hour, origin.
 
 There are two kinds of keys, these are primary and foreign. 
+
 A primary key uniquely identifies an observation in its own table. For example, planes$tailnum is a primary key because it uniquely identifies each plane in the planes table.
+
 A foreign key uniquely identifies an observation in another table. For example, flights$tailnum is a foreign key because it appears in the flights table where it matches each flight to a unique plane.
 ```{r}
 # After identifying the primary keys in our tables, we need to verify if they do uniquely identify each observation. We can do this using count():
 planes %>%
-  count(tailnum) %>%
+  count(tailnum) %>% # Count tailnum.
   filter(n > 1)
   
 weather %>%
-  count(year, month, day, hour, origin) %>%
+  count(year, month, day, hour, origin) %>% # Count year, month, day, hour and origin.
   filter(n > 1)
 
 # Sometimes a table doesn’t have an explicit primary key: each row is an observation, but no combination of variables reliably identifies it. For example, you might expect that the primary key for flights would be the date plus the flight or tail number, but neither of those are unique:
@@ -1296,38 +1311,41 @@ flights %>%
 
 
 # Mutating Joins
+Mutating join is a tool to combine a pair of tables.
 
+join functions add variables to the right side of the data table.
 ```{r}
 flights2 <- flights %>% 
-  select(year:day, hour, origin, dest, tailnum, carrier)
+  select(year:day, hour, origin, dest, tailnum, carrier) # Create a subset of the data.
 
 ```
 
 
-
+Use the mutating function left_join()
 ```{r}
 flights2 %>%
-  select(-origin, -dest) %>% 
-  left_join(airlines, by = "carrier")
+  select(-origin, -dest) %>%  # Remove origin and dest variables.
+  left_join(airlines, by = "carrier") # Use left join to join datasets by keeping ll observation in x.
 
 ```
 
 
-
+The mutate() function can create the same result but is more involved which can become messy when matching multiple variables.
 ```{r}
 flights2 %>%
-  select(-origin, -dest) %>% 
-  mutate(name = airlines$name[match(carrier, airlines$carrier)])
+  select(-origin, -dest) %>% # Remove origin and dest variables.
+  mutate(name = airlines$name[match(carrier, airlines$carrier)]) # Tell R where we want to join the dataset.
 ```
 
+Create a two small datasets to visualise the joins.
 ```{r}
-x <- tribble(
+x <- tribble( # Create a dataset.
   ~key, ~val_x,
      1, "x1",
      2, "x2",
      3, "x3"
 )
-y <- tribble(
+y <- tribble( # create a dataset.
   ~key, ~val_y,
      1, "y1",
      2, "y2",
@@ -1336,15 +1354,12 @@ y <- tribble(
 ```
 
 
-
-
-
+The inner join is the simplest join as it matches observations with equivalent keys.
 
 ```{r}
 x %>% 
-  inner_join(y, by = "key")
+  inner_join(y, by = "key") # Join x and y by key variable using the inner_join function.
 ```
-
 
 
 
@@ -1361,7 +1376,7 @@ y <- tribble(
      1, "y1",
      2, "y2"
 )
-left_join(x, y, by = "key")
+left_join(x, y, by = "key") # Keep all observations in x
 ```
 
 
@@ -1383,53 +1398,64 @@ y <- tribble(
 )
 left_join(x, y, by = "key")
 ```
+right_join() keeps all observations in y.
+full_join() keeps all observations in x and y.
+
+These joins work by adding an additional “virtual” observation to each table. This observation has a key that always matches (if no other key matches), and a value filled with NA. The left join should be your default join, because it preserves the original observations even when there isn’t a match.
+
 
 ```{r}
 flights2 %>% 
-  left_join(weather)
+  left_join(weather) # Join by weather.
 ```
 
 ```{r}
 flights2 %>% 
-  left_join(planes, by = "tailnum")
+  left_join(planes, by = "tailnum") # Joing flights2 and planes datasets using tailnum.
 ```
 
 ```{r}
 flights2 %>% 
-  left_join(airports, c("dest" = "faa"))
+  left_join(airports, c("dest" = "faa")) # This will match dest variable in table flights2 to variable faa in dataset airports. 
 ```
 
 ```{r}
 flights2 %>% 
-  left_join(airports, c("origin" = "faa"))
+  left_join(airports, c("origin" = "faa")) # This will match origin variable in table flights2 to variable faa in dataset airports. 
 ```
 
 
 
 # Pipes for more readable workflows
+
+Let’s explore pipes using code to tell a kids story about a little bunny named Foo Foo:
+
+And we’ll use a function for each key verb: hop(), scoop(), and bop(). Using this object and these verbs, there are (at least) four ways we could retell the story in code:
+  1) Save each intermediate step as a new            object.
+  2) Overwrite the original object many times.
+     Compose functions.
+  3) Use the pipe.
+
+
 ```{r}
-foo_foo <- little_bunny()
+# foo_foo <- little_bunny()
+
+# Step 1:
+
+# foo_foo_1 <- hop(foo_foo, through = forest)
+# foo_foo_2 <- scoop(foo_foo_1, up = field_mice)
+# foo_foo_3 <- bop(foo_foo_2, on = head)
+
+#Step 2:
+
+# foo_foo <- hop(foo_foo, through = forest)
+# foo_foo <- scoop(foo_foo, up = field_mice)
+# foo_foo <- bop(foo_foo, on = head)
 ```
 
-
-
+This is how we could write a workflow.
 ```{r}
-foo_foo_1 <- hop(foo_foo, through = forest)
-foo_foo_2 <- scoop(foo_foo_1, up = field_mice)
-foo_foo_3 <- bop(foo_foo_2, on = head)
-```
-
-
-
-```{r}
-foo_foo <- hop(foo_foo, through = forest)
-foo_foo <- scoop(foo_foo, up = field_mice)
-foo_foo <- bop(foo_foo, on = head)
-```
-
-
-
-```{r}
+# Step 3:
 bop(
   scoop(
     hop(foo_foo, through = forest),
@@ -1437,8 +1463,11 @@ bop(
   ), 
   on = head
 )
-```
 
+```
+The main disadvantage of this method is that you have to read from inside-out, from right-to-left, and that the arguments end up spread far apart. This makes it harder for us to read and digest easily. 
+
+We can make this more readable by using pipe functions
 
 
 ```{r}
@@ -1448,7 +1477,13 @@ foo_foo %>%
   bop(on = head)
 ```
 
+Things to Note when using pipes:
 
+If your pipes are longer than  ~ten steps. Create intermediate objects with meaningful names. That will make debugging easier and it makes it easier to understand your code.
+
+If you have multiple inputs or outputs. If there isn’t one primary object being transformed, but two or more objects being combined together, don’t use the pipe.
+
+If you are starting to think about a directed graph with a complex dependency structure. Pipes are fundamentally linear and expressing complex relationships with them will typically yield confusing code.
 
 
 
@@ -1481,26 +1516,45 @@ library(readr)
 dat <- read_csv("../data/data-for-course/copepods_raw.csv")
 dat
 ```
+
 # Data Exploration
 # Check coordinates
 ```{r}
 library(ggplot2)
-ggplot(dat) +
-  aes(x = longitude, y = latitude, colour = richness_raw) +
-  geom_point()
+ggplot(dat) + # Specify data.
+  aes(x = longitude, y = latitude, colour = richness_raw) + # Set mapping aesthetics.
+  geom_point() # Select geom.
 ```
+Shows the location of every segment and colour the points by species richness. The axes are set up as latitude and longitude just like a map. However, it is not a map because it is lacking important map elements. In reality we have just got a scatter plot and a easy way to look at our data.
 
+Visualise richness in a non-spatial way with latitude on the x-axis and richness on the y-axis.
 ```{r}
-ggplot(dat, aes(x = latitude, y = richness_raw)) +
-  stat_smooth() +
-  geom_point()
+ggplot(dat, aes(x = latitude, y = richness_raw)) + # Specify data and set mapping aesthetics.
+  stat_smooth() + # Select Stat type.
+  geom_point() # Select geom.
 ```
 
 
 # Getting going with maps
+First we need to turn our point data into a spatially referenced data frame using the sf package (sf stands for ‘simple features’) which is an open standard for geospatial databases.
 ```{r}
 sdat <- st_as_sf(dat, coords = c("longitude", "latitude"), crs = 4326)
 ```
+
+st_as_sf function converts different data types to simple features.
+dat is our original data.
+coords gives the names of the columns that relate to the spatial coordinates.
+crs stands for coordinate reference system.
+
+
+# Coordinate Reference Systems
+Coordinate reference systems are required for 2D mapping to compensate for the lumpy, spherical (3D) nature of the earth
+
+In mapping, we refer to the reference point as datum and the lumpy spherical earth model as an ellipsoid. Together, these make a geographic coordinate reference system (GCS), which tells us where the coordinates of our copepod data are located on the earth.
+
+GCS’s are represented by angular units (i.e. longitude and latitude), usually in decimal degree
+
+An EPSG code is a unique, short-hand code for a specific coordinate reference system (CRS).
 
 
 ```{r}
@@ -1508,111 +1562,129 @@ crs4326 <- st_crs(4326)
 crs4326 # Look at whole crs.
 crs4326$Name # Pull out just the name of the crs.
 ```
+
 Now check what the WKT looks like
 ```{r}
 crs4326$wkt # crs in well-known text format.
 ```
 
+When we make a 2-dimensional map in WGS84 GCS, we assume that a degree is a linear unit of measure (when in reality it’s angular).
+
+To more accurately map our data in 2 dimensions, we need to decide how to ‘project’ 3 dimensions into 2. 
+
+There are many ways to do the projection depending on where we are in the world and what we’re most interested in preserving (e.g., angles vs. distances vs. area). Projections are defined by a projected coordinate reference system (PCS), and spatial packages in R use the software PROJ to do this.
 
 
 
 # Feature collection (points)
+Look at sdat
 ```{r}
 sdat
 ```
 
+The data table in sdat looks much like dat did, but note it now has a geometry column. This is where the coordinates (just one point for each data row) are stored
+
+When using sf we can use all the operations that work on dataframes on sf simple features collections. These include data wrangling operations like inner_join, plotting operations from ggplot2 and model fitting tools too (like glm).
+
+sf also adds geometric operations, like st_join which does joins based on the coordinates. 
 
 # Cartography
+sfhas simple plottingfeatures like this:
 ```{r}
-plot(sdat["richness_raw"])
+plot(sdat["richness_raw"]) # Plot raw richness data.
 ```
+If we used plot(sdat) it would create a panel for every variable in our dataframe, see below. In sf, we can use square brackets ["richness_raw"] to select a single variable.
 
 ```{r}
 plot(sdat)
 ```
 
-
-
 # Thematic maps for communication
+Like ggplot2 we can change the aesthetics of maps from the different packages available in R.
+
+tmap works similarly to ggplot2 in that we build and add on layers. Here we only have one layer from sdat. We declare the layer with tm_shape() (in this case sdat), then the plot type with the following command.
 ```{r}
 # Using tmap
-tm_shape(sdat) +
-  tm_dots(col = "richness_raw")
+tm_shape(sdat) + # Declare the layer.
+  tm_dots(col = "richness_raw") # Plots dots of the coordinates. Select richness as the colour scale.
 ```
 
+We can use tm_polygons and tm_symbols as an alternative to tm_dots.
 
+Use tmap_save to save the map to your working directory.
 ```{r}
-tmap_save(tm1, filename = "Richness-map.png",
-          width = 600, height = 600)
+# tmap_save(tm1, filename = "Richness-map.png", width = 600, height = 600)
 ```
 
 # Mapping spatial polygons as layers
 # Loading shapefiles
+We are working with shapefiles in this case study because it is still the most likely format you’ll encounter when someone sends you a spatial dataset.
+We can read shapefiles directly into R with the st_read command. 
 ```{r}
-aus <- st_read("../data/data-for-course/spatial-data/Aussie/Aussie.shp") # Read in shapefile.
+aus <- st_read("../data/data-for-course/spatial-data/Aussie/Aussie.shp") # Read in aus shapefile.
 
 aus # Look at data.
 
-shelf <- st_read("../data/data-for-course/spatial-data/aus_shelf/aus_shelf.shp") # read in shapefile
+shelf <- st_read("../data/data-for-course/spatial-data/aus_shelf/aus_shelf.shp") # Read in shelf shapefile.
 
 shelf # Look at data.
 ```
 
 # Mapping your polygons
 ```{r}
-tm_shape(shelf) +
-  tm_polygons()
+tm_shape(shelf) + # Declare layer 'shelf'.
+  tm_polygons() # Plot polygon of coordinates
 ```
 
+Now we can build on the map by layering in a similar way as we do in ggplot2.
+
+Here we have indicated the shape of our map (shelf) and we have added a command bbox = sdat to expand the extent of the map so it depicts all of our copepod data points. We then add the shape of Australia (aus) on top of the shelf, and finally our copepod data (sdat) in the form of points using tm_dots()
 ```{r}
-tm_shape(shelf, bbox = sdat) +
-  tm_polygons() +
-  tm_shape(aus) +
-  tm_polygons() +
-  tm_shape(sdat) +
-  tm_dots()
+tm_shape(shelf, bbox = sdat) + # Use bbox to expand the extent of the map.
+  tm_polygons() + 
+  tm_shape(aus) + # Add shape.
+  tm_polygons() + 
+  tm_shape(sdat) + # Add copepod data.
+  tm_dots() # Display data points.
 ```
 
 
 # Exploring t_map
 ```{r}
-vignette('tmap-getstarted')
+vignette('tmap-getstarted') # This is a built-in workflow in R on using tmap.
 
 # Hello World!
 library(tmap)
-data("World")
-tm_shape(World) +
-  tm_polygons("HPI")
+data("World") # Load data.
+tm_shape(World) + # Set shape of data.
+  tm_polygons("HPI") # Use HPI to form polygons.
 ```
 
-
-```{r}
 # Interactive Maps
-tmap_mode("view")
+```{r}
+tmap_mode("view") # Make the map interactive.
 
-tm_shape(World) + 
-  tm_polygons("HPI")
+tm_shape(World) + # Set shape of data.
+  tm_polygons("HPI") # Use HPI to form polygons.
 ```
 
-
-```{r}
 # Multiple shapes and layers
+```{r}
 data(World, metro, rivers, land)
 
 tmap_mode("plot") #tmap mode set to plotting
-tm_shape(land) +
-  tm_raster("elevation", palette = terrain.colors(10)) +
-  tm_shape(World) +
-  tm_borders("white", lwd = .5) +
-  tm_text("iso_a3", size = "AREA") +
+tm_shape(land) + # Set shape.
+  tm_raster("elevation", palette = terrain.colors(10)) + # Set colour.
+  tm_shape(World) + # Set shape.
+  tm_borders("white", lwd = .5) + # Create border aesthetics.
+  tm_text("iso_a3", size = "AREA") + # Add text to map.
   tm_shape(metro) +
-  tm_symbols(col = "red", size = "pop2020", scale = .5) +
-  tm_legend(show = FALSE)
+  tm_symbols(col = "red", size = "pop2020", scale = .5) + # Set pop2020 for symbols and set aesthetics for symbols.
+  tm_legend(show = FALSE) # Don't include legend.
 ```
 
-
-```{r}
 # Facets
+```{r}
 # Facets can be created in three ways:
 
 # 1) By assigning multiple variable names to one aesthetic ( in this example the first argument of tm_polygons:
@@ -1640,35 +1712,34 @@ tm2 <- tm_shape(NLD_muni) + tm_bubbles(size = "population")
 tmap_arrange(tm1, tm2)
 ```
 
-
-```{r}
-# Basemaps and overlay tile maps
-tmap_mode("view")
-tm_basemap("Stamen.Watercolor ") +
-  tm_shape(metro) + tm_bubbles(size = "pop2020", col = "red") +
-  tm_tiles("Stamen.TonerLabels")
-```
-
-
-```{r}
 # Options and styles 
+The functions tm_layout and tm_view are used to specify the map layout and the interactive aspects respectively. These functions can be used in the same way as the layer functions.
+```{r}
 tmap_mode("plot") # tmap mode set to plotting
 
 tm_shape(World) +
   tm_polygons("HPI") +
-  tm_layout(bg.color = "skyblue", inner.margins = c(0, .02, .02, .02))
+  tm_layout(bg.color = "skyblue", inner.margins = c(0, .02, .02, .02)) # Set aesthetics.
+```
 
+These options, as well as a couple of others, can also be set within with tmap_options, which works in the same way as the base R function options. 
 
+The main advantage is that these options are set globally, so they do not have to be specified in each map, for the duration of the session.
 
-tmap_options(bg.color = "black", legend.text.color ="white")
+```{r}
+tmap_options(bg.color = "black", legend.text.color ="white") # Create legned aesthetics.
 
 tm_shape(World) +
-  tm_polygons("HPI", legend.title = "Happy Planet Index")
+  tm_polygons("HPI", legend.title = "Happy Planet Index")# Set aesthetics.
+```
 
-tmap_style("classic")
+A style is a certain configuration of the tmap options.
+```{r}
+tmap_style("classic") # Set map style to classic.
 
 tm_shape(World) +
-  tm_polygons("HPI", legend.title = "Happy Planet Index")
+  tm_polygons("HPI", legend.title = "Happy Planet Index") # Set aesthetics.
+
 
 # See what options have been changed. 
 tmap_options_diff()
@@ -1677,8 +1748,8 @@ tmap_options_diff()
 tmap_options_reset()
 ```
 
-```{r}
 # Exporting Maps
+```{r}
 tm <- tm_shape(World) +
   tm_polygons("HPI", legend.title = "Happy Planet Index")
 
@@ -1690,9 +1761,8 @@ tmap_save(tm, filename = "world_map.html")
 
 ```
 
-```{r}
 # Shiny integration
-
+```{r}
 # In UI part:
 tmapOutput("my_tmap")
 
@@ -1702,13 +1772,14 @@ output$my_tmap = renderTmap({
 })
 ```
 
-
-```{r}
 # Quick thematic map
+Maps can also be made with one function call. This function is qtm:
+```{r}
 qtm(World, fill = "HPI", fill.palette = "RdYlGn")
 ```
-```{r}
+
 # Tips and Tricks
+```{r}
 # Run:
 tmap_tip()
 ```
